@@ -3,6 +3,8 @@ using BankApp.Domain.Entities;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using BankApp.Application;
+using BankApp.Application.GetCustomerByName;
 
 namespace BankApp
 {
@@ -11,7 +13,7 @@ namespace BankApp
         static void Main(string[] args)
         {
             bool alive = true;
-            var utils = new Utilities();
+            //var utils = new Utilities();
 
             Console.Write("Enter a client name: ");
             var response = Console.ReadLine();
@@ -23,15 +25,18 @@ namespace BankApp
 
             while (alive)
             {
-                var query = utils.GetCustomersNamed(response, limit);
-
-                foreach (var customer in query.customers)
+                var request = new GetCustomerByNameRequest()
                 {
-                    Console.WriteLine($"[ID: {customer.CustomerId}] Name: {customer.Givenname} {customer.Surname}");
-                    foreach (var disposition in customer.Dispositions)
-                    {
-                        Console.WriteLine($"\t{disposition.Account.Created.ToString()}");
-                    }
+                    Search = response,
+                    Limit = limit,
+                    Offset = pagenr
+                };
+
+                var query = new GetCustomerByNameHandler().Handler(request);
+
+                foreach (var customer in query.Customers)
+                {
+                    Console.WriteLine($"[ID: {customer.Id}] Name: {customer.Firstname} {customer.Lastname}");
                 }
 
                 Console.WriteLine("\nPress enter for more results, type 'exit' to quit");

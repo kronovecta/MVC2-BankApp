@@ -10,8 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BankApp.Data\BankApp.Data.csproj" />
-    <ProjectReference Include="..\..\BankApp.Domain\BankApp.Domain.csproj" />
+    <ProjectReference Include="..\..\BankApp.Application\BankApp.Application.csproj" />
   </ItemGroup>
 
 </Project>
