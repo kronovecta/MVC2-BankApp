@@ -9,7 +9,7 @@ namespace BankApp.Domain.Entities
         {
             Dispositions = new HashSet<Disposition>();
             Loans = new HashSet<Loan>();
-            PermenentOrder = new HashSet<PermenentOrder>();
+            PermenentOrder = new HashSet<PermanentOrder>();
             Transactions = new HashSet<Transaction>();
         }
 
@@ -20,7 +20,7 @@ namespace BankApp.Domain.Entities
 
         public virtual ICollection<Disposition> Dispositions { get; set; }
         public virtual ICollection<Loan> Loans { get; set; }
-        public virtual ICollection<PermenentOrder> PermenentOrder { get; set; }
+        public virtual ICollection<PermanentOrder> PermenentOrder { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

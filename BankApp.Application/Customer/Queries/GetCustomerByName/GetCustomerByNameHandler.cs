@@ -10,11 +10,11 @@ namespace BankApp.Application.GetCustomerByName
 {
     public class GetCustomerByNameHandler
     {
-        private readonly BankAppContext _context;
+        private readonly BankContext _context;
 
         public GetCustomerByNameHandler()
         {
-            _context = new BankAppContext();
+            _context = new BankContext();
         }
 
         public GetCustomerByNameResponse Handler(GetCustomerByNameRequest request)

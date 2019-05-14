@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using BankApp.Application.Card.Queries;
 
 namespace BankApp.Application.Queries.GetSingleCustomer
 {
@@ -13,11 +14,12 @@ namespace BankApp.Application.Queries.GetSingleCustomer
             public string FirstName { get; set; }
             public string LastName { get; set; }
             public string City { get; set; }
+            public Decimal TotalBalance { get; set; }
 
-            public IEnumerable<Card> Cards { get; set; }
+            public IList<CardDto> Cards { get; set; }
             public IEnumerable<Account> Account { get; set; }
 
-            public IEnumerable<Disposition> Dispositions { get; set; }
+            //public IEnumerable<Disposition> Dispositions { get; set; }
         }
 
         public CustomerDto Customer { get; set; }

@@ -5,13 +5,14 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace BankApp.Data
 {
-    public partial class BankAppContext : DbContext
+    public partial class BankContext : DbContext
     {
-        public BankAppContext()
+        public BankContext()
         {
+            
         }
 
-        public BankAppContext(DbContextOptions<BankAppContext> options)
+        public BankContext(DbContextOptions<BankContext> options)
             : base(options)
         {
         }
@@ -21,7 +22,7 @@ namespace BankApp.Data
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Disposition> Dispositions { get; set; }
         public virtual DbSet<Loan> Loans { get; set; }
-        public virtual DbSet<PermenentOrder> PermenentOrder { get; set; }
+        public virtual DbSet<PermanentOrder> PermenentOrder { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -42,8 +43,6 @@ namespace BankApp.Data
                 entity.HasKey(e => e.AccountId)
                     .HasName("PK_account");
 
-                entity.Property(e => e.AccountId).ValueGeneratedNever();
-
                 entity.Property(e => e.Balance).HasColumnType("decimal(13, 2)");
 
                 entity.Property(e => e.Created).HasColumnType("date");
@@ -56,8 +55,6 @@ namespace BankApp.Data
             modelBuilder.Entity<Card>(entity =>
             {
                 entity.HasKey(e => e.CardId);
-
-                entity.Property(e => e.CardId).ValueGeneratedNever();
 
                 entity.Property(e => e.Ccnumber)
                     .IsRequired()
@@ -134,19 +131,17 @@ namespace BankApp.Data
                     .HasMaxLength(15);
             });
 
-            modelBuilder.Entity<Disposition>(entity =>
+            modelBuilder.Entity<Disposition>((Action<Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Disposition>>)((Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Disposition> entity) =>
             {
                 entity.HasKey(e => e.DispositionId)
                     .HasName("PK_disposition");
-
-                entity.Property(e => e.DispositionId).ValueGeneratedNever();
 
                 entity.Property(e => e.Type)
                     .IsRequired()
                     .HasMaxLength(50);
 
                 entity.HasOne(d => d.Account)
-                    .WithMany(p => p.Dispositions)
+                    .WithMany((System.Linq.Expressions.Expression<Func<Account, System.Collections.Generic.IEnumerable<Disposition>>>)(p => (System.Collections.Generic.IEnumerable<Disposition>)p.Dispositions))
                     .HasForeignKey(d => d.AccountId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Dispositions_Accounts");
@@ -156,14 +151,12 @@ namespace BankApp.Data
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Dispositions_Customers");
-            });
+            }));
 
-            modelBuilder.Entity<Loan>(entity =>
+            modelBuilder.Entity<Loan>((Action<Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Loan>>)((Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Loan> entity) =>
             {
                 entity.HasKey(e => e.LoanId)
                     .HasName("PK_loan");
-
-                entity.Property(e => e.LoanId).ValueGeneratedNever();
 
                 entity.Property(e => e.Amount).HasColumnType("decimal(13, 2)");
 
@@ -176,17 +169,15 @@ namespace BankApp.Data
                     .HasMaxLength(50);
 
                 entity.HasOne(d => d.Account)
-                    .WithMany(p => p.Loans)
+                    .WithMany((System.Linq.Expressions.Expression<Func<Account, System.Collections.Generic.IEnumerable<Loan>>>)(p => (System.Collections.Generic.IEnumerable<Loan>)p.Loans))
                     .HasForeignKey(d => d.AccountId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Loans_Accounts");
-            });
+            }));
 
-            modelBuilder.Entity<PermenentOrder>(entity =>
+            modelBuilder.Entity<PermanentOrder>(entity =>
             {
                 entity.HasKey(e => e.OrderId);
-
-                entity.Property(e => e.OrderId).ValueGeneratedNever();
 
                 entity.Property(e => e.AccountTo)
                     .IsRequired()
@@ -209,15 +200,10 @@ namespace BankApp.Data
                     .HasConstraintName("FK_PermenentOrder_Accounts");
             });
 
-            modelBuilder.Entity<Transaction>(entity =>
+            modelBuilder.Entity<Transaction>((Action<Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Transaction>>)((Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Transaction> entity) =>
             {
                 entity.HasKey(e => e.TransactionId)
                     .HasName("PK_trans2");
-
-                entity.HasIndex(e => e.ReferenceId)
-                    .IsUnique();
-
-                entity.Property(e => e.TransactionId).ValueGeneratedNever();
 
                 entity.Property(e => e.Account).HasMaxLength(50);
 
@@ -240,11 +226,11 @@ namespace BankApp.Data
                     .HasMaxLength(50);
 
                 entity.HasOne(d => d.AccountNavigation)
-                    .WithMany(p => p.Transactions)
+                    .WithMany((System.Linq.Expressions.Expression<Func<Account, System.Collections.Generic.IEnumerable<Transaction>>>)(p => (System.Collections.Generic.IEnumerable<Transaction>)p.Transactions))
                     .HasForeignKey(d => d.AccountId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Transactions_Accounts");
-            });
+            }));
         }
     }
 }

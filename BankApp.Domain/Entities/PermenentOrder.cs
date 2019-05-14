@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BankApp.Domain.Entities
 {
-    public partial class PermenentOrder
+    public partial class PermanentOrder
     {
         public int OrderId { get; set; }
         public int AccountId { get; set; }
