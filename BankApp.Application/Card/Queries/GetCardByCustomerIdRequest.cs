@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BankApp.Application.Card.Queries
+namespace BankApp.Application.Queries
 {
     class GetCardByCustomerIdRequest
     {

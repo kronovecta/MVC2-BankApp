@@ -1,11 +1,15 @@
-﻿using BankApp.Data;
+﻿using BankApp.Application.DtoObjects;
+using BankApp.Data;
+using BankApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
-namespace BankApp.Application.Card.Queries
+namespace BankApp.Application.Queries
 {
     class GetCardByCustomerIdHandler
     {
@@ -24,23 +28,26 @@ namespace BankApp.Application.Card.Queries
                          join cu in _context.Customers on di.CustomerId equals cu.CustomerId
                          where cu.CustomerId == request.CustomerId select ca);
 
-            response.Cards = query
-                .AsNoTracking()
-                .Select(c => new GetCardByCustomerIdResponse.CardDto()
-                {
-                    CardId = c.CardId,
-                    Type = c.Type,
-                    Issued = c.Issued,
-                    CCType = c.Cctype,
-                    CCNumber = c.Ccnumber,
-                    CVV2 = c.Cvv2,
-                    ExpiryMonth = c.ExpM,
-                    ExpiryYear = c.ExpY
-                })
-                .OrderBy(x => x.CardId)
-                .ToList();
+            //response.Cards = query
+            //    .AsNoTracking()
+            //    .Select(c => new CardDto()
+            //    {
+            //        CardId = c.CardId,
+            //        Type = c.Type,
+            //        Issued = c.Issued,
+            //        Cctype = c.Cctype,
+            //        Ccnumber = c.Ccnumber,
+            //        Cvv2 = c.Cvv2,
+            //        ExpM = c.ExpM,
+            //        ExpY = c.ExpY
+            //    })
+            //    .OrderBy(x => x.CardId)
+            //    .ToList();
 
-            if(response != null)
+            response.Cards = query.ProjectTo<CardDto>().ToList();
+            //response.Customer = Mapper.Map<Customer, CustomerDto>(query.First());
+
+            if (response != null)
             {
                 return response;
             } else

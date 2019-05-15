@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using BankApp.Application.DtoObjects;
 
 namespace BankApp.Application.GetCustomerByName
 {
@@ -29,14 +30,14 @@ namespace BankApp.Application.GetCustomerByName
                 .AsNoTracking()
                 .Skip(request.Limit*(request.Offset - 1))
                 .Take(request.Limit)
-                .Select(c => new GetCustomerByNameResponse.CustomerDto()
+                .Select(c => new CustomerDto()
                 {
-                    Id = c.CustomerId,
-                    Firstname = c.Givenname,
-                    Lastname = c.Surname,
+                    CustomerId = c.CustomerId,
+                    Givenname = c.Givenname,
+                    Surname = c.Surname,
                     City = c.City
                 })
-                .OrderBy(x => x.Id)
+                .OrderBy(x => x.CustomerId)
                 .ToList();
             
             if(response != null)

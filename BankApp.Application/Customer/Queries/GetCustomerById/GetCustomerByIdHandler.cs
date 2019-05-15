@@ -5,7 +5,10 @@ using System.Text;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using BankApp.Domain.Entities;
-using BankApp.Application.Card.Queries;
+using BankApp.Application.Queries.GetAccount;
+using AutoMapper;
+using static BankApp.Application.Queries.GetSingleCustomer.GetCustomerByIdResponse;
+using BankApp.Application.DtoObjects;
 
 namespace BankApp.Application.Queries.GetSingleCustomer
 {
@@ -20,68 +23,32 @@ namespace BankApp.Application.Queries.GetSingleCustomer
 
         public GetCustomerByIdResponse Handler(GetCustomerByIdRequest request)
         {
+            //Mapper.Initialize(cfg =>
+            //{
+            //    //cfg.CreateMap<Customer, CustomerDto>();
+            //    cfg.AddProfile(new AutoMapperProfile());
+            //});
+
             var response = new GetCustomerByIdResponse();
 
-            var query = _context.Customers.OrderBy(x => x.CustomerId).Where(y => y.CustomerId == request.Id);
+            var query = _context.Customers.Include(x => x.Dispositions).ThenInclude(y => y.Cards).OrderBy(x => x.CustomerId).SingleOrDefault(y => y.CustomerId == request.Id);
 
-            response.Customer = query.AsNoTracking().Select(c => new GetCustomerByIdResponse.CustomerDto()
-            {
-                Id = c.CustomerId,
-                FirstName = c.Givenname,
-                LastName = c.Surname,
-                City = c.City,
-                //Cards = new GetCardByCustomerIdHandler().Handler(new GetCardByCustomerIdRequest() { CustomerId = request.Id })
-                
-            }).SingleOrDefault();
-
-            
-
-            //var query2 = query
+            //response.Customer = query
             //    .AsNoTracking()
-            //    .Where(c => c.CustomerId == request.Id)
+            //    .Select(c => new GetCustomerByIdResponse.CustomerDto()
+            //    {
+            //        Id = c.CustomerId,
+            //        FirstName = c.Givenname,
+            //        LastName = c.Surname,
+            //        City = c.City,
+            //        Cards = 
+            //        //Cards = new GetCardByCustomerIdHandler().Handler(new GetCardByCustomerIdRequest() { CustomerId = request.Id }).Cards,
+            //        //Accounts = new GetAccountHandler().Handler(new GetAccountRequest() { CustomerId = request.Id }).Accounts
 
-            //    //.Include(d => d.Dispositions)
-                
-            //    .Include(d => d.Dispositions)
-            //        .ThenInclude(a => a.Account)
-            //            .ThenInclude(l => l.Loans)
+            //    }).SingleOrDefault();
 
-            //    .Include(d => d.Dispositions)
-            //        .ThenInclude(a => a.Account)
-            //            .ThenInclude(po => po.PermenentOrder)
-
-            //    .Include(d => d.Dispositions)
-            //        .ThenInclude(c => c.Cards)
-
-            //    .SingleOrDefault(x => x.CustomerId.Equals(request.Id));
-
-            //response.Customer = new GetCustomerByIdResponse.CustomerDto()
-            //{
-                //Id = query.CustomerId,
-                //FirstName = query.Givenname,
-                //LastName = query.Surname,
-                //City = query.City,
-                ////Dispositions = query.Dispositions,
-                ////Cards = query.Dispositions.Select(x => x.Cards).SingleOrDefault(),
-                //Account = query.Dispositions.Select(y => y.Account),
-                //TotalBalance = query.Dispositions.Sum(x => x.Account.Balance)
-            //};
-
-                Cards = query.Dispositions.Select(c => new GetCustomerByIdResponse.CustomerCardDto()
-                {
-                    CardId = c.Cards
-                })
-            };
-
-            if(response.Customer.Cards.Count() > 0)
-            {
-                foreach (var card in response.Customer.Cards) { card.Disposition = null; }
-            }
-
-            if (response.Customer.Account.Count() > 0)
-            {
-                foreach (var account in response.Customer.Account) { account.Dispositions = null; }
-            }
+            response.Customer = Mapper.Map<Customer, CustomerDto>(query);
+            response.Customer.Cards = new GetCardByCustomerIdHandler().Handler(new GetCardByCustomerIdRequest() { CustomerId = request.Id }).Cards.ToList();
 
             if (response != null)
             {

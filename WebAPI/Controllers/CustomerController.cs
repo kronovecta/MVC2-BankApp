@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using BankApp.Application.Queries.GetSingleCustomer;
 using BankApp.Data;
 using BankApp.Domain.Entities;
@@ -13,9 +14,11 @@ namespace BankApp.API.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
+        private readonly IMapper _mapper;
 
-        public CustomerController()
+        public CustomerController(IMapper mapper)
         {
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -40,7 +43,8 @@ namespace BankApp.API.Controllers
                 Id = id
             };
 
-            var query = new GetCustomerByIdHandler().Handler(request);
+
+            var query = new GetCustomerByIdHandler().Handler(request).Customer;
 
             if (query != null)
             {

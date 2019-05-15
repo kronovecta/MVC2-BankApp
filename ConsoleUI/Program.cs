@@ -36,7 +36,7 @@ namespace BankApp
 
                 foreach (var customer in query.Customers)
                 {
-                    Console.WriteLine($"[ID: {customer.Id}] Name: {customer.Firstname} {customer.Lastname}");
+                    Console.WriteLine($"[ID: {customer.CustomerId}] Name: {customer.Givenname} {customer.Surname}");
                 }
 
                 Console.WriteLine("\nPress enter for more results, type 'exit' to quit");
