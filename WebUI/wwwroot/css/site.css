@@ -8,7 +8,14 @@
 }
 
 /****************** GENERAL ****************/
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('https://fonts.googleapis.com/css?family=Ubuntu:400,700');
+}
+
 * {
+    color:#222;
     font-family: 'Ubuntu', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 0;
     margin: 0;
@@ -16,6 +23,10 @@
     box-sizing: border-box;
     -webkit-font-smoothing: always;
     -moz-osx-font-smoothing:grayscale;
+}
+
+a {
+    text-decoration:none;
 }
 
 h3 {
@@ -86,6 +97,71 @@ nav {
 
 /****************** FRONT PAGE STATISTICS ****************/
 
+footer {
+    width:100%;
+    padding:2em;
+    background:var(--bank-main);
+    color:var(--bank-white);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+    footer p, footer a {
+        margin: 0;
+        color:var(--bank-white);
+    }
+
+    footer > .sitemap, footer > .socialmedia {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+        vertical-align: middle;
+    }
+
+.socialmedia > div, .sitemap > div {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+footer > .sitemap, footer > .sitemap, footer > .copy {
+    vertical-align: middle;
+}
+
+.copy {
+    text-align: center;
+}
+
+.socialmedia {
+    text-align: left;
+}
+
+    .socialmedia > div > a:before {
+        vertical-align: middle;
+        width: 1.5rem;
+        margin-right: 8px;
+        display: inline-block;
+    }
+
+.twitter:before {
+    content: url(../img/Twitter_Social_Icon_Circle_White.svg);
+}
+
+.facebook:before {
+    content: url(../img/Twitter_Social_Icon_Circle_White.svg);
+}
+
+.blog:before {
+    content: url(../img/Twitter_Social_Icon_Circle_White.svg);
+}
+
+/****************** FRONT PAGE STATISTICS ****************/
+
 .container-statistics {
     border:1px solid lightgrey;
     border-radius:0.6em;
@@ -118,6 +194,19 @@ nav {
         width:100%;
         display:flex;
         flex-direction:row;
+        margin-bottom:2em;
+    }
+
+    section.customer-top > div {
+        flex:1;
+    }
+
+    section.customer-top div:nth-child(2) {
+        text-align:right;
+    }
+
+    section.customer-top img {
+        height:100%;
     }
 
     section.customer-accounts > .account-header {
@@ -131,10 +220,11 @@ nav {
         list-style:none;
     }
 
-        section.customer-accounts ul li {
+        section.customer-accounts ul li a {
             padding:0.8em 1.1em;
             border:1px solid var(--light-grey);
             border-radius:0.3em;
+            margin-bottom:0.7em;
 
             display:flex;
             flex-direction:row;
@@ -142,7 +232,36 @@ nav {
             align-items:center;
         }
 
-            section.customer-accounts .account-info-number {
-                margin-top:0.3em;
-                font-size:0.7em;
+            section.customer-accounts ul li a:hover {
+                background:var(--bank-main);
+                border-color:var(--bank-main);
+                transition:0.3s;
             }
+
+                section.customer-accounts ul li a:hover p, section.customer-accounts ul li a:hover p b {
+                    color: var(--bank-white);
+                }
+
+                section.customer-accounts .account-info-number {
+                    margin-top: 0.3em;
+                    font-size: 0.7em;
+                }
+
+.debitcard-name, .debitcard-number {
+    fill: var(--bank-white);
+    cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.debitcard-name {
+    font-size: 0.7em;
+}
+
+.debitcard-number {
+    font-size: 0.45em;
+    font-weight: 600;
+}

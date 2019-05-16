@@ -6,6 +6,9 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using BankApp.Application.DtoObjects;
+using AutoMapper;
+using BankApp.Domain.Entities;
+using AutoMapper.QueryableExtensions;
 
 namespace BankApp.Application.GetCustomerByName
 {
@@ -26,19 +29,7 @@ namespace BankApp.Application.GetCustomerByName
 
             response.TotalCustomerAmount = query.Count();
             response.TotalNumberOfPages = (response.TotalCustomerAmount / (request.Limit + 1));
-            response.Customers = query
-                .AsNoTracking()
-                .Skip(request.Limit*(request.Offset - 1))
-                .Take(request.Limit)
-                .Select(c => new CustomerDto()
-                {
-                    CustomerId = c.CustomerId,
-                    Givenname = c.Givenname,
-                    Surname = c.Surname,
-                    City = c.City
-                })
-                .OrderBy(x => x.CustomerId)
-                .ToList();
+            response.Customers = query.ProjectTo<CustomerDto>().ToList();
             
             if(response != null)
             {

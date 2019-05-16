@@ -6,25 +6,27 @@
         <div>
             <h1>Welcome @Model.Givenname!</h1>
         </div>
-        <div>
-            <img src="~/img/DebitCard_1x.png" />
+        <div class="debit-card">
+            <partial name="_DebitCard" />
         </div>
     </section>
 
     <section class="customer-accounts">
         <div class="account-header">
             <h3>Accounts</h3>
-            <h3>@Model.TotalBalance.ToString("C", CultureInfo.CurrentCulture)</h3>
+            <h3>Total: @Model.TotalBalance.ToString("C", CultureInfo.CurrentCulture)</h3>
         </div>
         <ul>
             @foreach (var account in Model.Accounts)
             {
                 <li>
-                    <div class="account-info">
-                        <p class="account-info-name">Konto</p>
-                        <p class="account-info-number">910712-8056</p>
-                    </div> 
+                    <a asp-action="#" asp-controller="#">
+                        <div class="account-info">
+                            <p class="account-info-name"><b>Konto</b></p>
+                            <p class="account-info-number">910712-8056</p>
+                        </div>
                         <p>@account.Balance.ToString("C", CultureInfo.CurrentCulture)</p>
+                    </a>
                 </li>
             }
         </ul>
