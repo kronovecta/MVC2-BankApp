@@ -1,0 +1,32 @@
+﻿@model BankApp.Application.DtoObjects.CustomerDto
+@using System.Globalization
+
+<div class="container-customer">
+    <section class="customer-top">
+        <div>
+            <h1>Welcome @Model.Givenname!</h1>
+        </div>
+        <div>
+            <img src="~/img/DebitCard_1x.png" />
+        </div>
+    </section>
+
+    <section class="customer-accounts">
+        <div class="account-header">
+            <h3>Accounts</h3>
+            <h3>@Model.TotalBalance.ToString("C", CultureInfo.CurrentCulture)</h3>
+        </div>
+        <ul>
+            @foreach (var account in Model.Accounts)
+            {
+                <li>
+                    <div class="account-info">
+                        <p class="account-info-name">Konto</p>
+                        <p class="account-info-number">910712-8056</p>
+                    </div> 
+                        <p>@account.Balance.ToString("C", CultureInfo.CurrentCulture)</p>
+                </li>
+            }
+        </ul>
+    </section>
+</div>

@@ -9,11 +9,11 @@ using BankApp.Application.DtoObjects;
 
 namespace BankApp.Application.GetCustomerByName
 {
-    public class GetCustomerByNameHandler
+    public class GetCustomersByNameHandler
     {
         private readonly BankContext _context;
 
-        public GetCustomerByNameHandler()
+        public GetCustomersByNameHandler()
         {
             _context = new BankContext();
         }

@@ -1,0 +1,21 @@
+﻿@model BankApp.Application.Queries.GetDBStatistics.GetDBStatisticsResponse
+@using System.Globalization
+
+<div class="container">
+    <div class="container-statistics">
+        <div>
+            <span>Customers</span>
+            <span>@Model.Customers</span>
+        </div>
+
+        <div>
+            <span>Accounts</span>
+            <span>@Model.Accounts</span>
+        </div>
+
+        <div>
+            <span>Total Balance</span>
+            <span>@Model.TotalBalance.ToString("C", CultureInfo.CurrentCulture) SEK</span>
+        </div>
+    </div>
+</div>

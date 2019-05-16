@@ -1,0 +1,148 @@
+﻿/****************** VARIABLES ****************/
+
+:root {
+    --bank-main: #f58f8e;
+    --bank-blue: #00019f;
+    --bank-white: #ffffff;
+    --light-grey: lightgrey;
+}
+
+/****************** GENERAL ****************/
+* {
+    font-family: 'Ubuntu', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+    box-sizing: border-box;
+    -webkit-font-smoothing: always;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+h3 {
+    text-shadow: 0 0 1px rgba(0,0,0,0.3);
+}
+
+html {
+    height:100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    /*justify-content: space-between;*/
+    min-height: 100vh;
+}
+
+    body .main-container {
+        flex:1;
+    }
+
+        body > .main-container > main {
+            margin:0 20%;
+            padding:5% 0;
+        }
+
+/****************** NAVBAR ****************/
+
+nav {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 0 20%;
+    justify-content: space-between;
+    background:var(--bank-main);
+}
+
+    nav .navbar-brand {
+        font-weight:700;
+        font-size:1.5em;
+    }
+
+    nav .navbar-login:hover {
+        background: #3c5ba5;
+    }
+
+    nav .btn-login:before {
+        font-family: "Font Awesome 5 Free";
+        content: '\f2f6';
+        font-weight: 900;
+        margin-right: 0.3em;
+    }
+
+    nav a {
+        color:var(--bank-white);
+        text-decoration:none;
+    }
+
+    nav > div {
+        padding:1em 0;
+    }
+
+    nav > div > a {
+        padding:1em;
+    }
+
+/****************** FRONT PAGE STATISTICS ****************/
+
+.container-statistics {
+    border:1px solid lightgrey;
+    border-radius:0.6em;
+}
+
+    .container-statistics > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1em 2em;
+    }
+
+        .container-statistics > div:not(:last-child) {
+            border-bottom: 1px solid lightgrey;
+        }
+
+        .container-statistics > div:hover {
+            background: lightgrey;
+        }
+
+/****************** CUSTOMER VIEW ****************/
+
+.container-customer > section:first-child {
+    height: 25vh;
+    width: 100%;
+}
+
+    section.customer-top {
+        justify-content:space-between;
+        width:100%;
+        display:flex;
+        flex-direction:row;
+    }
+
+    section.customer-accounts > .account-header {
+        display:flex;
+        flex-direction:row;
+        justify-content:space-between;
+        margin-bottom:1em;
+    }
+
+    section.customer-accounts ul {
+        list-style:none;
+    }
+
+        section.customer-accounts ul li {
+            padding:0.8em 1.1em;
+            border:1px solid var(--light-grey);
+            border-radius:0.3em;
+
+            display:flex;
+            flex-direction:row;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+            section.customer-accounts .account-info-number {
+                margin-top:0.3em;
+                font-size:0.7em;
+            }

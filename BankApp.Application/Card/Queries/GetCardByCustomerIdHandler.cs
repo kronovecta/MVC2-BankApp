@@ -28,24 +28,7 @@ namespace BankApp.Application.Queries
                          join cu in _context.Customers on di.CustomerId equals cu.CustomerId
                          where cu.CustomerId == request.CustomerId select ca);
 
-            //response.Cards = query
-            //    .AsNoTracking()
-            //    .Select(c => new CardDto()
-            //    {
-            //        CardId = c.CardId,
-            //        Type = c.Type,
-            //        Issued = c.Issued,
-            //        Cctype = c.Cctype,
-            //        Ccnumber = c.Ccnumber,
-            //        Cvv2 = c.Cvv2,
-            //        ExpM = c.ExpM,
-            //        ExpY = c.ExpY
-            //    })
-            //    .OrderBy(x => x.CardId)
-            //    .ToList();
-
             response.Cards = query.ProjectTo<CardDto>().ToList();
-            //response.Customer = Mapper.Map<Customer, CustomerDto>(query.First());
 
             if (response != null)
             {

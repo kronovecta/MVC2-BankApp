@@ -22,7 +22,9 @@ namespace BankApp.Application.DtoObjects
         public string Telephonenumber { get; set; }
         public string Emailaddress { get; set; }
 
+        public decimal TotalBalance { get; set; }
+
         public virtual List<CardDto> Cards { get; set; }
-        //public virtual List<Disposition> Dispositions { get; set; }
+        public virtual List<AccountDto> Accounts { get; set; }
     }
 }
