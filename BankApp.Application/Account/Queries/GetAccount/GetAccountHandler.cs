@@ -5,8 +5,10 @@ using System.Text;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using BankApp.Application.DtoObjects;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
-namespace BankApp.Application.Queries.GetAccount
+namespace BankApp.Application.Queries
 {
     class GetAccountHandler
     {
@@ -23,17 +25,19 @@ namespace BankApp.Application.Queries.GetAccount
             var query = (from a in _context.Accounts join d in _context.Dispositions on a.AccountId equals d.AccountId where d.CustomerId == request.CustomerId select a);
 
             var response = new GetAccountResponse();
-            response.Accounts = query
-                .AsNoTracking()
-                .Select(a => new AccountDto()
-                {
-                    AccountId = a.AccountId,
-                    Frequency = a.Frequency,
-                    Created = a.Created,
-                    Balance = a.Balance
-                })
-                .OrderBy(x => x.AccountId)
-                .ToList();
+
+            response.Accounts = query.ProjectTo<AccountDto>().ToList();
+            //response.Accounts = query
+            //    .AsNoTracking()
+            //    .Select(a => new AccountDto()
+            //    {
+            //        AccountId = a.AccountId,
+            //        Frequency = a.Frequency,
+            //        Created = a.Created,
+            //        Balance = a.Balance
+            //    })
+            //    .OrderBy(x => x.AccountId)
+            //    .ToList();
 
             return response;
         }
