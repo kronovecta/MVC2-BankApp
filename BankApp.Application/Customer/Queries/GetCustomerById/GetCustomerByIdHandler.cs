@@ -23,29 +23,9 @@ namespace BankApp.Application.Queries.GetSingleCustomer
 
         public GetCustomerByIdResponse Handler(GetCustomerByIdRequest request)
         {
-            //Mapper.Initialize(cfg =>
-            //{
-            //    //cfg.CreateMap<Customer, CustomerDto>();
-            //    cfg.AddProfile(new AutoMapperProfile());
-            //});
-
             var response = new GetCustomerByIdResponse();
 
-            var query = _context.Customers.Include(x => x.Dispositions).ThenInclude(y => y.Cards).OrderBy(x => x.CustomerId).SingleOrDefault(y => y.CustomerId == request.Id);
-
-            //response.Customer = query
-            //    .AsNoTracking()
-            //    .Select(c => new GetCustomerByIdResponse.CustomerDto()
-            //    {
-            //        Id = c.CustomerId,
-            //        FirstName = c.Givenname,
-            //        LastName = c.Surname,
-            //        City = c.City,
-            //        Cards = 
-            //        //Cards = new GetCardByCustomerIdHandler().Handler(new GetCardByCustomerIdRequest() { CustomerId = request.Id }).Cards,
-            //        //Accounts = new GetAccountHandler().Handler(new GetAccountRequest() { CustomerId = request.Id }).Accounts
-
-            //    }).SingleOrDefault();
+            var query = _context.Customers.OrderBy(x => x.CustomerId).SingleOrDefault(y => y.CustomerId == request.Id);
 
             response.Customer = Mapper.Map<Customer, CustomerDto>(query);
             response.Customer.Cards = new GetCardByCustomerIdHandler().Handler(new GetCardByCustomerIdRequest() { CustomerId = request.Id }).Cards.ToList();
