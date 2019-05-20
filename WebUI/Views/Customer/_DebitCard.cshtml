@@ -475,5 +475,5 @@
 
 </g>
 <text class="debitcard-name" transform="matrix(1 0 0 1 12.333 63.4272)">@Model.Givenname @Model.Surname</text>
-<text class="debitcard-number" transform="matrix(1 0 0 1 12.333 75.4272)">910712-8056</text>
+<text class="debitcard-number" transform="matrix(1 0 0 1 12.333 75.4272)">@Model.Cards.FirstOrDefault().Ccnumber</text>
 </svg>

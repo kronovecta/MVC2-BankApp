@@ -5,6 +5,14 @@
     <section class="customer-top">
         <div>
             <h1>Welcome @Model.Givenname!</h1>
+
+            <ul>
+                <li><span class="bold">Name:</span> @Model.Givenname @Model.Surname</li>
+                <li><span class="bold">Adress:</span> @Model.Streetaddress @Model.Zipcode @Model.City</li>
+                <li><span class="bold">Phone:</span> (+@Model.Telephonecountrycode)@Model.Telephonenumber.Substring(1, Model.Telephonenumber.Length-1 )</li>
+                <li><span class="bold">SSN:</span> @Model.NationalId</li>
+                <li><span class="bold">Email:</span> @Model.Emailaddress</li>
+            </ul>
         </div>
         <div class="debit-card">
             <partial name="_DebitCard" />

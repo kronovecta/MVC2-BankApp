@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using BankApp.Application.GetCustomerByName;
 using BankApp.Application.Queries.GetSingleCustomer;
 using BankApp.Data;
 using BankApp.Domain.Entities;
@@ -27,12 +28,20 @@ namespace BankApp.API.Controllers
             return null;
         }
 
-        ////[HttpGet("{name}/{limit}")]
+        //[HttpGet("{name}/{limit}")]
         //[HttpGet("{name}")]
         //public ActionResult<IEnumerable<Customer>> Get(string name, int limit)
         //{
-        //    var query = utils.GetCustomersNamed(name, limit);
-        //    return Ok(query.customers.ToList());
+        //    //var query = utils.GetCustomersNamed(name, limit);
+        //    var request = new GetCustomerByNameRequest()
+        //    {
+        //        Search = name,
+        //        Limit = limit
+        //    };
+
+        //    var query = new GetCustomersByNameHandler().Handler(request);
+
+        //    return Ok(query.Customers.ToList());
         //}
 
         [HttpGet("{id}")]

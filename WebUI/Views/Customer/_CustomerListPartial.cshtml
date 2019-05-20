@@ -1,0 +1,8 @@
+﻿@model WebUI.ViewModels.SearchCustomerViewModel
+
+<div class="CustomerList">
+    @foreach (var customer in Model.Customers)
+    {
+        <p>@customer.Givenname</p>
+    }
+</div>

@@ -29,7 +29,7 @@ namespace BankApp.Application.GetCustomerByName
 
             response.TotalCustomerAmount = query.Count();
             response.TotalNumberOfPages = (response.TotalCustomerAmount / (request.Limit + 1));
-            response.Customers = query.ProjectTo<CustomerDto>().ToList();
+            response.Customers = query.Skip(request.Offset).Take(request.Limit).ProjectTo<CustomerDto>().ToList();
             
             if(response != null)
             {
