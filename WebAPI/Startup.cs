@@ -37,6 +37,7 @@ namespace WebAPI
                     options.SerializerSettings.MaxDepth = 1;
                 });
 
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()));
             services.AddAutoMapper(typeof(Startup));
         }
 
@@ -55,6 +56,7 @@ namespace WebAPI
 
             AutoMapperInitializer.Configure();
 
+            app.UseCors(o => o.AllowAnyOrigin());
             app.UseHttpsRedirection();
             app.UseMvc();
         }

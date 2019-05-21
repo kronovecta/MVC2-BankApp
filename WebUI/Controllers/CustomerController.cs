@@ -25,9 +25,9 @@ namespace WebUI.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult SearchCustomer(SearchCustomerViewModel model, int PageNr)
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public IActionResult SearchCustomerByName(SearchCustomerViewModel model, int? pagenr)
         {
             if(ModelState.IsValid)
             {
@@ -40,12 +40,12 @@ namespace WebUI.Controllers
 
                 var response = new GetCustomersByNameHandler().Handler(request);
 
-                model.Customers = response.Customers;
-                model.PageNr = PageNr++;
+                model.Customers = response.Customers;   
+                //model.PageNr = PageNr++;
                 model.TotalCustomers = response.TotalCustomerAmount;
             }
 
-            return View(model);
+            return PartialView("_CustomerListPartial", model);
         }
     }
 }

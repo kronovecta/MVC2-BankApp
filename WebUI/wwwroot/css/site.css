@@ -20,6 +20,14 @@
   -webkit-font-smoothing: always;
   -moz-osx-font-smoothing: grayscale; }
 
+input, textarea {
+  padding: 0.8em;
+  border-radius: 0.5em;
+  border: 1px solid lightgrey; }
+
+span {
+  vertical-align: middle; }
+
 a {
   text-decoration: none; }
 
@@ -235,6 +243,40 @@ section.customer-accounts .account-info-number {
 .debitcard-number {
   font-size: 0.45em;
   font-weight: 600; }
+
+/****************** MEDIA QUERIES ****************/
+.CustomerList {
+  border: 1px solid lightgrey;
+  border-radius: 0.5em; }
+  .CustomerList a div {
+    padding: 0.5em 1em;
+    height: 100%;
+    width: 100%; }
+    .CustomerList a div:hover {
+      background: var(--bank-main);
+      border-color: var(--bank-main); }
+  .CustomerList a:not(:last-child) > div {
+    border-bottom: 1px solid lightgrey; }
+  .CustomerList a:last-child:hover div {
+    border-radius: 0 0 0.5em 0.5em;
+    border-color: var(--bank-main); }
+  .CustomerList a:first-child:hover div {
+    border-radius: 0.5em 0.5em 0 0;
+    border-color: var(--bank-main); }
+
+.search-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 2em; }
+  .search-container .form-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; }
+    .search-container .form-group:not(:last-child) {
+      margin-right: 1em; }
+    .search-container .form-group label {
+      display: block; }
 
 /****************** MEDIA QUERIES ****************/
 @media only screen and (max-width: 550px) {

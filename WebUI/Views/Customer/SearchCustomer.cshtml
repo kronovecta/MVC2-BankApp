@@ -3,33 +3,83 @@
 <link href="~/css/StyleSheet.css" type="text/css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.ajax.unobtrusive/3.2.4/jquery.unobtrusive-ajax.min.js"></script>
+<script src="https://pagination.js.org/dist/2.1.4/pagination.min.js"></script>
 
 @{ var pagenr = 0; }
 
-<form asp-action="SearchCustomer" asp-controller="Customer" method="post">
-    <div class="form-group">
-        <label asp-for="Name">Name: </label>
-        <input asp-for="Name" id="SearchName" value="test" />
+@*<form asp-action="SearchCustomer" asp-controller="Customer" method="post">*@
+@*<form id="SearchForm" asp-action="SearchCustomerByName" asp-controller="Customer" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#CustomerList" method="post" asp-route-pagenr=@pagenr>*@
+    <div class="search-container">
+        <div class="form-group">
+            <label asp-for="Name">Name: </label>
+            <input asp-for="Name" id="SearchName" class="SearchName" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="City">City: </label>
+            <input asp-for="City" class="SearchCity" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Amount">Amount: </label>
+            <input type="number" asp-for="Amount" class="SearchAmount" />
+        </div>
+
+        <div class="form-group">
+            <input type="submit" id="SearchSubmit" value="Search" class="SearchSubmit" name="Search" />
+        </div>
     </div>
+@*</form>*@
 
-    <div class="form-group">
-        <label asp-for="City">City: </label>
-        <input asp-for="City" />
-    </div>
+@*<partial name="_CustomerListPartial" />*@
 
-    <div class="form-group">
-        <label asp-for="Amount">Amount: </label>
-        <input type="number" asp-for="Amount" id="SearchAmount" />
-    </div>
+<div id="CustomerList">
+    <input type="button" id="NextPage" value="Next Page" />
+</div>
 
-    <input type="submit" id="SearchSubmit" value="Search" />
-</form>
+@*<input type="submit" value="Previous Page" id="PreviousPage" />
+<input type="submit" value="Next Page" id="NextPage" />*@
 
-@for (int i = 1; i < Model.; i++)
-{
+@*@section Scripts {
+    <script>
+        $(document).ready() {
+            let nextPage = $("#NextPage");
+            let previousPage = $("#PreviousPage");
 
-}
+            previousPage.on("click", function () {
+                @pagenr++;
+
+                alert("test");
+            });
+        }
+    </script>
+}*@
 
 @section Scripts {
-    
+    <script>
+        $(document).ready(function () {
+            let pagenr = 0;
+            let nextPage = $("#NextPage");
+
+            let name = $(".SearchName").val();
+            let amount = $(".SearchAmount").val();
+
+            $(".SearchSubmit").on('click', function () {
+                $.ajax({
+                    url: 'https://localhost:44333/api/search?name=' + name + '&limit=' + amount + '&pagenr=1',
+                    success: function (result) {
+
+                        $.each(result, function (customer) {
+                            console.log(result[customer]);
+                            let res = result[customer];
+                            //$(".CustomerList").append("<a href='#'><div><span>" + res.customerId + "</span>" + res.givenname + " " + res.surname + "</div></a>")
+                            $("#CustomerList").prepend("<a href='#'><div><span>" + res.customerId + "</span>" + res.givenname + " " + res.surname + "</div></a>")
+                        })
+                    }
+                });
+            });
+
+            function SearchNames()
+        });
+    </script>
 }

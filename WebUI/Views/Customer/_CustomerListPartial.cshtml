@@ -1,8 +1,21 @@
 ﻿@model WebUI.ViewModels.SearchCustomerViewModel
 
-<div class="CustomerList">
-    @foreach (var customer in Model.Customers)
-    {
-        <p>@customer.Givenname</p>
-    }
-</div>
+@{ 
+    var pageNr = Model.PageNr;
+    var nextPage = pageNr++;
+    var prevPage = pageNr--;
+}
+
+    <div class="CustomerList">
+        @foreach (var customer in Model.Customers)
+        {
+            <a><div>@customer.Givenname</div></a>
+        }
+    </div>  
+
+    <form id="SearchForm" asp-action="SearchCustomerByName" asp-controller="Customer" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#CustomerList" method="post" asp-route-pagenr=@prevPage>
+        <input type="submit" value="Previous Page" id="PreviousPage" />
+    </form>
+    <form id="SearchForm" asp-action="SearchCustomerByName" asp-controller="Customer" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#CustomerList" method="post" asp-route-pagenr=@nextPage>
+        <input type="submit" value="Previous Page" id="PreviousPage" />
+    </form>
