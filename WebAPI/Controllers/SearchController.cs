@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BankApp.Application.DtoObjects;
-using BankApp.Application.GetCustomerByName;
+using BankApp.Application.Queries;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

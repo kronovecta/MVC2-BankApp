@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BankApp.Application.DtoObjects;
-using BankApp.Application.GetCustomerByName;
-using BankApp.Application.Queries.GetSingleCustomer;
+using BankApp.Application.Queries;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.ViewModels;
 

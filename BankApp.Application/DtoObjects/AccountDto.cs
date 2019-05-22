@@ -10,5 +10,7 @@ namespace BankApp.Application.DtoObjects
         public string Frequency { get; set; }
         public DateTime Created { get; set; }
         public decimal Balance { get; set; }
+
+        public virtual List<TransactionDto> Transactions { get; set; }
     }
 }

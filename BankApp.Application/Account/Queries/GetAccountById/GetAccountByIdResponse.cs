@@ -5,8 +5,8 @@ using System.Text;
 
 namespace BankApp.Application.Queries
 {
-    public class GetAccountResponse
+    public class GetAccountByIdResponse
     {
-        public List<AccountDto> Accounts { get; set; }
+        public AccountDto Account { get; set; }
     }
 }

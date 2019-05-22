@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BankApp.Application.Queries
 {
-    class GetAccountRequest
+    public class GetAccountsByUserIdRequest
     {
         public int CustomerId { get; set; }
     }

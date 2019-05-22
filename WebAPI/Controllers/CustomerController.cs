@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BankApp.Application.GetCustomerByName;
-using BankApp.Application.Queries.GetSingleCustomer;
+using BankApp.Application.DtoObjects;
+using BankApp.Application.Queries;
 using BankApp.Data;
 using BankApp.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,7 @@ namespace BankApp.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Customer>> Get()
+        public ActionResult<IEnumerable<CustomerDto>> Get()
         {
             return null;
         }
@@ -45,7 +45,7 @@ namespace BankApp.API.Controllers
         //}
 
         [HttpGet("{id}")]
-        public ActionResult<Customer> Get(int id)
+        public ActionResult<CustomerDto> Get(int id)
         {
             var request = new GetCustomerByIdRequest()
             {

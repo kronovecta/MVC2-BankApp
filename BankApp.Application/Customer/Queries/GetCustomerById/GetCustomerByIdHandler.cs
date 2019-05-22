@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
-namespace BankApp.Application.Queries.GetSingleCustomer
+namespace BankApp.Application.Queries
 {
     public class GetCustomerByIdHandler
     {
@@ -25,7 +25,7 @@ namespace BankApp.Application.Queries.GetSingleCustomer
 
             response.Customer = Mapper.Map<Customer, CustomerDto>(query);
             response.Customer.Cards = new GetCardByCustomerIdHandler().Handler(new GetCardByCustomerIdRequest() { CustomerId = request.Id }).Cards.ToList();
-            response.Customer.Accounts = new GetAccountHandler().Handler(new GetAccountRequest() { CustomerId = request.Id }).Accounts;
+            response.Customer.Accounts = new GetAccountsByUserIdHandler().Handler(new GetAccountsByUserIdRequest() { CustomerId = request.Id }).Accounts;
             response.Customer.TotalBalance = response.Customer.Accounts.Sum(x => x.Balance);
 
             if (response != null)

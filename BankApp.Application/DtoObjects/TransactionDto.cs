@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BankApp.Application.DtoObjects
 {
-    class TransactionDto
+    public class TransactionDto
     {
         public int TransactionId { get; set; }
         public int AccountId { get; set; }

@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using BankApp.Application;
-using BankApp.Application.GetCustomerByName;
+using BankApp.Application.Queries;
 
 namespace BankApp
 {

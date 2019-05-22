@@ -10,7 +10,7 @@ using AutoMapper;
 using BankApp.Domain.Entities;
 using AutoMapper.QueryableExtensions;
 
-namespace BankApp.Application.GetCustomerByName
+namespace BankApp.Application.Queries
 {
     public class GetCustomersByNameHandler
     {

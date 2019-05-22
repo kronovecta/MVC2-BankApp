@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BankApp.Application.GetCustomerByName
+namespace BankApp.Application.Queries
 {
     public class GetCustomerByNameRequest
     {

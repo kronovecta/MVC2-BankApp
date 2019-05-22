@@ -14,9 +14,13 @@
                 <li><span class="bold">Email:</span> @Model.Emailaddress</li>
             </ul>
         </div>
-        <div class="debit-card">
-            <partial name="_DebitCard" />
-        </div>
+        @if(Model.Cards.Count > 0)
+        {
+            <div class="debit-card">
+                <partial name="_DebitCard" />
+            </div>
+        }
+        
     </section>
 
     <section class="customer-accounts">
@@ -28,7 +32,7 @@
             @foreach (var account in Model.Accounts)
             {
                 <li>
-                    <a asp-action="#" asp-controller="#">
+                    <a asp-action="ShowAccount" asp-controller="Account" asp-route-accountid=@account.AccountId>
                         <div class="account-info">
                             <p class="account-info-name"><b>Konto</b></p>
                             <p class="account-info-number">910712-8056</p>

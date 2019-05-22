@@ -4,8 +4,8 @@ using System.Text;
 
 namespace BankApp.Application.Queries
 {
-    public  class GetCustomerByIdRequest
+    public class GetAccountByIdRequest
     {
-        public int Id { get; set; }
+        public int AccountId { get; set; }
     }
 }
