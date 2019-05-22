@@ -5,17 +5,20 @@
     var nextPage = pageNr++;
     var prevPage = pageNr--;
 }
-
+<div>
     <div class="CustomerList">
         @foreach (var customer in Model.Customers)
         {
-            <a><div>@customer.Givenname</div></a>
+            <a><div><span style="margin-right:1em;">@customer.CustomerId</span>@customer.Givenname</div></a>
         }
     </div>  
 
-    <form id="SearchForm" asp-action="SearchCustomerByName" asp-controller="Customer" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#CustomerList" method="post" asp-route-pagenr=@prevPage>
+    <a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#CustomerList" class="btn btn-primary" asp-route-name=@Model.Name asp-route-city=@Model.City asp-route-amount=@Model.Amount asp-route-pagenr="@(Model.PageNr+1)" data-ajax-loading="#spinner" role="button">Visa flera</a>
+</div>
+
+    @*<form id="SearchForm" asp-action="SearchCustomerByName" asp-controller="Customer" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#CustomerList" method="post" asp-route-pagenr=@prevPage>
         <input type="submit" value="Previous Page" id="PreviousPage" />
     </form>
     <form id="SearchForm" asp-action="SearchCustomerByName" asp-controller="Customer" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#CustomerList" method="post" asp-route-pagenr=@nextPage>
         <input type="submit" value="Previous Page" id="PreviousPage" />
-    </form>
+    </form>*@

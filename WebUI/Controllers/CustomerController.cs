@@ -21,31 +21,44 @@ namespace WebUI.Controllers
 
         public IActionResult SearchCustomer()
         {
-            var model = new SearchCustomerViewModel() { Customers = new List<CustomerDto>() };
-            return View(model);
+            return View();
         }
 
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        public IActionResult SearchCustomerByName(SearchCustomerViewModel model, int? pagenr)
+        //public IActionResult SearchCustomerByName(SearchCustomerViewModel model, int? pagenr)
+        public IActionResult SearchCustomerByName(string name, string city, int amount, int pagenr)
         {
             if(ModelState.IsValid)
             {
+                var model = new SearchCustomerViewModel()
+                {
+                    Name = name,
+                    Amount = amount,
+                    PageNr = pagenr
+                };
+
                 var request = new GetCustomerByNameRequest()
                 {
-                    Search = model.Name,
-                    Limit = model.Amount,
-                    Offset = (model.Amount * model.PageNr)
+                    Search = name,
+                    Limit = amount,
+                    Offset = (amount * pagenr)
                 };
 
                 var response = new GetCustomersByNameHandler().Handler(request);
 
-                model.Customers = response.Customers;   
-                //model.PageNr = PageNr++;
+                model.Name = name;
+                model.Amount = amount;
+                model.PageNr = pagenr;
+
+                model.Customers = response.Customers;
                 model.TotalCustomers = response.TotalCustomerAmount;
+                model.TotalPages = response.TotalNumberOfPages;
+
+                return PartialView("_CustomerListPartial", model);
             }
 
-            return PartialView("_CustomerListPartial", model);
+            return NotFound();
         }
     }
 }

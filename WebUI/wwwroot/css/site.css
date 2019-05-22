@@ -278,6 +278,13 @@ section.customer-accounts .account-info-number {
     .search-container .form-group label {
       display: block; }
 
+.search-page-list {
+  display: flex;
+  flex-direction: row; }
+  .search-page-list > li {
+    padding: 0.2em;
+    border: 1px solid lightgrey; }
+
 /****************** MEDIA QUERIES ****************/
 @media only screen and (max-width: 550px) {
   section.customer-top {
