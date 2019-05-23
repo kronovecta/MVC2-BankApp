@@ -1,0 +1,54 @@
+﻿@model WebUI.ViewModels.Account.AccountTransactionsViewModel
+
+@{
+    var pageNr = Model.PageNr;
+    var nextPage = pageNr + 1;
+    var prevPage = pageNr - 1;
+}
+
+<div>
+    <div class="TransactionList">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Operation</th>
+                    <th>Amount</th>
+                    <th>Balance</th>
+                    <th>Symbol</th>
+                    <th>Bank</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var transaction in Model.Transactions)
+                {
+                    <tr>
+                        <td>@transaction.TransactionId</td>
+                        <td>@transaction.Date</td>
+                        <td>@transaction.Type</td>
+                        <td>@transaction.Operation</td>
+                        <td>@transaction.Amount</td>
+                        <td>@transaction.Balance</td>
+                        <td>@transaction.Symbol</td>
+                        <td>@transaction.Bank</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="search-pagination">
+        @if (nextPage <= Model.TotalPages)
+        {
+            <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#TransactionList" asp-action="GetTransactions" asp-controller="Customer" asp-route-accountid=@Model.Account.AccountId asp-route-amount="50" asp-route-pagenr="@nextPage" data-ajax-loading="#spinner" role="button">Next page</a>
+        }
+
+        @if (prevPage >= 0)
+        {
+            <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#TransactionList" asp-action="GetTransactions" asp-controller="Customer" asp-route-accountid=@Model.Account.AccountId asp-route-amount="50" asp-route-pagenr="@prevPage" data-ajax-loading="#spinner" role="button">Previous page</a>
+        }
+
+    </div>
+</div>

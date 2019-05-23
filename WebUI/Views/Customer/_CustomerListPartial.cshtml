@@ -28,27 +28,6 @@
                         <td>@customer.Streetaddress @customer.Zipcode @customer.City</td>
                         <td><a class="btn-show-customer" asp-action="ShowCustomer" asp-controller="Customer" asp-route-id=@customer.CustomerId>View customer</a></td>
                     </tr>
-
-                    @*<a asp-action="ShowCustomer" asp-controller="Customer" asp-route-id=@customer.CustomerId>
-                        <div>
-                            <div class="customer-header">
-                                <span style="margin-right:1em; font-weight:700;">@customer.CustomerId</span>
-                                <span class="customer-name">@customer.Givenname @customer.Surname</span>
-                                @if (customer.NationalId != "")
-                                {
-                                    <span class="ssn-body">(@customer.NationalId)</span>
-                                }
-                            </div>
-
-                            <div class="customer-body">
-                                <div>
-                                    <span class="adress-tag">Adress: </span>
-                                    <span class="adress-body">@customer.Streetaddress @customer.Zipcode @customer.City</span>
-                                </div>
-                            
-                            </div>
-                        </div>
-                    </a>*@
                 }
             </tbody>
         </table>
@@ -64,6 +43,5 @@
         {
             <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#CustomerList" class="btn btn-primary" asp-route-name=@Model.Name asp-route-city=@Model.City asp-route-amount=@Model.Amount asp-route-pagenr="@prevPage" data-ajax-loading="#spinner" role="button">Previous page</a>
         }
-
     </div>
 </div>

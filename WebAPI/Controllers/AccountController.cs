@@ -13,12 +13,12 @@ namespace WebUI.Controllers
     {
         public IActionResult Get(int accountid)
         {
-            var request = new GetAccountByIdRequest()
+            var request = new GetTransactionsByAccountIdRequest()
             {
                 AccountId = accountid
             };
 
-            var query = new GetAccountByIdHandler().Handler(request);
+            var query = new GetTransactionsByAccountIdHandler().Handler(request);
 
             if (query != null)
             {

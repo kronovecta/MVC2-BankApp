@@ -6,6 +6,7 @@ using BankApp.Application.DtoObjects;
 using BankApp.Application.Queries;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.ViewModels;
+using WebUI.ViewModels.Account;
 
 namespace WebUI.Controllers
 {
@@ -25,7 +26,6 @@ namespace WebUI.Controllers
 
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        //public IActionResult SearchCustomerByName(SearchCustomerViewModel model, int? pagenr)
         public IActionResult SearchCustomerByName(string name, string city, int amount, int pagenr)
         {
             if(ModelState.IsValid)
@@ -55,6 +55,77 @@ namespace WebUI.Controllers
                 model.TotalPages = response.TotalNumberOfPages;
 
                 return PartialView("_CustomerListPartial", model);
+            }
+
+            return NotFound();
+        }
+
+        public IActionResult ShowAccount(int accountid)
+        {
+            var request = new GetAccountByIdRequest()
+            {
+                AccountId = accountid,
+                Amount = 50
+            };
+
+            var request_transaction = new GetTransactionsByAccountIdRequest()
+            {
+                AccountId = accountid,
+                Amount = 50,
+                Offset = 0
+            };
+
+            var query = new GetAccountByIdHandler().Handler(request);
+            var transactions = new GetTransactionsByAccountIdHandler().Handler(request_transaction);
+            
+            if(query != null)
+            {
+                var model = new AccountTransactionsViewModel()
+                {
+                    PageNr = 0,
+                    Account = query.Account,
+                    Transactions = transactions.Transactions,
+                    TotalTransactions = transactions.Transactions.Count(),
+                    TotalPages = transactions.Transactions.Count() / request.Amount
+                };
+
+                return View(model);
+            }
+
+            return NotFound();
+        }
+
+        public IActionResult GetTransactions(int accountid, int amount, int pagenr)
+        {
+            if(ModelState.IsValid)
+            {
+                var request = new GetTransactionsByAccountIdRequest()
+                {
+                    AccountId = accountid,
+                    Amount = amount,
+                    Offset = amount * pagenr
+                };
+
+                var query = new GetTransactionsByAccountIdHandler().Handler(request);
+
+                if (query != null)
+                {
+                    var model = new AccountTransactionsViewModel()
+                    {
+                        PageNr = pagenr,
+                        Account = null,
+                        AccountId = accountid,
+                        TotalTransactions = query.TotalTransactions,
+                        TotalPages = query.TotalPages,
+                        Transactions = query.Transactions
+                    };
+
+                    return PartialView("_TransactionListPartial", model);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
 
             return NotFound();

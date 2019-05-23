@@ -9,6 +9,11 @@ namespace WebUI.ViewModels.Account
     public class AccountTransactionsViewModel
     {
         public AccountDto Account { get; set; }
+        public int AccountId { get; set; }
+        public int PageNr { get; set; }
+        public int TotalPages { get; set; }
+        public int TotalTransactions { get; set; }
+
         public IList<TransactionDto> Transactions { get; set; }
 
         public AccountTransactionsViewModel()
