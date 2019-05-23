@@ -60,71 +60,50 @@ namespace WebUI.Controllers
             return NotFound();
         }
 
-        public IActionResult ShowAccount(int accountid)
-        {
-            var request = new GetAccountByIdRequest()
-            {
-                AccountId = accountid,
-                Amount = 50
-            };
-
-            var request_transaction = new GetTransactionsByAccountIdRequest()
-            {
-                AccountId = accountid,
-                Amount = 50,
-                Offset = 0
-            };
-
-            var query = new GetAccountByIdHandler().Handler(request);
-            var transactions = new GetTransactionsByAccountIdHandler().Handler(request_transaction);
-            
-            if(query != null)
-            {
-                var model = new AccountTransactionsViewModel()
-                {
-                    PageNr = 0,
-                    Account = query.Account,
-                    Transactions = transactions.Transactions,
-                    TotalTransactions = transactions.Transactions.Count(),
-                    TotalPages = transactions.Transactions.Count() / request.Amount
-                };
-
-                return View(model);
-            }
-
-            return NotFound();
-        }
-
-        public IActionResult GetTransactions(int accountid, int amount, int pagenr)
+        public IActionResult ShowAccount(int accountid, int? amount, int? pagenr)
         {
             if(ModelState.IsValid)
             {
-                var request = new GetTransactionsByAccountIdRequest()
+                var amountFallback = 20;
+
+                var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+
+                var request = new GetAccountByIdRequest()
                 {
                     AccountId = accountid,
-                    Amount = amount,
-                    Offset = amount * pagenr
+                    Amount = amountFallback
                 };
 
-                var query = new GetTransactionsByAccountIdHandler().Handler(request);
+                var request_transaction = new GetTransactionsByAccountIdRequest()
+                {
+                    AccountId = accountid,
+                    Amount = amount ?? amountFallback,
+                    Offset = (amountFallback * pagenr) ?? 0
+                };
+
+                var query = new GetAccountByIdHandler().Handler(request);
+                var transactions = new GetTransactionsByAccountIdHandler().Handler(request_transaction);
 
                 if (query != null)
                 {
                     var model = new AccountTransactionsViewModel()
                     {
-                        PageNr = pagenr,
-                        Account = null,
+                        PageNr = pagenr ?? 0,
                         AccountId = accountid,
-                        TotalTransactions = query.TotalTransactions,
-                        TotalPages = query.TotalPages,
-                        Transactions = query.Transactions
+                        Account = query.Account,
+                        Transactions = transactions.Transactions,
+                        TotalTransactions = transactions.TotalTransactions,
+                        TotalPages = transactions.TotalPages
                     };
 
-                    return PartialView("_TransactionListPartial", model);
-                }
-                else
-                {
-                    return NotFound();
+                    if (isAjax)
+                    {
+                        return PartialView("_TransactionListPartial", model);
+                    }
+                    else
+                    {
+                        return View(model);
+                    }
                 }
             }
 

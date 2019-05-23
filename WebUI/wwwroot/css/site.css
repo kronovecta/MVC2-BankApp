@@ -43,6 +43,10 @@ ul {
 span.bold {
   font-weight: bold; }
 
+p.disabled {
+  cursor: not-allowed;
+  background: lightgrey; }
+
 .btn {
   padding: 1em;
   border: 1px solid lightgrey; }
@@ -62,6 +66,43 @@ body {
     width: 80%;
     padding: 5% 0;
     min-width: 340px; }
+
+/****************** NAVBAR ****************/
+table {
+  width: 100%;
+  border-collapse: collapse; }
+  table > thead {
+    background: #222; }
+    table > thead th {
+      text-align: left;
+      padding: 0.5em;
+      color: var(--bank-white); }
+      table > thead th:first-child {
+        text-align: right; }
+  table > tbody > tr:nth-child(2n+2) {
+    background: #eaeaea; }
+  table > tbody td {
+    padding: 0.5em; }
+    table > tbody td:first-child {
+      text-align: right; }
+    table > tbody td:nth-last-child(2) {
+      /*border-right: none !important;*/ }
+    table > tbody td:not(:last-child) {
+      border-right: 1px solid lightgrey; }
+    table > tbody td .btn-show-customer {
+      width: auto;
+      display: block;
+      background: var(--bank-white);
+      border: 1px solid lightgrey;
+      border-radius: 0.2em;
+      padding: 0.5em; }
+      table > tbody td .btn-show-customer:hover {
+        filter: brightness(110%); }
+    table > tbody td:last-child {
+      width: 1px;
+      white-space: nowrap; }
+  table > tbody tr:not(:last-child) {
+    border-bottom: 1px solid lightgrey; }
 
 /****************** NAVBAR ****************/
 nav {
@@ -252,50 +293,7 @@ section.customer-accounts .account-info-number {
 .CustomerList {
   border-bottom: 1px solid lightgrey;
   /*border-radius: 0.5em;*/
-  margin-bottom: 1em;
-  /*> a {
-
-        > div {
-            padding: 0.5em 1em;
-            height: 100%;
-            width: 100%;
-
-            > div > .customer-name {
-                font-size:1.2em;
-            }
-
-            &:hover {
-                background: var(--bank-main);
-                border-color: var(--bank-main);
-            }
-
-            .ssn-tag, adress-tag {
-                font-weight:700;
-            }
-
-            .ssn-body {
-                opacity:0.6;
-            }
-
-            .ssn-body, .adress-body {
-                font-style:italic;
-            }
-        }
-
-        &:not(:last-child) > div {
-            border-bottom: 1px solid lightgrey;
-        }
-
-        &:last-child:hover div {
-            border-radius: 0 0 0.5em 0.5em;
-            border-color: var(--bank-main);
-        }
-
-        &:first-child:hover div {
-            border-radius: 0.5em 0.5em 0 0;
-            border-color: var(--bank-main);
-        }
-    }*/ }
+  margin-bottom: 1em; }
   .CustomerList > table {
     width: 100%;
     border-collapse: collapse; }
@@ -364,6 +362,10 @@ section.customer-accounts .account-info-number {
   .search-page-list > li {
     padding: 0.2em;
     border: 1px solid lightgrey; }
+
+/****************** MEDIA QUERIES ****************/
+.TransactionList {
+  margin-bottom: 1em; }
 
 /****************** MEDIA QUERIES ****************/
 @media only screen and (max-width: 550px) {

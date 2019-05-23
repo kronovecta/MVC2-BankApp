@@ -1,4 +1,5 @@
 ﻿@model WebUI.ViewModels.Account.AccountTransactionsViewModel
+@using System.Globalization
 
 @{
     var pageNr = Model.PageNr;
@@ -26,11 +27,11 @@
                 {
                     <tr>
                         <td>@transaction.TransactionId</td>
-                        <td>@transaction.Date</td>
+                        <td>@transaction.Date.ToShortDateString()</td>
                         <td>@transaction.Type</td>
                         <td>@transaction.Operation</td>
-                        <td>@transaction.Amount</td>
-                        <td>@transaction.Balance</td>
+                        <td>@transaction.Amount.ToString("C", CultureInfo.CurrentCulture)</td>
+                        <td>@transaction.Balance.ToString("C", CultureInfo.CurrentCulture)</td>
                         <td>@transaction.Symbol</td>
                         <td>@transaction.Bank</td>
                     </tr>
@@ -42,12 +43,18 @@
     <div class="search-pagination">
         @if (nextPage <= Model.TotalPages)
         {
-            <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#TransactionList" asp-action="GetTransactions" asp-controller="Customer" asp-route-accountid=@Model.Account.AccountId asp-route-amount="50" asp-route-pagenr="@nextPage" data-ajax-loading="#spinner" role="button">Next page</a>
+            <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#TransactionList" asp-route-accountid=@Model.Account.AccountId asp-route-pagenr="@nextPage" data-ajax-loading="#spinner" role="button">Next page</a>
+        } else
+        {
+            <p class="disabled btn-pagination">Next page</p>
         }
 
         @if (prevPage >= 0)
         {
-            <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#TransactionList" asp-action="GetTransactions" asp-controller="Customer" asp-route-accountid=@Model.Account.AccountId asp-route-amount="50" asp-route-pagenr="@prevPage" data-ajax-loading="#spinner" role="button">Previous page</a>
+            <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#TransactionList" asp-route-accountid=@Model.Account.AccountId asp-route-pagenr="@prevPage" data-ajax-loading="#spinner" role="button">Previous page</a>
+        } else
+        {
+            <p class="disabled btn-pagination">Previous page</p>
         }
 
     </div>

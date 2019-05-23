@@ -5,9 +5,9 @@
 <script src="https://cdn.jsdelivr.net/jquery.ajax.unobtrusive/3.2.4/jquery.unobtrusive-ajax.min.js"></script>
 
 <div class="account-container">
-
-    <div id="TransactionList">
-        <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#TransactionList" data-ajax-url="/Customer/GetTransactions?accountid=1&amount=50&pagenr=2" asp-route-accountid=@Model.Account.AccountId asp-route-amount="50" asp-route-pagenr="0" data-ajax-loading="#spinner" role="button">Load transactions</a>
-        @*<partial name="_TransactionListPartial" model=@Model />*@
-    </div>
+        @*<a class="btn-pagination" data-ajax-method="get" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#TransactionList" asp-route-accountid=@Model.Account.AccountId asp-route-amount="50" asp-route-pagenr="0" data-ajax-loading="#spinner" role="button">Load transactions</a>*@
+        
+        <div id="TransactionList">
+            <partial name="_TransactionListPartial" model=@Model />
+        </div>
 </div>
