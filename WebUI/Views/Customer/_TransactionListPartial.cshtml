@@ -49,6 +49,8 @@
             <p class="disabled btn-pagination">Next page</p>
         }
 
+        <span>@(Model.PageNr+1) / @(Model.TotalPages+1)</span>
+
         @if (prevPage >= 0)
         {
             <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#TransactionList" asp-route-accountid=@Model.Account.AccountId asp-route-pagenr="@prevPage" data-ajax-loading="#spinner" role="button">Previous page</a>
