@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BankApp.Application.Commands
 {
-    class CreateCustomerHandler
+    public class CreateCustomerHandler
     {
         private readonly BankContext _context;
         public CreateCustomerHandler()
@@ -16,8 +16,6 @@ namespace BankApp.Application.Commands
 
         public void Handler(CreateCustomerCommand command)
         {
-
-
             var customer = new Customer()
             {
                 Gender = command.Gender,
@@ -35,16 +33,22 @@ namespace BankApp.Application.Commands
                 Emailaddress = command.Emailaddress
             };
 
-            var account = new CreateAccountCommand()
+            var account = new Account()
             {
                 Balance = 0,
                 Frequency = "MONTHLY",
                 Created = DateTime.Now
             };
 
+            var disposition = new Disposition()
+            {
+                Account = account,
+                Customer = customer,
+                Type = "OWNER"
+            };
 
-
-            //_context.Dispositions.Add()
+            _context.Dispositions.Add(disposition);
+            _context.SaveChanges();
         }
     }
 }

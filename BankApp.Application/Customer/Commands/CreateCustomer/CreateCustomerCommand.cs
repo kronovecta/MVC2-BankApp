@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BankApp.Application.Commands
 {
-    class CreateCustomerCommand
+    public class CreateCustomerCommand
     {
         public string Gender { get; set; }
         public string Givenname { get; set; }
