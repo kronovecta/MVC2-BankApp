@@ -9,6 +9,16 @@ namespace BankApp.Data
 {
     public class IdentityContext : IdentityDbContext<IdentityUser>
     {
+        public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
+        {
+
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

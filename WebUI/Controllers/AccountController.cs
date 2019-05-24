@@ -13,16 +13,18 @@ namespace WebUI.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IdentityContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<IdentityUser> _signInManager;
 
-        public AccountController(IdentityContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AccountController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<IdentityUser> signInManager)
         {
-            _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _signInManager = signInManager;
         }
 
+        #region Login
         public IActionResult Login()
         {
             return View();
@@ -32,14 +34,24 @@ namespace WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, true, false);
-
-            if(result.Succeeded)
+            if(ModelState.IsValid)
             {
-                return RedirectToAction("Index", "Home");
-            }
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, true, false);
 
-            return View();
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                } else
+                {
+                    return View();
+                }
+            }
+            
+            return NotFound();
         }
+        #endregion
+
+        #region Register
+        #endregion
     }
 }

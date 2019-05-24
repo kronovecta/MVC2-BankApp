@@ -32,7 +32,7 @@
             @foreach (var account in Model.Accounts)
             {
                 <li>
-                    <a asp-action="ShowAccount" asp-controller="Account" asp-route-accountid=@account.AccountId>
+                    <a asp-action="ShowAccount" asp-controller="Customer" asp-route-accountid=@account.AccountId>
                         <div class="account-info">
                             <p class="account-info-name"><b>Konto</b></p>
                             <p class="account-info-number">910712-8056</p>

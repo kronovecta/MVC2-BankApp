@@ -1,6 +1,11 @@
 ﻿<header>
     <nav class="navbar">
         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Citadel</a>
+
+        <div class="nav-links">
+            <a asp-action="SearchCustomer" asp-controller="Customer" class="btn">Search User</a>
+        </div>
+
         <div class="navbar-login">
             <a class="btn-login" asp-action="Login" asp-controller="Account">Login</a>
         </div>
