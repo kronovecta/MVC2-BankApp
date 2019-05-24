@@ -44,7 +44,7 @@ namespace BankApp.Application.Commands
 
 
 
-            _context.Dispositions.Add()
+            //_context.Dispositions.Add()
         }
     }
 }

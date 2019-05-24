@@ -1,6 +1,7 @@
 ﻿/****************** VARIABLES ****************/
 :root {
   --bank-main: #f58f8e;
+  --bank-main-dark: #e67776;
   --bank-blue: #00019f;
   --bank-white: #ffffff;
   --light-grey: lightgrey; }
@@ -79,6 +80,11 @@ table {
       color: var(--bank-white); }
       table > thead th:first-child {
         text-align: right; }
+  table > tbody > tr:hover {
+    border-color: var(--bank-main) !important;
+    background: var(--bank-main) !important; }
+    table > tbody > tr:hover > td {
+      border-color: var(--bank-main-dark); }
   table > tbody > tr:nth-child(2n+2) {
     background: #eaeaea; }
   table > tbody td {
@@ -88,7 +94,8 @@ table {
     table > tbody td:nth-last-child(2) {
       /*border-right: none !important;*/ }
     table > tbody td:not(:last-child) {
-      border-right: 1px solid lightgrey; }
+      border-right: 1px solid;
+      border-color: lightgrey; }
     table > tbody td .btn-show-customer {
       width: auto;
       display: block;
@@ -102,7 +109,8 @@ table {
       width: 1px;
       white-space: nowrap; }
   table > tbody tr:not(:last-child) {
-    border-bottom: 1px solid lightgrey; }
+    border-bottom: 1px solid;
+    border-color: lightgrey; }
 
 /****************** NAVBAR ****************/
 nav {
@@ -292,43 +300,21 @@ section.customer-accounts .account-info-number {
 /****************** SEARCH ****************/
 .CustomerList {
   border-bottom: 1px solid lightgrey;
-  /*border-radius: 0.5em;*/
   margin-bottom: 1em; }
-  .CustomerList > table {
-    width: 100%;
-    border-collapse: collapse; }
-    .CustomerList > table > thead {
-      background: #222; }
-      .CustomerList > table > thead th {
-        text-align: left;
-        padding: 0.5em;
-        color: var(--bank-white); }
-        .CustomerList > table > thead th:first-child {
-          text-align: right; }
-    .CustomerList > table > tbody > tr:nth-child(2n+2) {
-      background: #eaeaea; }
-    .CustomerList > table > tbody td {
-      padding: 0.5em; }
-      .CustomerList > table > tbody td:first-child {
-        text-align: right; }
-      .CustomerList > table > tbody td:nth-last-child(2) {
-        border-right: none !important; }
-      .CustomerList > table > tbody td:not(:last-child) {
-        border-right: 1px solid lightgrey; }
-      .CustomerList > table > tbody td .btn-show-customer {
-        width: auto;
-        display: block;
-        background: var(--bank-white);
-        border: 1px solid lightgrey;
-        border-radius: 0.2em;
-        padding: 0.5em; }
-        .CustomerList > table > tbody td .btn-show-customer:hover {
-          filter: brightness(110%); }
-      .CustomerList > table > tbody td:last-child {
-        width: 1px;
-        white-space: nowrap; }
-    .CustomerList > table > tbody tr:not(:last-child) {
-      border-bottom: 1px solid lightgrey; }
+  .CustomerList > table > tbody td:nth-last-child(2) {
+    border-right: none !important; }
+  .CustomerList > table > tbody td .btn-show-customer {
+    width: auto;
+    display: block;
+    background: var(--bank-white);
+    border: 1px solid lightgrey;
+    border-radius: 0.2em;
+    padding: 0.5em; }
+    .CustomerList > table > tbody td .btn-show-customer:hover {
+      filter: brightness(110%); }
+  .CustomerList > table > tbody td:last-child {
+    width: 1px;
+    white-space: nowrap; }
 
 .search-pagination {
   display: flex;

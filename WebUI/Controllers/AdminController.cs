@@ -18,7 +18,8 @@ namespace WebUI.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateCustomer(CustomerDto customer)
         {
-            var customer = new CustomerDto
+            //var customer = new CustomerDto
+            throw new NotImplementedException();
         }
     }
 }

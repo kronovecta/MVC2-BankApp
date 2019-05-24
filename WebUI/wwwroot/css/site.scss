@@ -2,6 +2,7 @@
 
 :root {
     --bank-main: #f58f8e;
+    --bank-main-dark: #e67776;
     --bank-blue: #00019f;
     --bank-white: #ffffff;
     --light-grey: lightgrey;
@@ -108,6 +109,15 @@ table {
     }
 
     > tbody {
+        > tr:hover {
+            border-color: var(--bank-main)!important;
+            background: var(--bank-main) !important;
+
+            > td {
+                border-color: var(--bank-main-dark);
+            }
+        }
+
         > tr:nth-child(2n+2) {
             background: #eaeaea;
         }
@@ -124,7 +134,8 @@ table {
             }
 
             &:not(:last-child) {
-                border-right: 1px solid lightgrey;
+                border-right: 1px solid;
+                border-color: lightgrey;
             }
 
             .btn-show-customer {
@@ -149,7 +160,8 @@ table {
 
 
         tr:not(:last-child) {
-            border-bottom: 1px solid lightgrey;
+            border-bottom: 1px solid;
+            border-color:lightgrey;
         }
     }
 }
@@ -438,45 +450,13 @@ section {
 
 .CustomerList {
     border-bottom: 1px solid lightgrey;
-    /*border-radius: 0.5em;*/
     margin-bottom: 1em;
 
     > table {
-        width: 100%;
-        border-collapse: collapse;
-
-        > thead {
-            background: #222;
-
-            th {
-                text-align: left;
-                padding: 0.5em;
-                color: var(--bank-white);
-
-                &:first-child {
-                    text-align: right;
-                }
-            }
-        }
-
         > tbody {
-            > tr:nth-child(2n+2) {
-                background: #eaeaea;
-            }
-
             td {
-                padding: 0.5em;
-
-                &:first-child {
-                    text-align: right;
-                }
-
                 &:nth-last-child(2) {
                     border-right: none !important;
-                }
-
-                &:not(:last-child) {
-                    border-right: 1px solid lightgrey;
                 }
 
                 .btn-show-customer {
@@ -496,12 +476,6 @@ section {
                     width: 1px;
                     white-space: nowrap;
                 }
-            }
-
-
-
-            tr:not(:last-child) {
-                border-bottom: 1px solid lightgrey;
             }
         }
     }
