@@ -25,9 +25,10 @@ namespace BankApp.Application
         public AutoMapperProfile()
         {
             CreateMap<Disposition, DispositionDto>();
-            CreateMap<Account, AccountDto>();
+            CreateMap<Domain.Entities.Account, AccountDto>();
             CreateMap<Card, CardDto>();
-            CreateMap<Customer, CustomerDto>();
+            CreateMap<Customer, CustomerDto>(MemberList.Destination)
+                .ForSourceMember(x => x.Dispositions, opt => opt.DoNotValidate());
         }
     }
 }

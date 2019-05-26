@@ -70,8 +70,7 @@ namespace WebUI.Controllers
 
                 var request = new GetAccountByIdRequest()
                 {
-                    AccountId = accountid,
-                    Amount = amountFallback
+                    AccountId = accountid
                 };
 
                 var request_transaction = new GetTransactionsByAccountIdRequest()

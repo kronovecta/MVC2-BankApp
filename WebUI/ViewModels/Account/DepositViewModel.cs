@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace BankApp.Application.Queries
+namespace WebUI.ViewModels.Account
 {
-    public class GetAccountByIdRequest
+    public class DepositViewModel
     {
         public int AccountId { get; set; }
         public decimal Amount { get; set; }

@@ -33,12 +33,14 @@ namespace BankApp.Application.Commands
                 Emailaddress = command.Emailaddress
             };
 
-            var account = new Account()
+            var account = new Domain.Entities.Account()
             {
-                Balance = 0,
+                //Balance = 0,
                 Frequency = "MONTHLY",
                 Created = DateTime.Now
             };
+
+            account.Deposit(0);
 
             var disposition = new Disposition()
             {

@@ -1,0 +1,36 @@
+﻿@model WebUI.ViewModels.Account.TransferViewModel
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.ajax.unobtrusive/3.2.4/jquery.unobtrusive-ajax.min.js"></script>
+
+<div class="transfer-container">
+    <div class="transfer-section">
+        <h1>@Model.AccountIdSender</h1>
+        <h3>@Model.BalanceSender.ToString("C")</h3>
+    </div>
+
+    <div class="transfer-section">
+        @*<form id="SearchForm" asp-action="SearchCustomerByName" asp-controller="Customer" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#CustomerList" method="post" asp-route-pagenr="0">*@
+        <form method="post" asp-action="Transfer" asp-controller="Cashier">
+            <div class="form-group">
+                <label asp-for="AccountIdReciever">AccountId</label>
+                <input asp-for="AccountIdReciever" value=@Model.AccountIdReciever>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="BalanceReciever">Balance</label>
+                <input asp-for="BalanceReciever" value=@Model.BalanceReciever>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Amount">Amount</label>
+                <input asp-for="Amount">
+            </div>
+
+            <input type="submit" value="Transfer" />
+        </form>
+        @*</form>*@
+
+        <div id="CustomerList"></div>
+    </div>
+</div>

@@ -7,6 +7,6 @@ namespace BankApp.Application.Queries
 {
     public class GetCardByCustomerIdResponse
     {
-        public IList<CardDto> Cards { get; set; }
+        public List<CardDto> Cards { get; set; }
     }
 }

@@ -23,10 +23,22 @@ namespace BankApp.Application.Queries
 
             var query = _context.Customers.OrderBy(x => x.CustomerId).SingleOrDefault(y => y.CustomerId == request.Id);
 
+
             response.Customer = Mapper.Map<Customer, CustomerDto>(query);
-            response.Customer.Cards = new GetCardByCustomerIdHandler().Handler(new GetCardByCustomerIdRequest() { CustomerId = request.Id }).Cards.ToList();
-            response.Customer.Accounts = new GetAccountsByUserIdHandler().Handler(new GetAccountsByUserIdRequest() { CustomerId = request.Id }).Accounts;
-            response.Customer.TotalBalance = response.Customer.Accounts.Sum(x => x.Balance);
+
+            var cards = new GetCardByCustomerIdHandler().Handler(new GetCardByCustomerIdRequest() { CustomerId = request.Id }).Cards;
+            var accounts = new GetAccountsByUserIdHandler().Handler(new GetAccountsByUserIdRequest() { CustomerId = request.Id }).Accounts;
+
+            if (cards.Count > 0)
+            {
+                response.Customer.Cards = cards;
+            }
+
+            if(accounts != null)
+            {
+                response.Customer.Accounts = accounts;
+                response.Customer.TotalBalance = response.Customer.Accounts.Sum(x => x.Balance);
+            }            
 
             if (response != null)
             {

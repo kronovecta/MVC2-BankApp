@@ -22,9 +22,9 @@ namespace BankApp.Application.Queries
         {
             var response = new GetTransactionsByAccountIdResponse();
 
-            var query = _context.Transactions.Where(x => x.AccountId == request.AccountId);
+            var query = _context.Transactions.Where(x => x.AccountId == request.AccountId).OrderByDescending(x => x.Date);
 
-            response.Transactions = Mapper.Map<List<Transaction>, List<TransactionDto>>(query.Skip(request.Offset).Take(request.Amount).ToList());
+            response.Transactions = Mapper.Map<List<Transaction>, List<TransactionDto>>(query.Skip(request.Offset).Take(request.Amount).OrderByDescending(x => x.Date).ToList());
             response.TotalTransactions = query.Count();
             response.TotalPages = response.TotalTransactions / request.Amount;
 

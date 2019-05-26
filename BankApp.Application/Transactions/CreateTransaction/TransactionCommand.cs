@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BankApp.Application.Queries
+namespace BankApp.Application.Commands
 {
-    public class GetAccountByIdRequest
+    public abstract class TransactionCommand
     {
-        public int AccountId { get; set; }
         public decimal Amount { get; set; }
     }
 }

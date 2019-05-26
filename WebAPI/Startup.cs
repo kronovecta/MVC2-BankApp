@@ -38,7 +38,7 @@ namespace WebAPI
                 });
 
             services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()));
-            services.AddAutoMapper(typeof(Startup));
+            //services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +54,7 @@ namespace WebAPI
                 app.UseHsts();
             }
 
-            AutoMapperInitializer.Configure();
+            //AutoMapperInitializer.Configure();
 
             app.UseCors(o => o.AllowAnyOrigin());
             app.UseHttpsRedirection();

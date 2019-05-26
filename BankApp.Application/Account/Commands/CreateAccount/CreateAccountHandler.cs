@@ -17,11 +17,10 @@ namespace BankApp.Application.Commands
 
         public async Task Handler(CreateAccountCommand command)
         {
-            var account = new Account
+            var account = new Domain.Entities.Account
             {
                 Frequency = command.Frequency,
-                Created = command.Created,
-                Balance = command.Balance
+                Created = command.Created
             };
 
             await _context.Accounts.AddAsync(account);

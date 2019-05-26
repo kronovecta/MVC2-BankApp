@@ -24,7 +24,6 @@ namespace BankApp.Application.Queries
             var response = new GetAccountByIdResponse();
 
             var query_account = _context.Accounts.SingleOrDefault(x => x.AccountId == request.AccountId);
-            //var query_transactions = _context.Transactions.Where(x => x.AccountId == request.AccountId);
 
             response.Account = new AccountDto()
             {
@@ -33,22 +32,6 @@ namespace BankApp.Application.Queries
                 Created = query_account.Created,
                 Frequency = query_account.Frequency
             };
-
-            //response.Transactions = query_transactions.Select(t => new TransactionDto()
-            //{
-            //    TransactionId = t.TransactionId,
-            //    AccountId = t.AccountId,
-            //    Date = t.Date,
-            //    Type = t.Type,
-            //    Operation = t.Operation,
-            //    Amount = t.Amount,
-            //    Balance = t.Balance,
-            //    Symbol = t.Symbol,
-            //    Bank = t.Bank
-            //}).ToList();
-
-            //response.TotalTransactions = response.Transactions.Count();
-            //response.TotalPages = (response.TotalTransactions / request.Amount);
             
             return response;
         }

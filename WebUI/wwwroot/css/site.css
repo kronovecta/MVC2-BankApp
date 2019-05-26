@@ -113,6 +113,14 @@ table {
     border-color: lightgrey; }
 
 /****************** NAVBAR ****************/
+.transfer-container {
+  width: 70%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center; }
+
+/****************** NAVBAR ****************/
 nav {
   height: 100%;
   width: 100%;
