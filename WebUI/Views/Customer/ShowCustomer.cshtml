@@ -1,6 +1,9 @@
 ﻿@model BankApp.Application.DtoObjects.CustomerDto
 @using System.Globalization
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.ajax.unobtrusive/3.2.4/jquery.unobtrusive-ajax.min.js"></script>
+
 <div class="container-customer">
     <section class="customer-top">
         <div>
@@ -9,18 +12,20 @@
             <ul>
                 <li><span class="bold">Name:</span> @Model.Givenname @Model.Surname</li>
                 <li><span class="bold">Adress:</span> @Model.Streetaddress @Model.Zipcode @Model.City</li>
-                <li><span class="bold">Phone:</span> (+@Model.Telephonecountrycode)@Model.Telephonenumber.Substring(1, Model.Telephonenumber.Length-1 )</li>
+                <li><span class="bold">Phone:</span> (+@Model.Telephonecountrycode)@Model.Telephonenumber.Substring(1, Model.Telephonenumber.Length - 1)</li>
                 <li><span class="bold">SSN:</span> @Model.NationalId</li>
                 <li><span class="bold">Email:</span> @Model.Emailaddress</li>
+                <li><a asp-action="GetToken" asp-controller="Customer" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#token-field" method="post" class="btn" asp-route-customerid=@Model.CustomerId>Token</a></li>
+                <div id="token-field"></div>
             </ul>
         </div>
-        @if(Model.Cards != null && Model.Cards.Count > 0)
+        @if (Model.Cards != null && Model.Cards.Count > 0)
         {
             <div class="debit-card">
                 <partial name="_DebitCard" />
             </div>
         }
-        
+
     </section>
 
     <section class="customer-accounts">

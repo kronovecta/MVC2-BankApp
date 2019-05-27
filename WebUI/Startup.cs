@@ -6,6 +6,7 @@ using AutoMapper;
 using BankApp.Application;
 using BankApp.Data;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -37,6 +38,8 @@ namespace WebUI
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDataProtection()
+                .SetApplicationName("BankApp");
             var conn = Configuration.GetConnectionString("conn");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

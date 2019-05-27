@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BankApp.Application.DtoObjects;
 using BankApp.Application.Queries;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.ViewModels;
 using WebUI.ViewModels.Account;
@@ -12,6 +13,12 @@ namespace WebUI.Controllers
 {
     public class CustomerController : Controller
     {
+        private readonly IDataProtector _protector;
+
+        public CustomerController(IDataProtectionProvider provider)
+        {
+            _protector = provider.CreateProtector("TokenConverter");
+        }
         public IActionResult ShowCustomer(int id)
         {
             var model = new GetCustomerByIdHandler().Handler(new GetCustomerByIdRequest() { Id = id }).Customer;
@@ -121,6 +128,13 @@ namespace WebUI.Controllers
             }
 
             return NotFound();
+        }
+
+        public IActionResult GetToken(int customerid)
+        {
+            var token = _protector.Protect(customerid.ToString());
+
+            return PartialView("_TokenPartial", token);
         }
     }
 }

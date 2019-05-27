@@ -7,6 +7,7 @@ using BankApp.Application.DtoObjects;
 using BankApp.Application.Queries;
 using BankApp.Data;
 using BankApp.Domain.Entities;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.API.Controllers
@@ -15,12 +16,6 @@ namespace BankApp.API.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly IMapper _mapper;
-
-        public CustomerController(IMapper mapper)
-        {
-            _mapper = mapper;
-        }
 
         [HttpGet]
         public ActionResult<IEnumerable<CustomerDto>> Get()
@@ -63,7 +58,38 @@ namespace BankApp.API.Controllers
             {
                 return NotFound();
             }
+        }
 
+        
+    }
+
+    [Route("api/[controller]")]
+    [ApiController]
+    public class MeController : ControllerBase
+    {
+        private readonly IDataProtector _protector;
+
+        public MeController(IDataProtectionProvider provider)
+        {
+            _protector = provider.CreateProtector("TokenConverter");
+        }
+
+        //[Route("{token?}")]
+        public ActionResult<CustomerDto> Get(string token)
+        {
+            var unprotected = _protector.Unprotect(token);
+            var result = int.TryParse(unprotected, out int id);
+            if (result)
+            {
+                var request = new GetCustomerByIdRequest { Id = id };
+                var query = new GetCustomerByIdHandler().Handler(request);
+                if (query.Customer != null)
+                {
+                    return Ok(query.Customer);
+                }
+            }
+
+            return NotFound();
         }
     }
 }

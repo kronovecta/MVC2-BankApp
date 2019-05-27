@@ -6,6 +6,7 @@ using AutoMapper;
 using BankApp.Application;
 using BankApp.Application.DtoObjects;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,8 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddDataProtection()
+                .SetApplicationName("BankApp");
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>
@@ -54,7 +57,7 @@ namespace WebAPI
                 app.UseHsts();
             }
 
-            //AutoMapperInitializer.Configure();
+            AutoMapperInitializer.Configure();
 
             app.UseCors(o => o.AllowAnyOrigin());
             app.UseHttpsRedirection();
