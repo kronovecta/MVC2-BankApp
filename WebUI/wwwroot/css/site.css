@@ -52,6 +52,11 @@ p.disabled {
   padding: 1em;
   border: 1px solid lightgrey; }
 
+.form-group {
+  display: block; }
+  .form-group > label {
+    display: block; }
+
 body {
   display: flex;
   flex-direction: column;
@@ -112,7 +117,7 @@ table {
     border-bottom: 1px solid;
     border-color: lightgrey; }
 
-/****************** NAVBAR ****************/
+/****************** CASHIER ****************/
 .transfer-container {
   width: 70%;
   display: flex;
@@ -341,6 +346,9 @@ section.customer-accounts .account-info-number {
   justify-content: center;
   margin-bottom: 2em;
   flex-wrap: wrap; }
+  .search-container > .search-container-inner {
+    display: flex;
+    flex-direction: row; }
   .search-container .form-group {
     display: flex;
     flex-direction: column;

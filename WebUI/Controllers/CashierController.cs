@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BankApp.Application.Commands;
-using BankApp.Application.Queries;
+﻿using BankApp.Application.Commands;
+using BankApp.Data;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.ViewModels.Account;
 
@@ -17,7 +13,7 @@ namespace WebUI.Controllers
         }
 
         #region Deposit
-        public IActionResult Deposit(int accountid)
+        public IActionResult Deposit()
         {
             return View();
         }
@@ -26,7 +22,7 @@ namespace WebUI.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Deposit(DepositViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var command = new DepositCommand()
                 {
@@ -45,14 +41,15 @@ namespace WebUI.Controllers
                     TempData["Error"] = $"Deposit failed";
                     return View();
                 }
-            } else
+            }
+            else
             {
                 return NotFound();
             }
         }
         #endregion
         #region Withdraw
-        public IActionResult Withdraw(int accountid)
+        public IActionResult Withdraw()
         {
             return View();
         }
@@ -61,43 +58,65 @@ namespace WebUI.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Withdraw(WithdrawViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+                var command = new WithdrawCommand
+                {
+                    AccountId = model.AccountId,
+                    Amount = model.Amount,
+                };
+
+                var query = new WithdrawHandler(new BankContext()).Handler(command);
+
+                if (query.IsCompletedSuccessfully)
+                {
+                    TempData["Success"] = $"{model.Amount.ToString("C")} withdrawn from account";
+                    return View();
+                }
+                else
+                {
+                    TempData["Error"] = $"Withdraw failed";
+                    return View();
+                }
+            }
             return View();
         }
         #endregion
 
         #region Transfer
-        public IActionResult Transfer(int accountid)
+        public IActionResult Transfer()
         {
-            var request = new GetAccountByIdRequest { AccountId = accountid };
-
-            var query = new GetAccountByIdHandler().Handler(request).Account;
-
-            var model = new TransferViewModel { AccountIdSender = accountid, BalanceSender = query.Balance };
-
-            return View(model);
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Transfer(TransferViewModel model)
         {
-            //var command = new TransferCommand
-            //{
-            //    AccountId_Sender = model.AccountIdSender,
-            //    AccountId_Reciever = model.AccountIdReciever,
-            //    Amount = model.Amount
-            //};
-
-            var command = new TransferCommand
+            if (ModelState.IsValid)
             {
-                AccountId_Sender = 1,
-                AccountId_Reciever = 9,
-                Amount = 500
-            };
+                var command = new TransferCommand
+                {
+                    AccountId_Sender = model.AccountIdSender,
+                    AccountId_Reciever = model.AccountIdReciever,
+                    Amount = model.Amount
+                };
 
-            var query = new TransferHandler().Handler(command);
+                var query = new TransferHandler(new BankContext()).Handler(command);
 
-            return View();
+                if (query.IsCompletedSuccessfully)
+                {
+                    TempData["Success"] = $"{model.Amount.ToString("C")} transferred from {model.BalanceSender} to {model.AccountIdReciever}";
+                    return View();
+                }
+                else
+                {
+                    TempData["Error"] = $"Transfer failed";
+                    return View();
+                }
+            }
+
+            return NotFound();
         }
         #endregion
     }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BankApp.Application.Commands;
 using BankApp.Application.DtoObjects;
+using BankApp.Application.Exceptions;
 using BankApp.Data;
 using System;
 using System.Collections.Generic;
@@ -13,32 +14,42 @@ namespace BankApp.Application.Commands
     public class TransferHandler
     {
         private readonly BankContext _context;
-        public TransferHandler()
+        public TransferHandler(BankContext context)
         {
-            _context = new BankContext();
+            _context = context;
         }
 
         public async Task Handler(TransferCommand command)
         {
-            var accountSender = _context.Accounts.SingleOrDefault(x => x.AccountId == command.AccountId_Sender);
-            var accountReciever = _context.Accounts.SingleOrDefault(x => x.AccountId == command.AccountId_Reciever);
-
-            if(accountSender.Balance >= command.Amount)
+            if(command.Amount > 0)
             {
-                accountSender.Withdraw(command.Amount);
-                accountReciever.Deposit(command.Amount);
+                var accountSender = _context.Accounts.SingleOrDefault(x => x.AccountId == command.AccountId_Sender);
+                var accountReciever = _context.Accounts.SingleOrDefault(x => x.AccountId == command.AccountId_Reciever);
 
-                var transactionCommand = new CreateTransferTransactionCommand()
+                if (accountSender.Balance >= command.Amount)
                 {
-                    Amount = command.Amount,
-                    Reciever = accountReciever,
-                    Sender = accountSender
-                };
+                    accountSender.Withdraw(command.Amount);
+                    accountReciever.Deposit(command.Amount);
 
-                var query = new CreateTransferTransactionHandler().Handler(transactionCommand);
+                    var transactionCommand = new CreateTransferTransactionCommand()
+                    {
+                        Amount = command.Amount,
+                        Reciever = accountReciever,
+                        Sender = accountSender
+                    };
 
-                await _context.SaveChangesAsync();
+                    var query = new CreateTransferTransactionHandler().Handler(transactionCommand);
+
+                    await _context.SaveChangesAsync();
+                } else
+                {
+                    throw new InsufficientFundsException();
+                }
+            } else
+            {
+                throw new NegativeAmountException();
             }
+            
         }
     }
 }

@@ -15,6 +15,7 @@ namespace WebUI.ViewModels
         public int TotalCustomers { get; set; }
         public int TotalPages { get; set; }
         public int PageNr { get; set; }
+        public int CustomerId { get; set; }
 
         //Output
         public IList<CustomerDto> Customers { get; set; }

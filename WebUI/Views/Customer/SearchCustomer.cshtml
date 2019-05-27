@@ -7,27 +7,41 @@
 
 @{ var pagenr = 0; }
 
-<form id="SearchForm" asp-action="SearchCustomerByName" asp-controller="Customer" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#CustomerList" method="post" asp-route-pagenr=@pagenr>
-    <div class="search-container">
-        <div class="form-group">
-            <label asp-for="Name">Name: </label>
-            <input asp-for="Name" id="SearchName" class="SearchName" value="hanna" />
-        </div>
-
-        <div class="form-group">
-            <label asp-for="City">City: </label>
-            <input asp-for="City" class="SearchCity" />
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Amount">Amount: </label>
-            <input type="number" asp-for="Amount" class="SearchAmount" min="0" value="5" />
-        </div>
-
-        <div class="form-group">
-            <input type="submit" id="SearchSubmit" value="Search" class="SearchSubmit" name="Search" />
-        </div>
+<div class="search-container">
+    <div class="search-container-inner">
+        <form id="SearchByIdForm" asp-action="SearchCustomerById" asp-controller="Customer" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#CustomerList" method="post">
+            <div class="form-group">
+                <label asp-for="CustomerId">CustomerId</label>
+                <input asp-for="CustomerId" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search" />
+            </div>
+        </form>
     </div>
-</form>
+
+    <div class="search-container-inner">
+        <form id="SearchForm" asp-action="SearchCustomerByName" asp-controller="Customer" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#CustomerList" method="post" asp-route-pagenr=@pagenr>
+            <div class="form-group">
+                <label asp-for="Name">Name: </label>
+                <input asp-for="Name" id="SearchName" class="SearchName" value="hanna" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="City">City: </label>
+                <input asp-for="City" class="SearchCity" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Amount">Amount: </label>
+                <input type="number" asp-for="Amount" class="SearchAmount" min="0" value="5" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" id="SearchSubmit" value="Search" class="SearchSubmit" name="Search" />
+            </div>
+        </form>
+    </div>
+</div>
 
 <div id="CustomerList"></div>

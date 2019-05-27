@@ -67,6 +67,14 @@ p.disabled {
     border:1px solid lightgrey;
 }
 
+.form-group {
+    display:block;
+
+    > label {
+        display:block;
+    }
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -166,7 +174,7 @@ table {
     }
 }
 
-/****************** NAVBAR ****************/
+/****************** CASHIER ****************/
 
 .transfer-container {
     width:70%;
@@ -511,6 +519,11 @@ section {
     justify-content:center;
     margin-bottom:2em;
     flex-wrap:wrap;
+
+    > .search-container-inner {
+        display:flex;
+        flex-direction:row;
+    }
 
     .form-group {
         display:flex;

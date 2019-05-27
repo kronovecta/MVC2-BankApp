@@ -11,15 +11,26 @@ namespace BankApp.Application.Commands
     {
         private readonly BankContext _context;
 
-        public WithdrawHandler()
+        public WithdrawHandler(BankContext context)
         {
-            _context = new BankContext();
+            //_context = new BankContext();
+            _context = context;
         }
         public async Task Handler(WithdrawCommand command)
         {
             var account = _context.Accounts.SingleOrDefault(x => x.AccountId == command.AccountId);
             //account.Balance -= command.Amount;
             account.Withdraw(command.Amount);
+
+            var transaction = new CreateTransactionCommand()
+            {
+                Operation = "Withdraw in cash",
+                Account = account,
+                Amount = command.Amount
+            };
+
+            var handler = new CreateTransactionHandler(transaction);
+
             await _context.SaveChangesAsync();
         }   
     }

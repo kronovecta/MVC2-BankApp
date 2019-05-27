@@ -33,9 +33,8 @@ namespace BankApp.Application.Commands
                 Emailaddress = command.Emailaddress
             };
 
-            var account = new Domain.Entities.Account()
+            var account = new Account()
             {
-                //Balance = 0,
                 Frequency = "MONTHLY",
                 Created = DateTime.Now
             };

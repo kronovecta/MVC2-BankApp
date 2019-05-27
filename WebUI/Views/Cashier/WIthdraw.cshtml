@@ -1,0 +1,17 @@
+﻿@model WebUI.ViewModels.Account.WithdrawViewModel
+
+<form asp-action="Withdraw" asp-controller="Cashier" method="post">
+    <div class="form-group">
+        <label asp-for="AccountId">Account Number: </label>
+        <input asp-for="AccountId" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Amount">Amount: </label>
+        <input type="number" asp-for="Amount" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Withdraw" />
+    </div>
+</form>

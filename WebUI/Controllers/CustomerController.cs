@@ -37,14 +37,15 @@ namespace WebUI.Controllers
                     PageNr = pagenr
                 };
 
-                var request = new GetCustomerByNameRequest()
+                var request = new GetCustomerByNamesCityRequest()
                 {
+                    City = city,
                     Search = name,
                     Limit = amount,
                     Offset = (amount * pagenr)
                 };
 
-                var response = new GetCustomersByNameHandler().Handler(request);
+                var response = new GetCustomersByNamesCityHandler().Handler(request);
 
                 model.Name = name;
                 model.Amount = amount;
@@ -58,6 +59,19 @@ namespace WebUI.Controllers
             }
 
             return NotFound();
+        }
+
+        public IActionResult SearchCustomerById(SearchCustomerViewModel model)
+        {
+            var request = new GetCustomerByIdRequest() { Id = model.CustomerId };
+
+            var response = new GetCustomerByIdHandler().Handler(request);
+
+            model.Customers.Add(response.Customer);
+            model.TotalCustomers = 1;
+            model.TotalPages = 1;
+
+            return PartialView("_CustomerListPartial", model);
         }
 
         public IActionResult ShowAccount(int accountid, int? amount, int? pagenr)

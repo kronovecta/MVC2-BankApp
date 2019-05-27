@@ -35,7 +35,7 @@ namespace BankApp.Application.Commands
                 AccountId = command.Reciever.AccountId,
                 Date = DateTime.Now,
                 Type = "Credit",
-                Operation = $"Transfer to {command.Reciever.AccountId}",
+                Operation = $"Transfer from {command.Reciever.AccountId}",
                 Amount = command.Amount,
                 Balance = command.Reciever.Balance + command.Amount,
                 Bank = "CT"

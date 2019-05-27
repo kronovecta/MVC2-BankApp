@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankApp.Domain.Exceptions;
+using System;
 using System.Collections.Generic;
 
 namespace BankApp.Domain.Entities
@@ -35,12 +36,12 @@ namespace BankApp.Domain.Entities
                 }
                 else
                 {
-                    //throw new InsufficientFundsException();
+                    throw new InsufficientFundsException();
                 }
             }
             else
             {
-                //throw new NegativeAmountException();
+                throw new NegativeAmountException();
             }
         }
 
@@ -52,7 +53,7 @@ namespace BankApp.Domain.Entities
             }
             else
             {
-                //throw new NegativeAmountException();
+                throw new NegativeAmountException();
             }
         }
     }

@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.Infrastructure", "BankApp.Infrastructure\BankApp.Infrastructure.csproj", "{4796070B-433B-411E-BBE3-3B485653EED6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj", "{4B4CC952-E24B-4003-A723-40389D1F93FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebUI", "WebUI\WebUI.csproj", "{4B4CC952-E24B-4003-A723-40389D1F93FA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{C4F881EB-6052-484B-8967-99E8EAA306F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.Tests", "BankApp.Tests\BankApp.Tests.csproj", "{B16F44D8-80BD-474C-B2DE-DCACBB37F93B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{4B4CC952-E24B-4003-A723-40389D1F93FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B4CC952-E24B-4003-A723-40389D1F93FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B4CC952-E24B-4003-A723-40389D1F93FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B16F44D8-80BD-474C-B2DE-DCACBB37F93B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B16F44D8-80BD-474C-B2DE-DCACBB37F93B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B16F44D8-80BD-474C-B2DE-DCACBB37F93B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B16F44D8-80BD-474C-B2DE-DCACBB37F93B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
