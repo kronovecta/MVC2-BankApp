@@ -29,7 +29,8 @@ namespace BankApp.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                //optionsBuilder.UseSqlServer("Data Source=<IP>,1433; Database=BankApp;User Id=sa; Password=<PASSWORD>;");
+
                 optionsBuilder.UseSqlServer("Server=localhost;Database=BankApp;Trusted_Connection=True;");
             }
         }

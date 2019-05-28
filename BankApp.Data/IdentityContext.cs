@@ -23,6 +23,7 @@ namespace BankApp.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
+                //optionsBuilder.UseSqlServer("Data Source=<IP>,1433; Database=BankApp;User Id=sa; Password=<PASSWORD>;");
                 optionsBuilder.UseSqlServer("Server=localhost; Database=BankApp;Trusted_Connection=True;");
             }
         }

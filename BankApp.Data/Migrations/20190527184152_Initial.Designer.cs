@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankApp.Data.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20190524125109_Initial")]
+    [Migration("20190527184152_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
