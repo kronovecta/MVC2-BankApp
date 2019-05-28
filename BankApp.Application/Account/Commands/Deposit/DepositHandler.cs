@@ -11,9 +11,9 @@ namespace BankApp.Application.Commands
     {
         private readonly BankContext _context;
 
-        public DepositHandler()
+        public DepositHandler(BankContext context)
         {
-            _context = new BankContext();
+            _context = context;
         }
         public async Task Handler(DepositCommand command)
         {
@@ -27,7 +27,7 @@ namespace BankApp.Application.Commands
                 Amount = command.Amount
             };
 
-            var handler = new CreateTransactionHandler(transaction);
+            //var handler = new CreateTransactionHandler(transaction); // NO handler in handler
 
             await _context.SaveChangesAsync();
         }

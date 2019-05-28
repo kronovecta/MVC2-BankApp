@@ -12,9 +12,9 @@ namespace BankApp.Application.Queries
     {
         private readonly BankContext _context;
 
-        public GetCustomerByIdHandler()
+        public GetCustomerByIdHandler(BankContext context)
         {
-            _context = new BankContext();
+            _context = context;
         }
 
         public GetCustomerByIdResponse Handler(GetCustomerByIdRequest request)
@@ -26,19 +26,21 @@ namespace BankApp.Application.Queries
 
             response.Customer = Mapper.Map<Customer, CustomerDto>(query);
 
-            var cards = new GetCardByCustomerIdHandler().Handler(new GetCardByCustomerIdRequest() { CustomerId = request.Id }).Cards;
-            var accounts = new GetAccountsByUserIdHandler().Handler(new GetAccountsByUserIdRequest() { CustomerId = request.Id }).Accounts;
+            //var cards = new GetCardByCustomerIdHandler().Handler(new GetCardByCustomerIdRequest() { CustomerId = request.Id }).Cards;
+            //var accounts = new GetAccountsByUserIdHandler().Handler(new GetAccountsByUserIdRequest() { CustomerId = request.Id }).Accounts;
 
-            if (cards.Count > 0)
-            {
-                response.Customer.Cards = cards;
-            }
+            //if (cards.Count > 0)
+            //{
+            //    response.Customer.Cards = cards;
+            //}
 
-            if(accounts != null)
-            {
-                response.Customer.Accounts = accounts;
-                response.Customer.TotalBalance = response.Customer.Accounts.Sum(x => x.Balance);
-            }            
+            //if(accounts != null)
+            //{
+            //    response.Customer.Accounts = accounts;
+            //    response.Customer.TotalBalance = response.Customer.Accounts.Sum(x => x.Balance);
+            //}            
+
+            // REPLACE WITH NEW HANDLERS
 
             if (response != null)
             {

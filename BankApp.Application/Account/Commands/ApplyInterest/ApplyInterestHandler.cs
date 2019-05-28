@@ -39,7 +39,7 @@ namespace BankApp.Application.Commands
                 _context.SaveChanges();
 
                 var transaction = new CreateTransactionCommand { Account = account, Amount = balance, Operation = "Compound interest" };
-                var handler = new CreateTransactionHandler(transaction);
+                //var handler = new CreateTransactionHandler(transaction);
             } else
             {
                 throw new NegativeAmountException();

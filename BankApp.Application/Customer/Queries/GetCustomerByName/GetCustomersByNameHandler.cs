@@ -16,9 +16,9 @@ namespace BankApp.Application.Queries
     {
         private readonly BankContext _context;
 
-        public GetCustomersByNameHandler()
+        public GetCustomersByNameHandler(BankContext context)
         {
-            _context = new BankContext();
+            _context = context;
         }
 
         public GetCustomerByNameResponse Handler(GetCustomerByNameRequest request)

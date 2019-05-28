@@ -1,5 +1,6 @@
 ﻿using BankApp.Application.Commands;
 using BankApp.Data;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +11,13 @@ namespace WebUI.Controllers
     [Authorize(Roles = "cashier")]
     public class CashierController : Controller
     {
+        private readonly IMediator _mediator;
+
+        public CashierController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         public IActionResult CashierPanel()
         {
             return View();
@@ -34,7 +42,9 @@ namespace WebUI.Controllers
                     Amount = model.Amount
                 };
 
-                var query = new DepositHandler().Handler(command);
+                //var query = new DepositHandler().Handler(command);
+                var query = _mediator.Send(command);
+
                 if (query.IsCompletedSuccessfully)
                 {
                     TempData["Success"] = $"{model.Amount.ToString("C")} deposited to account";
@@ -70,7 +80,8 @@ namespace WebUI.Controllers
                     Amount = model.Amount,
                 };
 
-                var query = new WithdrawHandler(new BankContext()).Handler(command);
+                //var query = new WithdrawHandler(new BankContext()).Handler(command);
+                var query = _mediator.Send(command);
 
                 if (query.IsCompletedSuccessfully)
                 {
@@ -106,7 +117,8 @@ namespace WebUI.Controllers
                     Amount = model.Amount
                 };
 
-                var query = new TransferHandler(new BankContext()).Handler(command);
+                //var query = new TransferHandler(new BankContext()).Handler(command);
+                var query = _mediator.Send(command); 
 
                 if (query.IsCompletedSuccessfully)
                 {
@@ -135,9 +147,8 @@ namespace WebUI.Controllers
         public IActionResult ApplyInterest(InterestViewModel model)
         {
             var command = new ApplyInterestCommand { AccountId = 1, Amount = 1, PreviousApplication = DateTime.Parse("2018-05-28") };
-            var handler = new ApplyInterestHandler(new BankContext());
-
-            handler.Handler(command);
+            //var handler = new ApplyInterestHandler(new BankContext());
+            var query = _mediator.Send(command);
 
             TempData["success"] = "Interest applied succesfully";
             return View();

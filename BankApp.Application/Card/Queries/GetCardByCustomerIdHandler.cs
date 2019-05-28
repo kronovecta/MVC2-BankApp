@@ -14,9 +14,9 @@ namespace BankApp.Application.Queries
     class GetCardByCustomerIdHandler
     {
         private readonly BankContext _context;
-        public GetCardByCustomerIdHandler()
+        public GetCardByCustomerIdHandler(BankContext context)
         {
-            _context = new BankContext();
+            _context = context;
         }
 
         public GetCardByCustomerIdResponse Handler(GetCardByCustomerIdRequest request)

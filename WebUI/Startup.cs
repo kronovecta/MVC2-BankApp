@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BankApp.Application;
 using BankApp.Data;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
@@ -43,7 +44,9 @@ namespace WebUI
             var conn = Configuration.GetConnectionString("conn");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<BankContext>(opt => opt.UseSqlServer(conn));
+            services.AddMediatR(typeof(Startup));
+
+            services.AddDbContext<IBankContext, BankContext>(opt => opt.UseSqlServer(conn));
             services.AddDbContext<IdentityContext>(opt => opt.UseSqlServer(conn));
 
             services.AddIdentity<IdentityUser, IdentityRole>()

@@ -9,9 +9,9 @@ namespace BankApp.Application.Commands
     public class CreateCustomerHandler
     {
         private readonly BankContext _context;
-        public CreateCustomerHandler()
+        public CreateCustomerHandler(BankContext context)
         {
-            _context = new BankContext();
+            _context = context;
         }
 
         public void Handler(CreateCustomerCommand command)

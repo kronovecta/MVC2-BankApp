@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BankApp.Application.DtoObjects;
 using BankApp.Application.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,12 @@ namespace WebAPI.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class SearchController : ControllerBase
     {
+        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public SearchController(IMapper mapper)
+        public SearchController(IMapper mapper, IMediator mediator)
         {
+            _mediator = mediator;
             _mapper = mapper;
         }
 
@@ -33,9 +36,16 @@ namespace WebAPI.Controllers
                 Offset = (pagenr * (limit + 1))
             };
 
-            var query = new GetCustomersByNameHandler().Handler(request);
+            //var query = new GetCustomersByNameHandler().Handler(request);
+            var query = _mediator.Send(request);
 
-            return Ok(query.Customers.ToList());
+            if(query.IsCompletedSuccessfully)
+            {
+                return Ok(query.Result.Customers.ToList());
+            } else
+            {
+                return NotFound();
+            }
         }
     }
 }

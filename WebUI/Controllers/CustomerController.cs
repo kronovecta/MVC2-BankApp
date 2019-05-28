@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BankApp.Application.DtoObjects;
-using BankApp.Application.Queries;
+﻿using BankApp.Application.Queries;
+using MediatR;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using WebUI.ViewModels;
 using WebUI.ViewModels.Account;
 
@@ -13,15 +10,18 @@ namespace WebUI.Controllers
 {
     public class CustomerController : Controller
     {
+        private readonly IMediator _mediator;
         private readonly IDataProtector _protector;
 
-        public CustomerController(IDataProtectionProvider provider)
+        public CustomerController(IDataProtectionProvider provider, IMediator mediator)
         {
+            _mediator = mediator;
             _protector = provider.CreateProtector("TokenConverter");
         }
-        public IActionResult ShowCustomer(int id)
+        public async Task<IActionResult> ShowCustomer(int id)
         {
-            var model = new GetCustomerByIdHandler().Handler(new GetCustomerByIdRequest() { Id = id }).Customer;
+            //var model = new GetCustomerByIdHandler().Handler(new GetCustomerByIdRequest() { Id = id }).Customer;
+            var model = await _mediator.Send(new GetCustomerByIdRequest { Id = id });
 
             return View(model);
         }
@@ -35,7 +35,7 @@ namespace WebUI.Controllers
         //[ValidateAntiForgeryToken]
         public IActionResult SearchCustomerByName(string name, string city, int amount, int pagenr)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var model = new SearchCustomerViewModel()
                 {
@@ -52,16 +52,20 @@ namespace WebUI.Controllers
                     Offset = (amount * pagenr)
                 };
 
-                var response = new GetCustomersByNamesCityHandler().Handler(request);
+                //var response = new GetCustomersByNamesCityHandler().Handler(request);
+                var response = _mediator.Send(request);
 
-                model.Name = name;
-                model.Amount = amount;
-                model.PageNr = pagenr;
-                model.City = city;
+                if(response.IsCompletedSuccessfully)
+                {
+                    model.Name = name;
+                    model.Amount = amount;
+                    model.PageNr = pagenr;
+                    model.City = city;
 
-                model.Customers = response.Customers;
-                model.TotalCustomers = response.TotalCustomerAmount;
-                model.TotalPages = response.TotalNumberOfPages;
+                    model.Customers = response.Result.Customers;
+                    model.TotalCustomers = response.Result.TotalCustomerAmount;
+                    model.TotalPages = response.Result.TotalNumberOfPages;
+                }
 
                 return PartialView("_CustomerListPartial", model);
             }
@@ -73,9 +77,10 @@ namespace WebUI.Controllers
         {
             var request = new GetCustomerByIdRequest() { Id = model.CustomerId };
 
-            var response = new GetCustomerByIdHandler().Handler(request);
+            //var response = new GetCustomerByIdHandler().Handler(request);
+            var response = _mediator.Send(request);
 
-            model.Customers.Add(response.Customer);
+            model.Customers.Add(response.Result.Customer);
             model.TotalCustomers = 1;
             model.TotalPages = 1;
 
@@ -84,7 +89,7 @@ namespace WebUI.Controllers
 
         public IActionResult ShowAccount(int accountid, int? amount, int? pagenr)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var amountFallback = 20;
 
@@ -102,28 +107,35 @@ namespace WebUI.Controllers
                     Offset = (amountFallback * pagenr) ?? 0
                 };
 
-                var query = new GetAccountByIdHandler().Handler(request);
-                var transactions = new GetTransactionsByAccountIdHandler().Handler(request_transaction);
+                //var query = new GetAccountByIdHandler().Handler(request);
+                var query = _mediator.Send(request);
 
-                if (query != null)
+                //var transactions = new GetTransactionsByAccountIdHandler().Handler(request_transaction);
+                var transactions = _mediator.Send(request_transaction);
+
+                if (query.IsCompletedSuccessfully)
                 {
-                    var model = new AccountTransactionsViewModel()
+                    if (transactions.IsCompletedSuccessfully)
                     {
-                        PageNr = pagenr ?? 0,
-                        AccountId = accountid,
-                        Account = query.Account,
-                        Transactions = transactions.Transactions,
-                        TotalTransactions = transactions.TotalTransactions,
-                        TotalPages = transactions.TotalPages
-                    };
+                        var model = new AccountTransactionsViewModel()
+                        {
+                            PageNr = pagenr ?? 0,
+                            AccountId = accountid,
+                            Account = query.Result.Account,
+                            Transactions = transactions.Result.Transactions,
+                            TotalTransactions = transactions.Result.TotalTransactions,
+                            TotalPages = transactions.Result.TotalPages
+                        };
 
-                    if (isAjax)
-                    {
-                        return PartialView("_TransactionListPartial", model);
-                    }
-                    else
-                    {
-                        return View(model);
+                        if (isAjax)
+                        {
+                            return PartialView("_TransactionListPartial", model);
+                        }
+                        else
+                        {
+                            return View(model);
+                        }
+
                     }
                 }
             }

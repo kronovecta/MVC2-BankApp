@@ -11,11 +11,11 @@ namespace BankApp.Application.Queries
 {
     public class GetTransactionsByAccountIdHandler
     {
-        private readonly BankContext _context;
+        private readonly IBankContext _context;
 
-        public GetTransactionsByAccountIdHandler()
+        public GetTransactionsByAccountIdHandler(IBankContext context)
         {
-            _context = new BankContext();
+            _context = context;
         }
 
         public GetTransactionsByAccountIdResponse Handler(GetTransactionsByAccountIdRequest request)

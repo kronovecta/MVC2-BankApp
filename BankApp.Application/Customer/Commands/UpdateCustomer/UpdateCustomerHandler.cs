@@ -14,9 +14,9 @@ namespace BankApp.Application.Commands
     {
         private readonly BankContext _context;
 
-        public UpdateCustomerHandler()
+        public UpdateCustomerHandler(BankContext context)
         {
-            _context = new BankContext();
+            _context = context;
         }
 
         public async Task Handler(UpdateCustomerCommand command)

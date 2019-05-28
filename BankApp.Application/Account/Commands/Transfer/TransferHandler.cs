@@ -38,7 +38,7 @@ namespace BankApp.Application.Commands
                         Sender = accountSender
                     };
 
-                    var query = new CreateTransferTransactionHandler().Handler(transactionCommand);
+                    //var query = new CreateTransferTransactionHandler().Handler(transactionCommand); // No Handler in Handler
 
                     await _context.SaveChangesAsync();
                 } else

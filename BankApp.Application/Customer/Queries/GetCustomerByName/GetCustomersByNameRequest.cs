@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BankApp.Application.Queries
 {
-    public class GetCustomerByNameRequest
+    public class GetCustomerByNameRequest : IRequest<GetCustomerByNameResponse>
     {
         public string Search { get; set; }
         public int Limit { get; set; }

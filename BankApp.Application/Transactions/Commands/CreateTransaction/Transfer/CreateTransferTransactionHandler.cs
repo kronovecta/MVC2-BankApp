@@ -12,9 +12,9 @@ namespace BankApp.Application.Commands
     {
         private readonly BankContext _context;
 
-        public CreateTransferTransactionHandler()
+        public CreateTransferTransactionHandler(BankContext context)
         {
-            _context = new BankContext();
+            _context = context;
         }
 
         public async Task Handler(CreateTransferTransactionCommand command)

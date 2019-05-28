@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using BankApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -19,6 +20,11 @@ namespace BankApp.Data
         public virtual DbSet<Loan> Loans { get; set; }
         public virtual DbSet<PermanentOrder> PermenentOrder { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
+
+        public Task<int> SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

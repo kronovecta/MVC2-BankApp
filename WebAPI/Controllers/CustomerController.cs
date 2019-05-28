@@ -7,6 +7,7 @@ using BankApp.Application.DtoObjects;
 using BankApp.Application.Queries;
 using BankApp.Data;
 using BankApp.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,12 @@ namespace BankApp.API.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
+        private readonly IMediator _mediator;
+
+        public CustomerController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         [HttpGet]
         public ActionResult<IEnumerable<CustomerDto>> Get()
@@ -48,7 +55,8 @@ namespace BankApp.API.Controllers
             };
 
 
-            var query = new GetCustomerByIdHandler().Handler(request).Customer;
+            //var query = new GetCustomerByIdHandler().Handler(request).Customer;
+            var query = _mediator.Send(request);
 
             if (query != null)
             {
@@ -67,10 +75,12 @@ namespace BankApp.API.Controllers
     [ApiController]
     public class MeController : ControllerBase
     {
+        private readonly IMediator _mediator;
         private readonly IDataProtector _protector;
 
-        public MeController(IDataProtectionProvider provider)
+        public MeController(IDataProtectionProvider provider, IMediator mediator)
         {
+            _mediator = mediator;
             _protector = provider.CreateProtector("TokenConverter");
         }
 
@@ -82,10 +92,13 @@ namespace BankApp.API.Controllers
             if (result)
             {
                 var request = new GetCustomerByIdRequest { Id = id };
-                var query = new GetCustomerByIdHandler().Handler(request);
-                if (query.Customer != null)
+                //var query = new GetCustomerByIdHandler().Handler(request);
+
+                var query = _mediator.Send(request);
+
+                if (query.Result.Customer != null)
                 {
-                    return Ok(query.Customer);
+                    return Ok(query.Result.Customer);
                 }
             }
 

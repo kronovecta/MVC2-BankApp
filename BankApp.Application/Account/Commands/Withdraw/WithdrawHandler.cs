@@ -28,7 +28,7 @@ namespace BankApp.Application.Commands
                 Amount = command.Amount
             };
 
-            var handler = new CreateTransactionHandler(transaction);
+            //var handler = new CreateTransactionHandler(transaction);
 
             await _context.SaveChangesAsync();
         }   

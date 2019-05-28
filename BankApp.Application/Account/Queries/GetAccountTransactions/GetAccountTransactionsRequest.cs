@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BankApp.Application.Queries
 {
-    public class GetAccountTransactionsRequest
+    public class GetAccountTransactionsRequest : IRequest<GetAccountTransactionsResponse>
     {
         public int AccountId { get; set; }
         public int Amount { get; set; }
