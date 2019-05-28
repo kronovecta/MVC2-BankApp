@@ -37,9 +37,6 @@
             @foreach (var account in Model.Accounts)
             {
                 <li>
-                    <a asp-action="Deposit" asp-controller="Cashier" asp-route-accountid=@account.AccountId>Deposit</a>
-                    <a asp-action="Withdraw" asp-controller="Cashier" asp-route-accountid=@account.AccountId>Withdraw</a>
-                    <a asp-action="Transfer" asp-controller="Cashier" asp-route-accountid=@account.AccountId>Deposit</a>
                     <a asp-action="ShowAccount" asp-controller="Customer" asp-route-accountid=@account.AccountId>
                         <div class="account-info">
                             <p class="account-info-name"><b>Konto</b></p>

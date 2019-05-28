@@ -5,13 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace BankApp.Data
 {
-    public partial class BankContext : DbContext
+    public partial class BankContext : DbContext, IBankContext
     {
-        public BankContext()
-        {
-            
-        }
-
         public BankContext(DbContextOptions<BankContext> options)
             : base(options)
         {
@@ -27,15 +22,15 @@ namespace BankApp.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                //optionsBuilder.UseSqlServer("Data Source=<IP>,1433; Database=BankApp;User Id=sa; Password=<PASSWORD>;");
+            //    if (!optionsBuilder.IsConfigured)
+            //    {
+            //        //optionsBuilder.UseSqlServer("Data Source=<IP>,1433; Database=BankApp;User Id=sa; Password=<PASSWORD>;");
 
-                optionsBuilder.UseSqlServer("Server=localhost;Database=BankApp;Trusted_Connection=True;");
-            }
+            //        optionsBuilder.UseSqlServer("Server=localhost;Database=BankApp;Trusted_Connection=True;");
+            //    }
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 

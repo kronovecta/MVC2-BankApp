@@ -1,10 +1,13 @@
 ﻿using BankApp.Application.Commands;
 using BankApp.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using WebUI.ViewModels.Account;
 
 namespace WebUI.Controllers
 {
+    [Authorize(Roles = "cashier")]
     public class CashierController : Controller
     {
         public IActionResult CashierPanel()
@@ -18,6 +21,7 @@ namespace WebUI.Controllers
             return View();
         }
 
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Deposit(DepositViewModel model)
@@ -117,6 +121,26 @@ namespace WebUI.Controllers
             }
 
             return NotFound();
+        }
+        #endregion
+
+        #region Interest
+        public IActionResult ApplyInterest()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ApplyInterest(InterestViewModel model)
+        {
+            var command = new ApplyInterestCommand { AccountId = 1, Amount = 1, PreviousApplication = DateTime.Parse("2018-05-28") };
+            var handler = new ApplyInterestHandler(new BankContext());
+
+            handler.Handler(command);
+
+            TempData["success"] = "Interest applied succesfully";
+            return View();
         }
         #endregion
     }

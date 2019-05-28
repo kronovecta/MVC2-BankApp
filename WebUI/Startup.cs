@@ -43,7 +43,9 @@ namespace WebUI
             var conn = Configuration.GetConnectionString("conn");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddDbContext<BankContext>(opt => opt.UseSqlServer(conn));
             services.AddDbContext<IdentityContext>(opt => opt.UseSqlServer(conn));
+
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>();
 

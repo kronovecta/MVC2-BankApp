@@ -18,7 +18,7 @@ namespace BankApp.Application.Commands
         public async Task Handler(DepositCommand command)
         {
             var account = _context.Accounts.SingleOrDefault(x => x.AccountId == command.AccountId);
-            account.Deposit(command.Amount);
+            account.Balance += command.Amount;
 
             var transaction = new CreateTransactionCommand()
             {

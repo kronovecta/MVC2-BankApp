@@ -10,9 +10,9 @@ namespace BankApp.Application.Commands
     class CreateAccountHandler
     {
         private readonly BankContext _context;
-        public CreateAccountHandler()
+        public CreateAccountHandler(BankContext context)
         {
-            _context = new BankContext();
+            _context = context;
         } 
 
         public async Task Handler(CreateAccountCommand command)

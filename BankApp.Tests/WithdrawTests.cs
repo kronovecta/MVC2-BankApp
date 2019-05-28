@@ -40,10 +40,9 @@ namespace BankApp.Tests
                 {
                     AccountId = 2,
                     Frequency = "Daily",
-                    Created = DateTime.Now,
+                    Balance = 500
                 };
 
-                account.Deposit(500);
                 context.Accounts.Add(account);
                 context.SaveChanges();
             }

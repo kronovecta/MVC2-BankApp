@@ -57,6 +57,7 @@ namespace WebUI.Controllers
                 model.Name = name;
                 model.Amount = amount;
                 model.PageNr = pagenr;
+                model.City = city;
 
                 model.Customers = response.Customers;
                 model.TotalCustomers = response.TotalCustomerAmount;

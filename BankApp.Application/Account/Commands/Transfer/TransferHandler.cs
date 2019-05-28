@@ -28,8 +28,8 @@ namespace BankApp.Application.Commands
 
                 if (accountSender.Balance >= command.Amount)
                 {
-                    accountSender.Withdraw(command.Amount);
-                    accountReciever.Deposit(command.Amount);
+                    accountSender.Balance -= command.Amount;
+                    accountReciever.Balance += command.Amount;
 
                     var transactionCommand = new CreateTransferTransactionCommand()
                     {

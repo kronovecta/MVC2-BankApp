@@ -27,13 +27,18 @@ namespace BankApp.Application.Queries
 
             IQueryable<Customer> query;
 
-            if (request.City != null)
+            if (request.City != null && request.Search != null)
             {
                 query = _context.Customers.OrderBy(x => x.CustomerId)
                     .Where(c => c.City.ToLower() == request.City.ToLower())
                     .Where(x => x.Givenname.ToLower() == request.Search.ToLower() || x.Surname.ToLower() == request.Search.ToLower());
 
-            } else
+            } else if(request.Search == null && request.City != null)
+            {
+                query = _context.Customers.OrderBy(x => x.CustomerId)
+                    .Where(c => c.City.ToLower().Contains(request.City.ToLower()));
+            }
+            else
             {
                 query = _context.Customers.OrderBy(x => x.CustomerId).Where(x => x.Givenname.StartsWith(request.Search.ToLower()) || x.Surname.StartsWith(request.Search.ToLower()));
             }

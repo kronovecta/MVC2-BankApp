@@ -24,8 +24,7 @@ namespace BankApp.Tests
                 var account = new Account
                 {
                     AccountId = 3,
-                    Frequency = "Daily",
-                    Created = DateTime.Now,
+                    Frequency = "Daily"
                 };
 
                 context.Accounts.Add(account);

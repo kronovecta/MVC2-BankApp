@@ -14,9 +14,9 @@ namespace BankApp.Application.Queries
     {
         private readonly BankContext _context;
 
-        public GetAccountsByUserIdHandler()
+        public GetAccountsByUserIdHandler(BankContext context)
         {
-            _context = new BankContext();
+            _context = context;
         }
 
         public GetAccountsByUserIdResponse Handler(GetAccountsByUserIdRequest request)

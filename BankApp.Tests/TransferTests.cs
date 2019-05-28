@@ -25,15 +25,13 @@ namespace BankApp.Tests
                 {
                     AccountId = 4,
                     Frequency = "Daily",
-                    Created = DateTime.Now,
+                    Balance = 500
                 };
-                sender.Deposit(500);
 
                 var reciever = new Account
                 {
                     AccountId = 5,
-                    Frequency = "Daily",
-                    Created = DateTime.Now,
+                    Frequency = "Daily"
                 };
 
                 context.Accounts.AddRange(sender, reciever);

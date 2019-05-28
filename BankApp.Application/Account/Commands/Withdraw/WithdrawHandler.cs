@@ -19,8 +19,7 @@ namespace BankApp.Application.Commands
         public async Task Handler(WithdrawCommand command)
         {
             var account = _context.Accounts.SingleOrDefault(x => x.AccountId == command.AccountId);
-            //account.Balance -= command.Amount;
-            account.Withdraw(command.Amount);
+            account.Balance -= command.Amount;
 
             var transaction = new CreateTransactionCommand()
             {

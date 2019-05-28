@@ -36,10 +36,9 @@ namespace BankApp.Application.Commands
             var account = new Account()
             {
                 Frequency = "MONTHLY",
-                Created = DateTime.Now
+                Created = DateTime.Now,
+                Balance = 0
             };
-
-            account.Deposit(0);
 
             var disposition = new Disposition()
             {
