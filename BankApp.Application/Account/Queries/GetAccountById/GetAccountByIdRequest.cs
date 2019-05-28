@@ -8,6 +8,6 @@ namespace BankApp.Application.Queries
     public class GetAccountByIdRequest : IRequest<GetAccountByIdResponse>
     {
         public int AccountId { get; set; }
-        public decimal Amount { get; set; }
+        public int Amount { get; set; }
     }
 }

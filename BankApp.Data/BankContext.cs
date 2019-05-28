@@ -21,10 +21,6 @@ namespace BankApp.Data
         public virtual DbSet<PermanentOrder> PermenentOrder { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
 
-        public Task<int> SaveChangesAsync()
-        {
-            throw new NotImplementedException();
-        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

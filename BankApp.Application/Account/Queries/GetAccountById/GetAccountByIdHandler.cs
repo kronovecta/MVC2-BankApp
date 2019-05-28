@@ -7,16 +7,24 @@ using System.Text;
 using BankApp.Application.DtoObjects;
 using BankApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BankApp.Application.Queries
 {
-    public class GetAccountByIdHandler
+    public class GetAccountByIdHandler : IRequestHandler<GetAccountByIdRequest, GetAccountByIdResponse>
     {
         private readonly BankContext _context;
 
         public GetAccountByIdHandler(BankContext context)
         {
             _context = context;
+        }
+
+        public Task<GetAccountByIdResponse> Handle(GetAccountByIdRequest request, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
 
         public GetAccountByIdResponse Handler(GetAccountByIdRequest request)

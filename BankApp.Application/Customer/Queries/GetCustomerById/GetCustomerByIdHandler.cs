@@ -2,13 +2,17 @@
 using BankApp.Application.DtoObjects;
 using BankApp.Data;
 using BankApp.Domain.Entities;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BankApp.Application.Queries
 {
-    public class GetCustomerByIdHandler
+    public class GetCustomerByIdHandler : IRequestHandler<GetCustomerByIdRequest, GetCustomerByIdResponse>
     {
         private readonly BankContext _context;
 
@@ -17,39 +21,20 @@ namespace BankApp.Application.Queries
             _context = context;
         }
 
-        public GetCustomerByIdResponse Handler(GetCustomerByIdRequest request)
+        public async Task<GetCustomerByIdResponse> Handle(GetCustomerByIdRequest request, CancellationToken cancellationToken)
         {
-            var response = new GetCustomerByIdResponse();
-
             var query = _context.Customers.OrderBy(x => x.CustomerId).SingleOrDefault(y => y.CustomerId == request.Id);
+            //var accounts = _context.Accounts.OrderBy(x => x.AccountId).AllAsync(y => y.Dispositions.Select(z => z.AccountId == request.Id))
+            var accounts = (from a in _context.Accounts
+                            join d in _context.Dispositions on a.AccountId equals d.AccountId
+                            where d.AccountId == request.Id
+                            select a);
 
-
-            response.Customer = Mapper.Map<Customer, CustomerDto>(query);
-
-            //var cards = new GetCardByCustomerIdHandler().Handler(new GetCardByCustomerIdRequest() { CustomerId = request.Id }).Cards;
-            //var accounts = new GetAccountsByUserIdHandler().Handler(new GetAccountsByUserIdRequest() { CustomerId = request.Id }).Accounts;
-
-            //if (cards.Count > 0)
-            //{
-            //    response.Customer.Cards = cards;
-            //}
-
-            //if(accounts != null)
-            //{
-            //    response.Customer.Accounts = accounts;
-            //    response.Customer.TotalBalance = response.Customer.Accounts.Sum(x => x.Balance);
-            //}            
-
-            // REPLACE WITH NEW HANDLERS
-
-            if (response != null)
+            return new GetCustomerByIdResponse()
             {
-                return response;
-            } else
-            {
-                throw new NullReferenceException();
-            }
-            
+                Customer = Mapper.Map<Customer, CustomerDto>(query),
+                Accounts = Mapper.Map<List<Account>, List<AccountDto>>(accounts.ToListAsync().Result)
+            };
         }
     }
 }

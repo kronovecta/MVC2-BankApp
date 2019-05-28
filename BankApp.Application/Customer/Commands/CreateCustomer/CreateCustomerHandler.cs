@@ -1,12 +1,15 @@
 ﻿using BankApp.Data;
 using BankApp.Domain.Entities;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BankApp.Application.Commands
 {
-    public class CreateCustomerHandler
+    public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand>
     {
         private readonly BankContext _context;
         public CreateCustomerHandler(BankContext context)
@@ -14,7 +17,7 @@ namespace BankApp.Application.Commands
             _context = context;
         }
 
-        public void Handler(CreateCustomerCommand command)
+        public async Task<Unit> Handle(CreateCustomerCommand command, CancellationToken cancellationToken)
         {
             var customer = new Customer()
             {
@@ -47,8 +50,10 @@ namespace BankApp.Application.Commands
                 Type = "OWNER"
             };
 
-            _context.Dispositions.Add(disposition);
-            _context.SaveChanges();
+            await _context.Dispositions.AddAsync(disposition);
+            await _context.SaveChangesAsync();
+
+            return new Unit();
         }
     }
 }

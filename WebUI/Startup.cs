@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
 using BankApp.Application;
+using BankApp.Application.Commands;
+using BankApp.Application.Queries;
+using BankApp.Application.Queries.GetDBStatistics;
 using BankApp.Data;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -39,20 +43,30 @@ namespace WebUI
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+
             services.AddDataProtection()
                 .SetApplicationName("BankApp");
             var conn = Configuration.GetConnectionString("conn");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddMediatR(typeof(Startup));
+            services.AddMediatR(
+                typeof(GetCustomerByIdHandler).Assembly,
+                typeof(GetDBStatisticsHandler).Assembly,
+                typeof(GetAccountByIdHandler).Assembly,
+                typeof(GetAccountTransactionsHandler).Assembly,
+                typeof(GetCustomersByNamesCityHandler).Assembly,
+                typeof(CreateCustomerHandler).Assembly);
 
-            services.AddDbContext<IBankContext, BankContext>(opt => opt.UseSqlServer(conn));
+            //services.AddDbContext<IBankContext, BankContext>(opt => opt.UseSqlServer(conn));
+            services.AddDbContext<BankContext>(opt => opt.UseSqlServer(conn));
             services.AddDbContext<IdentityContext>(opt => opt.UseSqlServer(conn));
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>();
 
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddMvc();
 
         }
 

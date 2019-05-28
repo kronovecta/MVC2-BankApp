@@ -1,4 +1,4 @@
-﻿@model BankApp.Application.DtoObjects.CustomerDto
+﻿@model BankApp.Application.Queries.GetCustomerByIdResponse
 @using System.Globalization
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -7,19 +7,19 @@
 <div class="container-customer">
     <section class="customer-top">
         <div>
-            <h1>Welcome @Model.Givenname!</h1>
+            <h1>Welcome @Model.Customer.Givenname!</h1>
 
             <ul>
-                <li><span class="bold">Name:</span> @Model.Givenname @Model.Surname</li>
-                <li><span class="bold">Adress:</span> @Model.Streetaddress @Model.Zipcode @Model.City</li>
-                <li><span class="bold">Phone:</span> (+@Model.Telephonecountrycode)@Model.Telephonenumber.Substring(1, Model.Telephonenumber.Length - 1)</li>
-                <li><span class="bold">SSN:</span> @Model.NationalId</li>
-                <li><span class="bold">Email:</span> @Model.Emailaddress</li>
-                <li><a asp-action="GetToken" asp-controller="Customer" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#token-field" method="post" class="btn" asp-route-customerid=@Model.CustomerId>Token</a></li>
+                <li><span class="bold">Name:</span> @Model.Customer.Givenname @Model.Customer.Surname</li>
+                <li><span class="bold">Adress:</span> @Model.Customer.Streetaddress @Model.Customer.Zipcode @Model.Customer.City</li>
+                <li><span class="bold">Phone:</span> (+@Model.Customer.Telephonecountrycode)@Model.Customer.Telephonenumber.Substring(1, Model.Customer.Telephonenumber.Length - 1)</li>
+                <li><span class="bold">SSN:</span> @Model.Customer.NationalId</li>
+                <li><span class="bold">Email:</span> @Model.Customer.Emailaddress</li>
+                <li><a asp-action="GetToken" asp-controller="Customer" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#token-field" method="post" class="btn" asp-route-customerid=@Model.Customer.CustomerId>Token</a></li>
                 <div id="token-field"></div>
             </ul>
         </div>
-        @if (Model.Cards != null && Model.Cards.Count > 0)
+        @if (Model.Customer.Cards != null && Model.Customer.Cards.Count > 0)
         {
             <div class="debit-card">
                 <partial name="_DebitCard" />
@@ -31,7 +31,7 @@
     <section class="customer-accounts">
         <div class="account-header">
             <h3>Accounts</h3>
-            <h3>Total: @Model.TotalBalance.ToString("C", CultureInfo.CurrentCulture)</h3>
+            <h3>Total: @Model.Customer.TotalBalance.ToString("C", CultureInfo.CurrentCulture)</h3>
         </div>
         <ul>
             @foreach (var account in Model.Accounts)

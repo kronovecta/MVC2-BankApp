@@ -17,6 +17,6 @@ namespace BankApp.Data
         DbSet<PermanentOrder> PermenentOrder { get; set; }
         DbSet<Transaction> Transactions { get; set; }
 
-        Task<int> SaveChangesAsync();
+        //Task<int> SaveChangesAsync();
     }
 }

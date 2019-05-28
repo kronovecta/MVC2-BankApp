@@ -28,7 +28,7 @@ namespace BankApp
                 var request = new GetCustomerByNameRequest()
                 {
                     Search = response,
-                    Limit = limit,
+                    Limit = limit,  
                     Offset = pagenr
                 };
 

@@ -95,50 +95,49 @@ namespace WebUI.Controllers
 
                 var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
 
-                var request = new GetAccountByIdRequest()
-                {
-                    AccountId = accountid
-                };
+                //var request = new GetAccountByIdRequest()
+                //{
+                //    AccountId = accountid
+                //};
 
-                var request_transaction = new GetTransactionsByAccountIdRequest()
-                {
-                    AccountId = accountid,
-                    Amount = amount ?? amountFallback,
-                    Offset = (amountFallback * pagenr) ?? 0
-                };
+                //var request_transaction = new GetTransactionsByAccountIdRequest()
+                //{
+                //    AccountId = accountid,
+                //    Amount = amount ?? amountFallback,
+                //    Offset = (amountFallback * pagenr) ?? 0
+                //};
+
+                var request = new GetAccountTransactionsRequest { AccountId = accountid, Amount = amount ?? amountFallback, Page = pagenr ?? 0};
 
                 //var query = new GetAccountByIdHandler().Handler(request);
                 var query = _mediator.Send(request);
 
                 //var transactions = new GetTransactionsByAccountIdHandler().Handler(request_transaction);
-                var transactions = _mediator.Send(request_transaction);
+                //var transactions = _mediator.Send(request_transaction);
 
                 if (query.IsCompletedSuccessfully)
                 {
-                    if (transactions.IsCompletedSuccessfully)
+                    var model = new AccountTransactionsViewModel()
                     {
-                        var model = new AccountTransactionsViewModel()
-                        {
-                            PageNr = pagenr ?? 0,
-                            AccountId = accountid,
-                            Account = query.Result.Account,
-                            Transactions = transactions.Result.Transactions,
-                            TotalTransactions = transactions.Result.TotalTransactions,
-                            TotalPages = transactions.Result.TotalPages
-                        };
+                        PageNr = pagenr ?? 0,
+                        AccountId = accountid,
+                        Account = query.Result.Account,
+                        Transactions = query.Result.Transactions,
+                        TotalTransactions = query.Result.TotalTransactions,
+                        TotalPages = query.Result.TotalPages
+                    };
 
-                        if (isAjax)
-                        {
-                            return PartialView("_TransactionListPartial", model);
-                        }
-                        else
-                        {
-                            return View(model);
-                        }
+                    if (isAjax)
+                    {
+                        return PartialView("_TransactionListPartial", query.Result);
+                    }
+                    else
+                    {
+                        return View(model);
+                    }
 
                     }
                 }
-            }
 
             return NotFound();
         }

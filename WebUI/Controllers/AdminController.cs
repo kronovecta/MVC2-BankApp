@@ -7,12 +7,26 @@ using BankApp.Application.Commands;
 using BankApp.Application.DtoObjects;
 using BankApp.Application.Queries;
 using BankApp.Domain.Entities;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using WebUI.ViewModels.Identity;
 
 namespace WebUI.Controllers
 {
     public class AdminController : Controller
     {
+        private readonly IMediator _mediator;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public AdminController(IMediator mediator, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _mediator = mediator;
+        }
+
         public IActionResult CreateCustomer()
         {
             return View();
@@ -20,7 +34,7 @@ namespace WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateCustomer(CustomerDto customer)
+        public IActionResult CreateCustomer(CreateCustomerCommand customer)
         {
             var command = new CreateCustomerCommand
             {
@@ -39,7 +53,8 @@ namespace WebUI.Controllers
                 Emailaddress = customer.Emailaddress
             };
 
-            new CreateCustomerHandler().Handler(command);
+            //new CreateCustomerHandler().Handler(command);
+            var result = _mediator.Send(command);
 
             return View();
         }
@@ -52,32 +67,60 @@ namespace WebUI.Controllers
                 Id = customerid
             };
 
-            var query = new GetCustomerByIdHandler().Handler(request).Customer;
+            //var query = new GetCustomerByIdHandler().Handler(request).Customer;
+            var query = _mediator.Send(request);
 
-            return View(query);
+            return View(query.Result.Customer);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/EditCustomer/{customerid}")]
-        public IActionResult EditCustomer(CustomerDto model)
+        public async Task<IActionResult> EditCustomer(UpdateCustomerCommand customer)
         {
-            // Dummy EditCustomer command
-            var command = new UpdateCustomerCommand()
-            {
-                Customer = model
-            };
+            //var command = new UpdateCustomerCommand
+            //{
+            //    Gender = customer.Gender,
+            //    Givenname = customer.Givenname,
+            //    Surname = customer.Surname,
+            //    Streetaddress = customer.Streetaddress,
+            //    City = customer.City,
+            //    Zipcode = customer.Zipcode,
+            //    Country = customer.Country,
+            //    CountryCode = customer.CountryCode,
+            //    Birthday = customer.Birthday,
+            //    NationalId = customer.NationalId,
+            //    Telephonecountrycode = customer.Telephonecountrycode,
+            //    Telephonenumber = customer.Telephonenumber,
+            //    Emailaddress = customer.Emailaddress
+            //};
 
-            var handler = new UpdateCustomerHandler().Handler(command);
+            //var handler = new UpdateCustomerHandler().Handler(command);
+            var query = _mediator.Send(customer);
 
-            if(handler.IsCompletedSuccessfully)
+            if(query.IsCompletedSuccessfully)
             {
                 return View();
             } else
             {
-                return View(model);
+                return View(customer);
             }
             
+        }
+
+        public IActionResult CreateUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateUser(CreateUserViewModel model)
+        {
+            var command = await _mediator.Send(new CreateUserCommand { Username = model.Username, Email = model.Email, Password = model.Password, Phone = model.Phone, Role = model.Role });
+
+            TempData["success"] = "User created succesfullly";
+            return RedirectToAction("CreateUser", "Admin");
         }
     }
 }

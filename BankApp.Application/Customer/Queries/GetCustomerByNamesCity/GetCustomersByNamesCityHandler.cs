@@ -9,10 +9,12 @@ using BankApp.Application.DtoObjects;
 using AutoMapper;
 using BankApp.Domain.Entities;
 using AutoMapper.QueryableExtensions;
+using MediatR;
+using System.Threading;
 
 namespace BankApp.Application.Queries
 {
-    public class GetCustomersByNamesCityHandler
+    public class GetCustomersByNamesCityHandler : IRequestHandler<GetCustomerByNamesCityRequest, GetCustomerByNamesCityResponse>
     {
         private readonly BankContext _context;
 
@@ -21,7 +23,7 @@ namespace BankApp.Application.Queries
             _context = context;
         }
 
-        public GetCustomerByNamesCityResponse Handler(GetCustomerByNamesCityRequest request)
+        public async Task<GetCustomerByNamesCityResponse> Handle(GetCustomerByNamesCityRequest request, CancellationToken cancellationToken)
         {
             var response = new GetCustomerByNamesCityResponse();
 
@@ -33,7 +35,8 @@ namespace BankApp.Application.Queries
                     .Where(c => c.City.ToLower() == request.City.ToLower())
                     .Where(x => x.Givenname.ToLower() == request.Search.ToLower() || x.Surname.ToLower() == request.Search.ToLower());
 
-            } else if(request.Search == null && request.City != null)
+            }
+            else if (request.Search == null && request.City != null)
             {
                 query = _context.Customers.OrderBy(x => x.CustomerId)
                     .Where(c => c.City.ToLower().Contains(request.City.ToLower()));
@@ -43,7 +46,7 @@ namespace BankApp.Application.Queries
                 query = _context.Customers.OrderBy(x => x.CustomerId).Where(x => x.Givenname.StartsWith(request.Search.ToLower()) || x.Surname.StartsWith(request.Search.ToLower()));
             }
 
-            if(query != null)
+            if (query != null)
             {
                 response.TotalCustomerAmount = query.Count();
                 response.TotalNumberOfPages = (response.TotalCustomerAmount / (request.Limit + 1));
@@ -56,11 +59,12 @@ namespace BankApp.Application.Queries
                     response.Customers = query.Skip(request.Offset).Take(request.Limit).ProjectTo<CustomerDto>().ToList();
                 }
             }
-            
-            if(response != null)
+
+            if (response != null)
             {
                 return response;
-            } else
+            }
+            else
             {
                 throw new NullReferenceException();
             }

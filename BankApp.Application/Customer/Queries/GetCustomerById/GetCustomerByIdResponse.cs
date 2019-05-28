@@ -9,5 +9,6 @@ namespace BankApp.Application.Queries
     public class GetCustomerByIdResponse
     {
         public CustomerDto Customer { get; set; }
+        public IList<AccountDto> Accounts { get; set; }
     }
 }
