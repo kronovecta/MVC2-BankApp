@@ -55,7 +55,8 @@ namespace WebUI
                 typeof(GetAccountByIdHandler).Assembly,
                 typeof(GetAccountTransactionsHandler).Assembly,
                 typeof(GetCustomersByNamesCityHandler).Assembly,
-                typeof(CreateCustomerHandler).Assembly);
+                typeof(CreateCustomerHandler).Assembly,
+                typeof(CreateAccountHandler).Assembly);
 
             //services.AddDbContext<IBankContext, BankContext>(opt => opt.UseSqlServer(conn));
             services.AddDbContext<BankContext>(opt => opt.UseSqlServer(conn));

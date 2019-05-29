@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BankApp.Application.Commands
 {
-    class CreateAccountCommand
+    public class CreateAccountCommand : IRequest
     {
         public string Frequency { get; set; }
         public DateTime Created { get; set; }

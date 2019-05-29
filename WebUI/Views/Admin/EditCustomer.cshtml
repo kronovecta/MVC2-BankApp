@@ -1,6 +1,11 @@
-﻿@model BankApp.Application.Commands.CreateCustomerCommand
+﻿@model BankApp.Application.DtoObjects.CustomerDto
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
 
 <form asp-action="EditCustomer" asp-controller="Admin" method="post">
+    <input type="hidden" asp-for=@Model.CustomerId value=@Model.CustomerId>
     <div class="form-group">
         <label asp-for="Gender" class="control-label"></label>
         <input asp-for="Gender" class="form-control" />

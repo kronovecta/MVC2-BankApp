@@ -4,6 +4,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Globalization;
+using System.Threading.Tasks;
 using WebUI.ViewModels.Account;
 
 namespace WebUI.Controllers
@@ -32,34 +34,26 @@ namespace WebUI.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Deposit(DepositViewModel model)
+        public async Task<IActionResult> Deposit(DepositViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var value = Decimal.Parse(model.Amount, CultureInfo.CurrentCulture);
+
                 var command = new DepositCommand()
                 {
                     AccountId = model.AccountId,
-                    Amount = model.Amount
+                    Amount = value
                 };
 
                 //var query = new DepositHandler().Handler(command);
-                var query = _mediator.Send(command);
+                var query = await _mediator.Send(command);
 
-                if (query.IsCompletedSuccessfully)
-                {
-                    TempData["Success"] = $"{model.Amount.ToString("C")} deposited to account";
-                    return View();
-                }
-                else
-                {
-                    TempData["Error"] = $"Deposit failed";
-                    return View();
-                }
+                TempData["Success"] = $"{value.ToString("C")} deposited to account";
+                return RedirectToAction("ShowAccount", "Customer", new { accountid = model.AccountId });
             }
-            else
-            {
-                return NotFound();
-            }
+
+            return NotFound();
         }
         #endregion
         #region Withdraw
@@ -74,26 +68,19 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
+                var value = Decimal.Parse(model.Amount, CultureInfo.CurrentCulture);
+
                 var command = new WithdrawCommand
                 {
                     AccountId = model.AccountId,
-                    Amount = model.Amount,
+                    Amount = value,
                 };
 
-                //var query = new WithdrawHandler(new BankContext()).Handler(command);
                 var query = _mediator.Send(command);
 
-                if (query.IsCompletedSuccessfully)
-                {
-                    TempData["Success"] = $"{model.Amount.ToString("C")} withdrawn from account";
-                    return View();
-                }
-                else
-                {
-                    TempData["Error"] = $"Withdraw failed";
-                    return View();
-                }
+                return RedirectToAction("ShowAccount", "Customer", new { accountid = model.AccountId });
             }
+
             return View();
         }
         #endregion
@@ -110,26 +97,19 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
+                var value = Decimal.Parse(model.Amount, CultureInfo.CurrentCulture);
+
                 var command = new TransferCommand
                 {
                     AccountId_Sender = model.AccountIdSender,
                     AccountId_Reciever = model.AccountIdReciever,
-                    Amount = model.Amount
+                    Amount = value
                 };
 
                 //var query = new TransferHandler(new BankContext()).Handler(command);
-                var query = _mediator.Send(command); 
+                var query = _mediator.Send(command);
 
-                if (query.IsCompletedSuccessfully)
-                {
-                    TempData["Success"] = $"{model.Amount.ToString("C")} transferred from {model.BalanceSender} to {model.AccountIdReciever}";
-                    return View();
-                }
-                else
-                {
-                    TempData["Error"] = $"Transfer failed";
-                    return View();
-                }
+                return RedirectToAction("ShowAccount", "Customer", new { accountid = model.AccountIdReciever });
             }
 
             return NotFound();

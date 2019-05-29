@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.Application", "Bank
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App Implementations", "App Implementations", "{40720079-B552-4B74-A038-DB3246069B35}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{8B13B690-4D0A-4843-BAB3-BFA159F0E8AF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{8FB52F09-93C9-4EAF-8D0C-647E202CDE79}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.Infrastructure", "BankApp.Infrastructure\BankApp.Infrastructure.csproj", "{4796070B-433B-411E-BBE3-3B485653EED6}"
@@ -21,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebUI", "WebUI\WebUI.csproj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{C4F881EB-6052-484B-8967-99E8EAA306F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.Tests", "BankApp.Tests\BankApp.Tests.csproj", "{B16F44D8-80BD-474C-B2DE-DCACBB37F93B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.Tests", "BankApp.Tests\BankApp.Tests.csproj", "{B16F44D8-80BD-474C-B2DE-DCACBB37F93B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +39,6 @@ Global
 		{DCF663AA-637D-4B20-A5CA-7DAC7C5D358F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCF663AA-637D-4B20-A5CA-7DAC7C5D358F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCF663AA-637D-4B20-A5CA-7DAC7C5D358F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B13B690-4D0A-4843-BAB3-BFA159F0E8AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B13B690-4D0A-4843-BAB3-BFA159F0E8AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B13B690-4D0A-4843-BAB3-BFA159F0E8AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B13B690-4D0A-4843-BAB3-BFA159F0E8AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8FB52F09-93C9-4EAF-8D0C-647E202CDE79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8FB52F09-93C9-4EAF-8D0C-647E202CDE79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FB52F09-93C9-4EAF-8D0C-647E202CDE79}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -66,7 +60,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{8B13B690-4D0A-4843-BAB3-BFA159F0E8AF} = {40720079-B552-4B74-A038-DB3246069B35}
 		{8FB52F09-93C9-4EAF-8D0C-647E202CDE79} = {40720079-B552-4B74-A038-DB3246069B35}
 		{4B4CC952-E24B-4003-A723-40389D1F93FA} = {40720079-B552-4B74-A038-DB3246069B35}
 	EndGlobalSection

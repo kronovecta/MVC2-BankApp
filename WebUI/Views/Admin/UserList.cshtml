@@ -1,0 +1,10 @@
+﻿@model BankApp.Application.Identity.GetUsersResponse
+
+<h1>Users</h1>
+
+<ul>
+    @foreach (var user in Model.Users)
+    {
+        <a asp-action="UpdateUser" asp-controller="Admin" asp-route-userid=@user.Id><li class="userlist-user"><span>@user.UserName</span><span>(@user.Email)</span></li></a>
+    }
+</ul>

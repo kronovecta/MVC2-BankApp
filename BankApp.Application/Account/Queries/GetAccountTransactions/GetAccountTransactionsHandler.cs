@@ -31,7 +31,7 @@ namespace BankApp.Application.Queries
             var response = new GetAccountTransactionsResponse()
             {
                 Account = Mapper.Map<Account, AccountDto>(account),
-                Transactions = Mapper.Map<List<Transaction>, List<TransactionDto>>(transactions.Skip(offset).Take(request.Amount).OrderBy(x => x.TransactionId).ToList()),
+                Transactions = Mapper.Map<List<Transaction>, List<TransactionDto>>(transactions.Skip(offset).Take(request.Amount).OrderByDescending(x => x.TransactionId).ToList()),
                 TotalTransactions = transactions.Count(),
                 TotalPages = transactions.Count() / request.Amount
             };

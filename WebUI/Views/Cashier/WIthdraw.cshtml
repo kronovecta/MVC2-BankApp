@@ -4,11 +4,13 @@
     <div class="form-group">
         <label asp-for="AccountId">Account Number: </label>
         <input asp-for="AccountId" />
+        <span asp-validation-for="AccountId" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="Amount">Amount: </label>
         <input type="number" asp-for="Amount" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
     </div>
 
     <div class="form-group">

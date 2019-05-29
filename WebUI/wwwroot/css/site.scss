@@ -586,3 +586,13 @@ section {
         display: none;
     }
 }
+
+.userlist-user {
+    padding:1em;
+    width:100%;
+    border:1px solid lightgrey;
+
+    &:not(:last-child){
+        margin-bottom:1em;
+    }
+}

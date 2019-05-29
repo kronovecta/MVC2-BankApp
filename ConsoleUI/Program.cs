@@ -32,7 +32,7 @@ namespace BankApp
                     Offset = pagenr
                 };
 
-                var query = new GetCustomersByNameHandler().Handler(request);
+                //var query = new GetCustomersByNameHandler().Handler(request);
 
                 foreach (var customer in query.Customers)
                 {

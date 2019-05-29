@@ -95,25 +95,9 @@ namespace WebUI.Controllers
 
                 var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
 
-                //var request = new GetAccountByIdRequest()
-                //{
-                //    AccountId = accountid
-                //};
-
-                //var request_transaction = new GetTransactionsByAccountIdRequest()
-                //{
-                //    AccountId = accountid,
-                //    Amount = amount ?? amountFallback,
-                //    Offset = (amountFallback * pagenr) ?? 0
-                //};
-
                 var request = new GetAccountTransactionsRequest { AccountId = accountid, Amount = amount ?? amountFallback, Page = pagenr ?? 0};
 
-                //var query = new GetAccountByIdHandler().Handler(request);
                 var query = _mediator.Send(request);
-
-                //var transactions = new GetTransactionsByAccountIdHandler().Handler(request_transaction);
-                //var transactions = _mediator.Send(request_transaction);
 
                 if (query.IsCompletedSuccessfully)
                 {
@@ -135,9 +119,8 @@ namespace WebUI.Controllers
                     {
                         return View(model);
                     }
-
-                    }
                 }
+            }
 
             return NotFound();
         }

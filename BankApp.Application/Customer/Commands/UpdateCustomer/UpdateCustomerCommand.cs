@@ -9,6 +9,7 @@ namespace BankApp.Application.Commands
 {
     public class UpdateCustomerCommand : IRequest
     {
+        public int CustomerId { get; set; }
         [Required(ErrorMessage = "Gender is required")]
         public string Gender { get; set; }
         [Required(ErrorMessage = "First name is required")]
