@@ -73,7 +73,13 @@ namespace WebAPI
 
             app.UseCors(o => o.AllowAnyOrigin());
             app.UseHttpsRedirection();
-            app.UseMvc();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Values}/{action=Get}");
+            });
         }
     }
 }
