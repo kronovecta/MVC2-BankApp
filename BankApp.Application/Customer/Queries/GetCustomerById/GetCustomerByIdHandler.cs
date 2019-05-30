@@ -24,10 +24,10 @@ namespace BankApp.Application.Queries
         public async Task<GetCustomerByIdResponse> Handle(GetCustomerByIdRequest request, CancellationToken cancellationToken)
         {
             var query = _context.Customers.OrderBy(x => x.CustomerId).SingleOrDefault(y => y.CustomerId == request.Id);
-            //var accounts = _context.Accounts.OrderBy(x => x.AccountId).AllAsync(y => y.Dispositions.Select(z => z.AccountId == request.Id))
             var accounts = (from a in _context.Accounts
                             join d in _context.Dispositions on a.AccountId equals d.AccountId
-                            where d.AccountId == request.Id
+                            join c in _context.Customers on d.CustomerId equals c.CustomerId
+                            where c.CustomerId == request.Id
                             select a);
 
             return new GetCustomerByIdResponse()
