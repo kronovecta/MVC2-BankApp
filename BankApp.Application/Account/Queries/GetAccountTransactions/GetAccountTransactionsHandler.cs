@@ -38,19 +38,5 @@ namespace BankApp.Application.Queries
 
             return response;
         }
-
-        //public GetAccountTransactionsResponse Handler(GetAccountTransactionsRequest request)
-        //{
-        //    var account = _context.Accounts.SingleOrDefault(x => x.AccountId == request.AccountId);
-        //    var transactions = _context.Transactions.Where(t => t.AccountId == request.AccountId);
-
-        //    var offset = request.Page * request.Amount;
-
-        //    var response = new GetAccountTransactionsResponse();
-        //    response.Account = Mapper.Map<Account, AccountDto>(account);
-        //    response.Account.Transactions = Mapper.Map<List<Transaction>, List<TransactionDto>>(transactions.Skip(offset).Take(request.Amount).ToList());
-
-        //    return response;
-        //}
     }
 }

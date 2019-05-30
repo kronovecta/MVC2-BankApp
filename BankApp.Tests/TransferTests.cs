@@ -2,54 +2,35 @@
 using BankApp.Application.Exceptions;
 using BankApp.Data;
 using BankApp.Domain.Entities;
+using BankApp.Tests.Infrastructure;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace BankApp.Tests
 {
+    [Collection("QueryCollection")]
     public class TransferTests
     {
-        [Fact]
-        public void Transfer_InsufficientFunds()
+        private readonly BankContext _context;
+
+        public TransferTests(QueryTestFixture fixture)
         {
-            var options = new DbContextOptionsBuilder<BankContext>()
-                .UseInMemoryDatabase(databaseName: "NegativeAmount")
-                .Options;
+            _context = fixture.Context;
+        }
 
-            using (var context = new BankContext(options))
-            {
-                var sender = new Account
-                {
-                    AccountId = 4,
-                    Frequency = "Daily",
-                    Balance = 500
-                };
+        [Fact]
+        public async Task Transfer_InsufficientFunds()
+        {
+            var sut = new TransferHandler(_context);
+            var result = await sut.Handle(new TransferCommand { AccountId_Reciever = 1, AccountId_Sender = 2, Amount = 50 }, CancellationToken.None);
 
-                var reciever = new Account
-                {
-                    AccountId = 5,
-                    Frequency = "Daily"
-                };
-
-                context.Accounts.AddRange(sender, reciever);
-                context.SaveChanges();
-            }
-
-            using (var context = new BankContext(options))
-            {
-                var command = new TransferCommand()
-                {
-                    AccountId_Sender = 4,
-                    AccountId_Reciever = 5,
-                    Amount = 1000
-                };
-
-                var handler = new TransferHandler(context);
-                Assert.ThrowsAsync<InsufficientFundsException>(() => handler.Handler(command));
-            }
+            await Assert.ThrowsAsync<InsufficientFundsException>(() => sut.Handle(new TransferCommand { AccountId_Reciever = 1, AccountId_Sender = 2, Amount = 50 }, CancellationToken.None));
         }
     }
 }

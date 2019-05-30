@@ -4,8 +4,40 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.ajax.unobtrusive/3.2.4/jquery.unobtrusive-ajax.min.js"></script>
 
+@{
+    var pageNr = Model.PageNr;
+    var nextPage = pageNr + 1;
+    var prevPage = pageNr - 1;
+}
+
 <div class="account-container">
-    <div id="TransactionList">
-        <partial name="_TransactionListPartial" model=@Model />
+    <div>
+        <div>
+            <div class="TransactionList">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Operation</th>
+                            <th>Amount</th>
+                            <th>Balance</th>
+                            <th>Symbol</th>
+                            <th>Bank</th>
+                        </tr>
+                    </thead>
+                    <tbody id="TransactionList">
+                        <partial name="_TransactionListPartial" model=@Model />
+                    </tbody>
+                </table>
+            </div>
+            <div class="search-pagination">
+                @if (nextPage <= Model.TotalPages)
+                {
+                    <a class="btn-pagination" data-ajax="true" data-ajax-mode="after" data-ajax-update="#TransactionList" asp-route-accountid=@Model.Account.AccountId asp-route-pagenr="@nextPage" data-ajax-loading="#spinner" role="button">Load more</a>
+                }
+            </div>
+        </div>
     </div>
 </div>

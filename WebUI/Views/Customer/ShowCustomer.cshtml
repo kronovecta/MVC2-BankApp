@@ -12,9 +12,21 @@
             <ul>
                 <li><span class="bold">Name:</span> @Model.Customer.Givenname @Model.Customer.Surname</li>
                 <li><span class="bold">Adress:</span> @Model.Customer.Streetaddress @Model.Customer.Zipcode @Model.Customer.City</li>
-                <li><span class="bold">Phone:</span> (+@Model.Customer.Telephonecountrycode)@Model.Customer.Telephonenumber.Substring(1, Model.Customer.Telephonenumber.Length - 1)</li>
-                <li><span class="bold">SSN:</span> @Model.Customer.NationalId</li>
-                <li><span class="bold">Email:</span> @Model.Customer.Emailaddress</li>
+                @if (Model.Customer.Telephonenumber != null)
+                {
+                    <li><span class="bold">Phone:</span> (+@Model.Customer.Telephonecountrycode)@Model.Customer.Telephonenumber.Substring(1, Model.Customer.Telephonenumber.Length - 1)</li>
+                }
+
+                @if (Model.Customer.NationalId != null)
+                {
+                    <li><span class="bold">SSN:</span> @Model.Customer.NationalId</li>
+                }
+
+                @if (Model.Customer.Emailaddress != null)
+                {
+                    <li><span class="bold">Email:</span> @Model.Customer.Emailaddress</li>
+                }
+
                 <li><a asp-action="GetToken" asp-controller="Customer" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#token-field" method="post" class="btn" asp-route-customerid=@Model.Customer.CustomerId>Token</a></li>
                 <div id="token-field"></div>
             </ul>

@@ -76,8 +76,6 @@ namespace WebUI.Controllers
         public IActionResult SearchCustomerById(SearchCustomerViewModel model)
         {
             var request = new GetCustomerByIdRequest() { Id = model.CustomerId };
-
-            //var response = new GetCustomerByIdHandler().Handler(request);
             var response = _mediator.Send(request);
 
             model.Customers.Add(response.Result.Customer);
@@ -87,7 +85,7 @@ namespace WebUI.Controllers
             return PartialView("_CustomerListPartial", model);
         }
 
-        public IActionResult ShowAccount(int accountid, int? amount, int? pagenr)
+        public async Task<IActionResult> ShowAccount(int accountid, int? amount, int? pagenr)
         {
             if (ModelState.IsValid)
             {
@@ -97,28 +95,25 @@ namespace WebUI.Controllers
 
                 var request = new GetAccountTransactionsRequest { AccountId = accountid, Amount = amount ?? amountFallback, Page = pagenr ?? 0};
 
-                var query = _mediator.Send(request);
+                var query = await _mediator.Send(request);
 
-                if (query.IsCompletedSuccessfully)
+                var model = new AccountTransactionsViewModel()
                 {
-                    var model = new AccountTransactionsViewModel()
-                    {
-                        PageNr = pagenr ?? 0,
-                        AccountId = accountid,
-                        Account = query.Result.Account,
-                        Transactions = query.Result.Transactions,
-                        TotalTransactions = query.Result.TotalTransactions,
-                        TotalPages = query.Result.TotalPages
-                    };
+                    PageNr = pagenr ?? 0,
+                    AccountId = accountid,
+                    Account = query.Account,
+                    Transactions = query.Transactions,
+                    TotalTransactions = query.TotalTransactions,
+                    TotalPages = query.TotalPages
+                };
 
-                    if (isAjax)
-                    {
-                        return PartialView("_TransactionListPartial", query.Result);
-                    }
-                    else
-                    {
-                        return View(model);
-                    }
+                if (isAjax)
+                {
+                    return PartialView("_TransactionListPartial", model);
+                }
+                else
+                {
+                    return View(model);
                 }
             }
 

@@ -5,11 +5,15 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BankApp.Application;
 using BankApp.Application.DtoObjects;
+using BankApp.Application.Queries;
+using BankApp.Data;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -32,6 +36,14 @@ namespace WebAPI
 
             services.AddDataProtection()
                 .SetApplicationName("BankApp");
+
+            var conn = Configuration.GetConnectionString("conn");
+
+            services.AddMediatR(
+                typeof(GetAccountTransactionsHandler).Assembly);
+
+            services.AddDbContext<BankContext>(opt => opt.UseSqlServer(conn));
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>

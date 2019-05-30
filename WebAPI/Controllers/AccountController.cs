@@ -22,15 +22,10 @@ namespace WebAPI.Controllers
 
         [HttpGet]
         [Route("{accountid}")]
-        public IActionResult Get(int accountid, int? amount, int? page)
+        public async Task<IActionResult> Get(int accountid, int? amount, int? page)
         {
-            //var request = new GetAccountTransactionsRequest { AccountId = accountid, Amount = amount ?? 10, Page = page ?? 0 };
-
-            //var handler = new GetAccountTransactionsHandler(new BankContext()).Handler(request);
-
-            var model = _mediator.Send(new GetAccountTransactionsRequest { AccountId = accountid, Amount = amount ?? 10, Page = page ?? 0 });
-
-            return Ok(model.Result.Account);
+            var model = await _mediator.Send(new GetAccountTransactionsRequest { AccountId = accountid, Amount = amount ?? 10, Page = page ?? 0 });
+            return Ok(model);
         }
     }
 }

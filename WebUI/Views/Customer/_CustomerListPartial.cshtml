@@ -34,14 +34,30 @@
     </div>
 
     <div class="search-pagination">
+        <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#CustomerList" asp-route-name=@Model.Name asp-route-city=@Model.City asp-route-amount=@Model.Amount asp-route-pagenr="@Model.TotalPages" data-ajax-loading="#spinner" role="button">Last</a>
+
+        @if (nextPage < Model.TotalPages)
+        {
+            <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#CustomerList" asp-route-name=@Model.Name asp-route-city=@Model.City asp-route-amount=@Model.Amount asp-route-pagenr="@(Model.PageNr+2)" data-ajax-loading="#spinner" role="button">@(Model.PageNr + 3)</a>
+        }
+
         @if (nextPage <= Model.TotalPages)
         {
-            <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#CustomerList" asp-route-name=@Model.Name asp-route-city=@Model.City asp-route-amount=@Model.Amount asp-route-pagenr="@nextPage" data-ajax-loading="#spinner" role="button">Next page</a>
+            <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#CustomerList" asp-route-name=@Model.Name asp-route-city=@Model.City asp-route-amount=@Model.Amount asp-route-pagenr="@(Model.PageNr+1)" data-ajax-loading="#spinner" role="button">@(Model.PageNr + 2)</a>
         }
+
+        <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#CustomerList" asp-route-name=@Model.Name asp-route-city=@Model.City asp-route-amount=@Model.Amount asp-route-pagenr="@(Model.PageNr)" data-ajax-loading="#spinner" role="button">@(Model.PageNr + 1) (Current)</a>
 
         @if (prevPage >= 0)
         {
-            <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#CustomerList" asp-route-name=@Model.Name asp-route-city=@Model.City asp-route-amount=@Model.Amount asp-route-pagenr="@prevPage" data-ajax-loading="#spinner" role="button">Previous page</a>
+            <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#CustomerList" asp-route-name=@Model.Name asp-route-city=@Model.City asp-route-amount=@Model.Amount asp-route-pagenr="@(Model.PageNr-1)" data-ajax-loading="#spinner" role="button">@(Model.PageNr)</a>
         }
+
+        @if (prevPage > 0)
+        {
+            <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#CustomerList" asp-route-name=@Model.Name asp-route-city=@Model.City asp-route-amount=@Model.Amount asp-route-pagenr="@(Model.PageNr-2)" data-ajax-loading="#spinner" role="button">@(Model.PageNr - 1)</a>
+        }
+
+        <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#CustomerList" asp-route-name=@Model.Name asp-route-city=@Model.City asp-route-amount=@Model.Amount asp-route-pagenr="0" data-ajax-loading="#spinner" role="button">First</a>
     </div>
 </div>

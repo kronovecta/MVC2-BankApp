@@ -2,6 +2,7 @@ using BankApp.Application.Commands;
 using BankApp.Application.Exceptions;
 using BankApp.Data;
 using BankApp.Domain.Entities;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Xunit;
@@ -10,6 +11,12 @@ namespace BankApp.Tests
 {
     public class WithdrawTests
     {
+        private readonly IMediator _mediator;
+
+        public WithdrawTests(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         [Fact]
         public void Withdraw_NegativeAmount()
@@ -21,9 +28,10 @@ namespace BankApp.Tests
             using(var context = new BankContext(options))
             {
                 var command = new WithdrawCommand() { AccountId = 1, Amount = -50 };
-                var handler = new WithdrawHandler(context);
+                //var handler = new WithdrawHandler(context);
 
-                Assert.ThrowsAsync<NegativeAmountException>(() => handler.Handler(command));
+                //Assert.ThrowsAsync<NegativeAmountException>(() => handler.Handler(command));
+                Assert.ThrowsAsync<NegativeAmountException>(() => _mediator.Send(command));
             }
         }
 
@@ -50,9 +58,10 @@ namespace BankApp.Tests
             using (var context = new BankContext(options))
             {
                 var command = new WithdrawCommand { AccountId = 2, Amount = 1000 };
-                var handler = new WithdrawHandler(context);
+                //var handler = new WithdrawHandler(context);
 
-                Assert.ThrowsAsync<InsufficientFundsException>(() => handler.Handler(command));
+                //Assert.ThrowsAsync<InsufficientFundsException>(() => handler.Handler(command));
+                Assert.ThrowsAsync<InsufficientFundsException>(() => _mediator.Send(command));
             }
 
         }
