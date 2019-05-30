@@ -9,12 +9,14 @@ using BankApp.Application.Identity;
 using BankApp.Application.Queries;
 using BankApp.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.ViewModels.Identity;
 
 namespace WebUI.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         private readonly IMediator _mediator;
@@ -28,6 +30,7 @@ namespace WebUI.Controllers
             _mediator = mediator;
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult CreateCustomer()
         {
             return View();
@@ -35,7 +38,8 @@ namespace WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateCustomer(CreateCustomerCommand customer)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> CreateCustomer(CreateCustomerCommand customer)
         {
             var command = new CreateCustomerCommand
             {
@@ -54,45 +58,53 @@ namespace WebUI.Controllers
                 Emailaddress = customer.Emailaddress
             };
 
-            //new CreateCustomerHandler().Handler(command);
-            var result = _mediator.Send(command);
+            var result = await _mediator.Send(command);
+            var latest = await _mediator.Send(new GetLatestCustomerRequest());
 
-            return View();
+            return RedirectToAction("ShowCustomer", "Customer", new { id = latest.CustomerId });
         }
 
-        [Route("Admin/EditCustomer/{customerid}")]
+        [Authorize(Roles = "admin")]
         public IActionResult EditCustomer(int customerid)
         {
-            var request = new GetCustomerByIdRequest()
+            if(customerid != 0)
             {
-                Id = customerid
-            };
+                var request = new GetCustomerByIdRequest()
+                {
+                    Id = customerid
+                };
 
-            var customer = _mediator.Send(request).Result.Customer;
+                var customer = _mediator.Send(request).Result.Customer;
 
-            var command = new CustomerDto
+                var command = new CustomerDto
+                {
+                    CustomerId = customer.CustomerId,
+                    Gender = customer.Gender,
+                    Givenname = customer.Givenname,
+                    Surname = customer.Surname,
+                    Streetaddress = customer.Streetaddress,
+                    City = customer.City,
+                    Zipcode = customer.Zipcode,
+                    Country = customer.Country,
+                    CountryCode = customer.CountryCode,
+                    Birthday = customer.Birthday,
+                    NationalId = customer.NationalId,
+                    Telephonecountrycode = customer.Telephonecountrycode,
+                    Telephonenumber = customer.Telephonenumber,
+                    Emailaddress = customer.Emailaddress
+                };
+
+                return View(command);
+            } else
             {
-                CustomerId = customer.CustomerId,
-                Gender = customer.Gender,
-                Givenname = customer.Givenname,
-                Surname = customer.Surname,
-                Streetaddress = customer.Streetaddress,
-                City = customer.City,
-                Zipcode = customer.Zipcode,
-                Country = customer.Country,
-                CountryCode = customer.CountryCode,
-                Birthday = customer.Birthday,
-                NationalId = customer.NationalId,
-                Telephonecountrycode = customer.Telephonecountrycode,
-                Telephonenumber = customer.Telephonenumber,
-                Emailaddress = customer.Emailaddress
-            };
-
-            return View(command);
+                return RedirectToAction("UserList", "Admin");
+            }
+            
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         [Route("Admin/EditCustomer/{customerid}")]
         public async Task<IActionResult> EditCustomer(CustomerDto customer)
         {
@@ -126,6 +138,7 @@ namespace WebUI.Controllers
             
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult CreateUser()
         {
             return View();
@@ -133,6 +146,7 @@ namespace WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateUser(CreateUserViewModel model)
         {
             var command = await _mediator.Send(new CreateUserCommand { Username = model.Username, Email = model.Email, Password = model.Password, Phone = model.Phone, Role = model.Role });
@@ -142,6 +156,7 @@ namespace WebUI.Controllers
             return RedirectToAction("CreateUser", "Admin");
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UserList()
         {
             var model = await _mediator.Send(new GetUsersCommand());
@@ -149,27 +164,34 @@ namespace WebUI.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> UpdateUser(string userid)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> EditUser(string userid)
         {
-            var user = await _mediator.Send(new GetUserByIdCommand { Id = userid });
-            var roles = await _mediator.Send(new GetRolesRequest());
-
-            var model = new UpdateUserViewModel
+            if(userid != null || userid != "")
             {
-                Id = user.Id,
-                Email = user.Email,
-                UserName = user.Username,
-                Phone = user.Phone,
-                Role = user.Role,
-                Roles = roles.Roles
-            };
+                var user = await _mediator.Send(new GetUserByIdCommand { Id = userid });
+                var roles = await _mediator.Send(new GetRolesRequest());
 
-            return View(model);
+                var model = new UpdateUserViewModel
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    UserName = user.Username,
+                    Phone = user.Phone,
+                    Role = user.Role,
+                    Roles = roles.Roles
+                };
+
+                return View(model);
+            }
+
+            return RedirectToAction("UserList", "Admin");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateUser(UpdateUserViewModel model)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> EditUser(UpdateUserViewModel model)
         {
             var result = await _mediator.Send(new UpdateUserCommand { Email = model.Email, Phone = model.Phone, UserName = model.UserName, UserId = model.Id, Role = model.Role });
 

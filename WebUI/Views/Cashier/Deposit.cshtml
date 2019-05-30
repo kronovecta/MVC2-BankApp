@@ -7,7 +7,7 @@
 <form asp-action="Desposit" asp-controller="Cashier" method="post">
     <div class="form-group">
         <label asp-for="AccountId">Account Number: </label>
-        <input asp-for="AccountId" />
+        <input type="number" asp-for="AccountId" />
         <span asp-validation-for="AccountId" class="text-danger"></span>
     </div>
 

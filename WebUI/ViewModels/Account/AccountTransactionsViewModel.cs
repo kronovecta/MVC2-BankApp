@@ -11,6 +11,7 @@ namespace WebUI.ViewModels.Account
         public AccountDto Account { get; set; }
         public int AccountId { get; set; }
         public int PageNr { get; set; }
+        public int NextPage { get; set; }
         public int TotalPages { get; set; }
         public int TotalTransactions { get; set; }
 

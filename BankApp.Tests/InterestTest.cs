@@ -1,77 +1,52 @@
 ﻿using BankApp.Application.Commands;
 using BankApp.Application.Exceptions;
+using BankApp.Common;
 using BankApp.Data;
 using BankApp.Domain.Entities;
+using BankApp.Infrastructure;
+using BankApp.Tests.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace BankApp.Tests
 {
-    interface IDateTime
-    {
-        System.DateTime Now { get; }
-        void SetTime(string date);
-    }
-
-    class DateTime : IDateTime
-    {
-        private System.DateTime _date;
-
-        public void SetTime(string date)
-        {
-            _date = System.DateTime.Parse(date);
-        }
-
-        public System.DateTime Parse(string date)
-        {
-            return System.DateTime.Parse(date);
-        }
-
-
-        public System.DateTime Now
-        {
-            get { return _date; }
-        }
-    }
-
+    [Collection("QueryCollection")]
     public class InterestTest
     {
-        [Fact]
-        public void Interest_ApplyTest()
+        private readonly BankContext _context;
+        private readonly IDateTime _dateTime;
+
+        public InterestTest(QueryTestFixture fixture)
         {
-            var date = new DateTime();
-            date.SetTime("2018-05-28");
+            _context = fixture.Context;
+            _dateTime = new MockDateTime("2018-05-30");
+        }
 
-            var options = new DbContextOptionsBuilder<BankContext>()
-                .UseInMemoryDatabase(databaseName: "NegativeAmount")
-                .Options;
+        [Fact]
+        public async Task Interest_ApplyTest()
+        {
 
-            using (var context = new BankContext(options))
-            {
-                var account = new Account
-                {
-                    AccountId = 7,
-                    Frequency = "Weekly",
-                    Balance = 1000
-                };
+            //var command = new ApplyInterestCommand { AccountId = 7, Amount = 1, PreviousApplication = DateTime.Parse("2018-05-30")};
+            //var handler = new ApplyInterestHandler(context);
+            //handler.Handler(command);
 
-                context.Accounts.Add(account);
-                context.SaveChanges();
-            }
+            //var account = context.Accounts.SingleAsync(x => x.AccountId == 7).Result;
 
-            using (var context = new BankContext(options))
-            {
-                var command = new ApplyInterestCommand { AccountId = 7, Amount = 1, PreviousApplication = date.Parse("2018-05-28") };
-                var handler = new ApplyInterestHandler(context);
-                handler.Handler(command);
+            //Assert.Equal(1010.0492M, Math.Round(account.Balance, 4), 4);
 
-                var account = context.Accounts.SingleAsync(x => x.AccountId == 7).Result;
+            var sut = new ApplyInterestHandler(_context, _dateTime);
+            var result = await sut.Handle(new ApplyInterestCommand { AccountId = 3, Amount = 1, PreviousApplication = DateTime.Parse("2017-05-30") }, CancellationToken.None);
 
-                Assert.Equal(1010.0492M, Math.Round(account.Balance, 4), 4);
-            }
+            var balance = _context.Accounts.SingleAsync(x => x.AccountId == 3).Result.Balance;
+
+            Assert.Equal(1010.0492M, Math.Round(balance, 4), 4);
+
+            //await Assert.ThrowsAsync<InsufficientFundsException>(() => sut.Handle(new ApplyInterestCommand { AccountId_Reciever = 1, AccountId_Sender = 2, Amount = 50 }, CancellationToken.None));
         }
     }
 }

@@ -22,7 +22,8 @@ namespace BankApp.Tests.Infrastructure
             context.Accounts.AddRange(new[]
             {
                 new Account { AccountId = 1, Balance = 0 },
-                new Account { AccountId = 2, Balance = 50 }
+                new Account { AccountId = 2, Balance = 50 },
+                new Account { AccountId = 3, Balance = 1000, Frequency = "weekly" }
             });
 
             context.SaveChanges();

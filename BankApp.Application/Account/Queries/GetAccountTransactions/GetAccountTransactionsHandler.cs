@@ -3,6 +3,7 @@ using BankApp.Application.DtoObjects;
 using BankApp.Data;
 using BankApp.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace BankApp.Application.Queries
 
         public async Task<GetAccountTransactionsResponse> Handle(GetAccountTransactionsRequest request, CancellationToken cancellationToken)
         {
-            var account = _context.Accounts.SingleOrDefault(x => x.AccountId == request.AccountId);
+            var account = await _context.Accounts.SingleOrDefaultAsync(x => x.AccountId == request.AccountId);
             var transactions = _context.Transactions.OrderByDescending(x => x.TransactionId).Where(t => t.AccountId == request.AccountId);
 
             var offset = request.Page * request.Amount;

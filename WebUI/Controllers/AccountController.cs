@@ -8,6 +8,7 @@ using BankApp.Application.DtoObjects;
 using BankApp.Data;
 using WebUI.ViewModels.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebUI.Controllers
 {
@@ -52,6 +53,20 @@ namespace WebUI.Controllers
         #endregion
 
         #region Register
+        #endregion
+
+        #region Logout
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return RedirectToAction("Index", "Home");
+        }
         #endregion
     }
 }

@@ -63,8 +63,12 @@ p.disabled {
 }
 
 .btn {
-    padding:1em;
-    border:1px solid lightgrey;
+    padding: 1em;
+    border: none;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
 }
 
 .form-group {
@@ -552,8 +556,8 @@ section {
 
 /****************** MEDIA QUERIES ****************/
 
-.TransactionList {
-    margin-bottom: 1em;
+#button-row > td {
+    padding-top: 2em;
 }
 
 /****************** MEDIA QUERIES ****************/
@@ -595,4 +599,8 @@ section {
     &:not(:last-child){
         margin-bottom:1em;
     }
+}
+
+.nav navbar-nav {
+    display: inline-block;
 }

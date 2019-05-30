@@ -1,6 +1,10 @@
 ﻿@model WebUI.ViewModels.Account.AccountTransactionsViewModel
 @using System.Globalization
 
+@{ 
+    var nextPage = Model.PageNr + 1;
+}
+
 @foreach (var transaction in Model.Transactions)
 {
     <tr>
@@ -13,4 +17,14 @@
         <td>@transaction.Symbol</td>
         <td>@transaction.Bank</td>
     </tr>
-}   
+}
+<tr id="button-row">
+    <td><a class="btn-pagination" data-ajax="true" data-ajax-mode="REPLACE-WITH" data-ajax-update="#button-row" asp-route-accountid=@Model.Account.AccountId asp-route-pagenr=@nextPage data-ajax-loading="#spinner" role="button">Load more</a></td>
+</tr>
+
+@*<div class="search-pagination">
+    @if (Model.NextPage <= Model.TotalPages)
+    {
+        <a class="btn-pagination" data-ajax="true" data-ajax-mode="replace" data-ajax-update=".search-pagination" asp-route-accountid=@Model.Account.AccountId asp-route-pagenr=@nextPage data-ajax-loading="#spinner" role="button">Load more</a>
+    }
+</div>*@

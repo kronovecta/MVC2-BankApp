@@ -8,12 +8,7 @@ namespace BankApp.Application.Exceptions
     {
         private static readonly string DefaultMessage = "Negative amounts are not allowed";
 
-        public NegativeAmountException()
-        {
-
-        }
-
-        public NegativeAmountException(decimal amount) : base(DefaultMessage)
+        public NegativeAmountException() : base(DefaultMessage)
         {
 
         }

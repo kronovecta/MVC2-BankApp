@@ -38,6 +38,11 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(model.Amount.Contains('.'))
+                {
+                    model.Amount = model.Amount.Replace('.', ',');
+                }
+
                 var value = Decimal.Parse(model.Amount, CultureInfo.CurrentCulture);
 
                 var command = new DepositCommand()
@@ -53,7 +58,7 @@ namespace WebUI.Controllers
                 return RedirectToAction("ShowAccount", "Customer", new { accountid = model.AccountId });
             }
 
-            return NotFound();
+            return View();
         }
         #endregion
         #region Withdraw
@@ -68,6 +73,11 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.Amount.Contains('.'))
+                {
+                    model.Amount = model.Amount.Replace('.', ',');
+                }
+
                 var value = Decimal.Parse(model.Amount, CultureInfo.CurrentCulture);
 
                 var command = new WithdrawCommand
@@ -78,7 +88,16 @@ namespace WebUI.Controllers
 
                 var query = _mediator.Send(command);
 
-                return RedirectToAction("ShowAccount", "Customer", new { accountid = model.AccountId });
+                if (query.IsCompletedSuccessfully)
+                {
+                    return RedirectToAction("ShowAccount", "Customer", new { accountid = model.AccountId });
+                }
+                else
+                {
+                    TempData["failure"] = query.Exception.InnerException.Message;
+                    return View();
+                }
+
             }
 
             return View();
@@ -97,6 +116,11 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.Amount.Contains('.'))
+                {
+                    model.Amount = model.Amount.Replace('.', ',');
+                }
+
                 var value = Decimal.Parse(model.Amount, CultureInfo.CurrentCulture);
 
                 var command = new TransferCommand
@@ -109,10 +133,18 @@ namespace WebUI.Controllers
                 //var query = new TransferHandler(new BankContext()).Handler(command);
                 var query = _mediator.Send(command);
 
-                return RedirectToAction("ShowAccount", "Customer", new { accountid = model.AccountIdReciever });
+                if(query.IsCompletedSuccessfully)
+                {
+                    return RedirectToAction("ShowAccount", "Customer", new { accountid = model.AccountIdReciever });
+                } else
+                {
+                    TempData["failure"] = query.Exception.InnerException.Message;
+                    return View();
+                }
+                
             }
 
-            return NotFound();
+            return View();
         }
         #endregion
 
@@ -127,7 +159,6 @@ namespace WebUI.Controllers
         public IActionResult ApplyInterest(InterestViewModel model)
         {
             var command = new ApplyInterestCommand { AccountId = 1, Amount = 1, PreviousApplication = DateTime.Parse("2018-05-28") };
-            //var handler = new ApplyInterestHandler(new BankContext());
             var query = _mediator.Send(command);
 
             TempData["success"] = "Interest applied succesfully";

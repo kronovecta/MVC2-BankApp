@@ -7,7 +7,6 @@
 @{
     var pageNr = Model.PageNr;
     var nextPage = pageNr + 1;
-    var prevPage = pageNr - 1;
 }
 
 <div class="account-container">
@@ -32,12 +31,12 @@
                     </tbody>
                 </table>
             </div>
-            <div class="search-pagination">
+            @*<div class="search-pagination">
                 @if (nextPage <= Model.TotalPages)
                 {
                     <a class="btn-pagination" data-ajax="true" data-ajax-mode="after" data-ajax-update="#TransactionList" asp-route-accountid=@Model.Account.AccountId asp-route-pagenr="@nextPage" data-ajax-loading="#spinner" role="button">Load more</a>
                 }
-            </div>
+            </div>*@
         </div>
     </div>
 </div>

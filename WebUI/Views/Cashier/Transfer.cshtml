@@ -3,19 +3,26 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.ajax.unobtrusive/3.2.4/jquery.unobtrusive-ajax.min.js"></script>
 
+@if (TempData["failure"] != null)
+{
+    <div style="width:100%; background:#f8d7da; border:1px solid #f5c6cb; border-radius:.25em; padding:1em;">@TempData["failure"].ToString()</div>
+}
+
 <div class="transfer-container">
+
+
     <form method="post" asp-action="Transfer" asp-controller="Cashier">
         <div class="transfer-section">
             <div class="form-group">
                 <label asp-for="AccountIdSender">AccountId</label>
-                <input asp-for="AccountIdSender">
+                <input type="number" asp-for="AccountIdSender">
             </div>
         </div>
 
         <div class="transfer-section">
             <div class="form-group">
                 <label asp-for="AccountIdReciever">AccountId</label>
-                <input asp-for="AccountIdReciever">
+                <input type="number" asp-for="AccountIdReciever">
             </div>
 
             <div class="form-group">

@@ -1,9 +1,28 @@
-﻿<header>
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<header>
     <nav class="navbar">
         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Citadel</a>
 
         <div class="nav-links">
-            <a asp-action="SearchCustomer" asp-controller="Customer" class="btn">Search User</a>
+            <a asp-action="SearchCustomer" asp-controller="Customer" class="btn">Search Customer</a>
+
+            @if (User.IsInRole("admin"))
+            {
+                <a class="btn" asp-controller="Admin" asp-action="CreateUser">Add User</a>
+                <a class="btn" asp-controller="Admin" asp-action="CreateCustomer">Add Customer</a>
+                <a class="btn" asp-controller="Admin" asp-action="UserList">Userlist</a>
+            }
+
+            @if (User.IsInRole("cashier"))
+            {
+                <a class="btn" asp-controller="Cashier" asp-action="Withdraw">Withdraw</a>
+                <a class="btn" asp-controller="Cashier" asp-action="Deposit">Deposit</a>
+                <a class="btn" asp-controller="Cashier" asp-action="Transfer">Transfer</a>
+            }
         </div>
 
         <div class="navbar-login">

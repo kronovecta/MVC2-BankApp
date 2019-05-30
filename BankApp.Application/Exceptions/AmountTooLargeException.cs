@@ -7,12 +7,8 @@ namespace BankApp.Application.Exceptions
     public class InsufficientFundsException : Exception
     {
         private static readonly string DefaultMessage = "Account balance is insufficient for the transaction";
-        public InsufficientFundsException()
-        {
 
-        }
-
-        public InsufficientFundsException(decimal amount) : base(DefaultMessage)
+        public InsufficientFundsException() : base(DefaultMessage)
         {
 
         }

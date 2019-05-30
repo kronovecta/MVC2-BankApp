@@ -50,7 +50,9 @@ p.disabled {
 
 .btn {
   padding: 1em;
-  border: 1px solid lightgrey; }
+  border: none; }
+  .btn:hover {
+    background: rgba(255, 255, 255, 0.2); }
 
 .form-group {
   display: block; }
@@ -366,8 +368,8 @@ section.customer-accounts .account-info-number {
     border: 1px solid lightgrey; }
 
 /****************** MEDIA QUERIES ****************/
-.TransactionList {
-  margin-bottom: 1em; }
+#button-row > td {
+  padding-top: 2em; }
 
 /****************** MEDIA QUERIES ****************/
 @media only screen and (max-width: 550px) {
@@ -393,3 +395,6 @@ section.customer-accounts .account-info-number {
   border: 1px solid lightgrey; }
   .userlist-user:not(:last-child) {
     margin-bottom: 1em; }
+
+.nav navbar-nav {
+  display: inline-block; }

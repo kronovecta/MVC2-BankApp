@@ -20,7 +20,6 @@ namespace WebUI.Controllers
         }
         public async Task<IActionResult> ShowCustomer(int id)
         {
-            //var model = new GetCustomerByIdHandler().Handler(new GetCustomerByIdRequest() { Id = id }).Customer;
             var model = await _mediator.Send(new GetCustomerByIdRequest { Id = id });
 
             return View(model);
@@ -100,6 +99,7 @@ namespace WebUI.Controllers
                 var model = new AccountTransactionsViewModel()
                 {
                     PageNr = pagenr ?? 0,
+                    NextPage = pagenr++ ?? 0,
                     AccountId = accountid,
                     Account = query.Account,
                     Transactions = query.Transactions,

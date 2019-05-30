@@ -5,6 +5,6 @@
 <ul>
     @foreach (var user in Model.Users)
     {
-        <a asp-action="UpdateUser" asp-controller="Admin" asp-route-userid=@user.Id><li class="userlist-user"><span>@user.UserName</span><span>(@user.Email)</span></li></a>
+        <a asp-action="EditUser" asp-controller="Admin" asp-route-userid=@user.Id><li class="userlist-user"><span>@user.UserName</span><span>(@user.Email)</span></li></a>
     }
 </ul>

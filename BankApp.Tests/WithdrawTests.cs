@@ -2,68 +2,38 @@ using BankApp.Application.Commands;
 using BankApp.Application.Exceptions;
 using BankApp.Data;
 using BankApp.Domain.Entities;
+using BankApp.Tests.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace BankApp.Tests
 {
+    [Collection("QueryCollection")]
     public class WithdrawTests
     {
-        private readonly IMediator _mediator;
+        private readonly BankContext _context;
 
-        public WithdrawTests(IMediator mediator)
+        public WithdrawTests(QueryTestFixture fixture)
         {
-            _mediator = mediator;
+            _context = fixture.Context;
         }
 
         [Fact]
-        public void Withdraw_NegativeAmount()
+        public async Task Withdraw_NegativeAmount()
         {
-            var options = new DbContextOptionsBuilder<BankContext>()
-                .UseInMemoryDatabase(databaseName: "NegativeAmount")
-                .Options;
-
-            using(var context = new BankContext(options))
-            {
-                var command = new WithdrawCommand() { AccountId = 1, Amount = -50 };
-                //var handler = new WithdrawHandler(context);
-
-                //Assert.ThrowsAsync<NegativeAmountException>(() => handler.Handler(command));
-                Assert.ThrowsAsync<NegativeAmountException>(() => _mediator.Send(command));
-            }
+            var sut = new WithdrawHandler(_context);
+            await Assert.ThrowsAsync<NegativeAmountException>(() => sut.Handle(new WithdrawCommand { AccountId = 1, Amount = -50 }, CancellationToken.None));
         }
 
         [Fact]
-        public void Withdraw_Overdraft()
+        public async Task Withdraw_Overdraft()
         {
-            var options = new DbContextOptionsBuilder<BankContext>()
-                .UseInMemoryDatabase(databaseName: "NegativeAmount")
-                .Options;
-
-            using (var context = new BankContext(options))
-            {
-                var account = new Account
-                {
-                    AccountId = 2,
-                    Frequency = "Daily",
-                    Balance = 500
-                };
-
-                context.Accounts.Add(account);
-                context.SaveChanges();
-            }
-
-            using (var context = new BankContext(options))
-            {
-                var command = new WithdrawCommand { AccountId = 2, Amount = 1000 };
-                //var handler = new WithdrawHandler(context);
-
-                //Assert.ThrowsAsync<InsufficientFundsException>(() => handler.Handler(command));
-                Assert.ThrowsAsync<InsufficientFundsException>(() => _mediator.Send(command));
-            }
-
+            var sut = new WithdrawHandler(_context);
+            await Assert.ThrowsAsync<InsufficientFundsException>(() => sut.Handle(new WithdrawCommand { AccountId = 1, Amount = 5000 }, CancellationToken.None));
         }
     }
 }

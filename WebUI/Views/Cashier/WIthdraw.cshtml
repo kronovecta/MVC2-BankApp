@@ -1,15 +1,24 @@
 ﻿@model WebUI.ViewModels.Account.WithdrawViewModel
 
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
+@if (TempData["failure"] != null)
+{
+    <div style="width:100%; background:#f8d7da; border:1px solid #f5c6cb; border-radius:.25em; padding:1em;">@TempData["failure"].ToString()</div>
+}
+
 <form asp-action="Withdraw" asp-controller="Cashier" method="post">
     <div class="form-group">
         <label asp-for="AccountId">Account Number: </label>
-        <input asp-for="AccountId" />
+        <input type="number" asp-for="AccountId" />
         <span asp-validation-for="AccountId" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="Amount">Amount: </label>
-        <input type="number" asp-for="Amount" />
+        <input asp-for="Amount" />
         <span asp-validation-for="Amount" class="text-danger"></span>
     </div>
 

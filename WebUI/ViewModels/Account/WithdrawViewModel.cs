@@ -9,6 +9,7 @@ namespace WebUI.ViewModels.Account
     public class WithdrawViewModel
     {
         [Required]
+        [RegularExpression("[0-9]*$", ErrorMessage = "Only numbers allowed")]
         public int AccountId { get; set; }
         [Required]
         [RegularExpression("[0-9,\\.]*$", ErrorMessage = "Only numbers allowed")]

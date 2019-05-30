@@ -7,35 +7,13 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <ul class="nav navbar-nav flex-grow-1">
-
-        <li class="dropdown nav-link">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@User.Identity.Name <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                @if (User.IsInRole("admin"))
-                {
-                    <li role="separator" class="divider"></li>
-                    <a asp-controller="Admin" asp-action="AdminPanel"><li class="nav-link">Admin</li></a>
-                }
-
-                @if (User.IsInRole("cashier"))
-                {
-                    <li role="separator" class="divider"></li>
-                    <a asp-controller="Cashier" asp-action="Withdraw"><li class="nav-link">Withdraw</li></a>
-                    <a asp-controller="Cashier" asp-action="Deposit"><li class="nav-link">Deposit</li></a>
-                    <a asp-controller="Cashier" asp-action="Transfer"><li class="nav-link">Transfer</li></a>
-                }
-                <li role="separator" class="divider"></li>
-                <a asp-controller="Account" asp-action="Logout"><li class="nav-link">Logout</li></a>
-            </ul>
-        </li>
-
-
+        <a class="btn" asp-controller="Account" asp-action="Logout">Logout</a>
     </ul>
 }
 else
 {
     <ul class="navbar-nav flex-grow-1">
-        <li class="nav-link"><a class="btn btn-light" asp-controller="Account" asp-action="Login">Sign in</a> </li>
+        <a class="btn" asp-controller="Account" asp-action="Login">Sign in</a>
     </ul>
 
 }

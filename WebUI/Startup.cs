@@ -8,7 +8,9 @@ using BankApp.Application;
 using BankApp.Application.Commands;
 using BankApp.Application.Queries;
 using BankApp.Application.Queries.GetDBStatistics;
+using BankApp.Common;
 using BankApp.Data;
+using BankApp.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -43,6 +45,7 @@ namespace WebUI
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddTransient<IDateTime, MachineDateTime>();
 
             services.AddDataProtection()
                 .SetApplicationName("BankApp");

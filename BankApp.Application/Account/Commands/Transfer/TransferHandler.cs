@@ -39,7 +39,7 @@ namespace BankApp.Application.Commands
                         AccountId = accountSender.AccountId,
                         Date = DateTime.Now,
                         Type = "Debit",
-                        Operation = $"Transfer to {accountSender.AccountId}",
+                        Operation = $"Transfer to {accountReciever.AccountId}",
                         Amount = command.Amount,
                         Balance = accountSender.Balance,
                         Bank = "CT"
@@ -50,7 +50,7 @@ namespace BankApp.Application.Commands
                         AccountId = accountReciever.AccountId,
                         Date = DateTime.Now,
                         Type = "Debit",
-                        Operation = $"Transfer from {accountReciever.AccountId}",
+                        Operation = $"Transfer from {accountSender.AccountId}",
                         Amount = command.Amount,
                         Balance = accountReciever.Balance,
                         Bank = "CT"
