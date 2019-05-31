@@ -78,7 +78,7 @@ namespace WebAPI
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Values}/{action=Get}");
+                    template: "api/{controller=Values}/{action=Get}");
             });
         }
     }
