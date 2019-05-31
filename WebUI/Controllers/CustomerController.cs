@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 using WebUI.ViewModels;
 using WebUI.ViewModels.Account;
@@ -21,6 +22,7 @@ namespace WebUI.Controllers
         public async Task<IActionResult> ShowCustomer(int id)
         {
             var model = await _mediator.Send(new GetCustomerByIdRequest { Id = id });
+            model.Customer.TotalBalance = model.Accounts.Sum(x => x.Balance);
 
             return View(model);
         }

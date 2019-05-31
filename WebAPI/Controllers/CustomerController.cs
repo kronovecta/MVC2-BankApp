@@ -10,6 +10,7 @@ using BankApp.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI;
 
 namespace BankApp.API.Controllers
 {
@@ -84,7 +85,7 @@ namespace BankApp.API.Controllers
             _protector = provider.CreateProtector("TokenConverter");
         }
 
-        //[Route("{token?}")]
+        [JwtAuthentication]
         public ActionResult<CustomerDto> Get(string token)
         {
             var unprotected = _protector.Unprotect(token);
@@ -92,13 +93,12 @@ namespace BankApp.API.Controllers
             if (result)
             {
                 var request = new GetCustomerByIdRequest { Id = id };
-                //var query = new GetCustomerByIdHandler().Handler(request);
 
                 var query = _mediator.Send(request);
 
                 if (query.Result.Customer != null)
                 {
-                    return Ok(query.Result.Customer);
+                    return Ok(query.Result);
                 }
             }
 

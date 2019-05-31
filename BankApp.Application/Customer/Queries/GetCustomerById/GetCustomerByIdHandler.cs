@@ -30,6 +30,7 @@ namespace BankApp.Application.Queries
                             where c.CustomerId == request.Id
                             select a);
 
+
             return new GetCustomerByIdResponse()
             {
                 Customer = Mapper.Map<Customer, CustomerDto>(query),
