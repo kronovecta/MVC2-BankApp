@@ -10,6 +10,7 @@ namespace WebUI.ViewModels
     {
         //Input
         public string Name { get; set; }
+        public string Surname { get; set; }
         public string City { get; set; }
         public int Amount { get; set; }
         public int TotalCustomers { get; set; }

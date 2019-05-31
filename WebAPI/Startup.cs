@@ -42,7 +42,7 @@ namespace WebAPI
             services.AddMediatR(
                 typeof(GetAccountTransactionsHandler).Assembly);
 
-            services.AddDbContext<BankContext>(opt => opt.UseSqlServer(conn));
+            services.AddDbContext<IBankContext, BankContext>(opt => opt.UseSqlServer(conn));
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)

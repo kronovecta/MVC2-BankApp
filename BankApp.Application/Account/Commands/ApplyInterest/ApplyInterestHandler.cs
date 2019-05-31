@@ -13,9 +13,9 @@ namespace BankApp.Application.Commands
 {
     public class ApplyInterestHandler : IRequestHandler<ApplyInterestCommand>
     {
-        private readonly BankContext _context;
+        private readonly IBankContext _context;
         private readonly IDateTime _dateTime;
-        public ApplyInterestHandler(BankContext context, IDateTime dateTime)
+        public ApplyInterestHandler(IBankContext context, IDateTime dateTime)
         {
             _context = context;
             _dateTime = dateTime;
@@ -44,7 +44,7 @@ namespace BankApp.Application.Commands
 
                 var balance = Math.Abs(account.Balance * Convert.ToDecimal(Math.Pow(interest, frequency)));
                 account.Balance = balance;
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 var transaction = new CreateTransactionCommand { Account = account, Amount = balance, Operation = "Compound interest" };
 

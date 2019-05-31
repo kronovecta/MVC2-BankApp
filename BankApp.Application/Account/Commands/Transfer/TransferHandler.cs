@@ -16,8 +16,8 @@ namespace BankApp.Application.Commands
 {
     public class TransferHandler : IRequestHandler<TransferCommand>
     {
-        private readonly BankContext _context;
-        public TransferHandler(BankContext context)
+        private readonly IBankContext _context;
+        public TransferHandler(IBankContext context)
         {
             _context = context;
         }
@@ -59,6 +59,8 @@ namespace BankApp.Application.Commands
                     await _context.Transactions.AddRangeAsync(transactionSender, transactionReciever);
 
                     await _context.SaveChangesAsync();
+
+                    return Unit.Value;
                 }
                 else
                 {

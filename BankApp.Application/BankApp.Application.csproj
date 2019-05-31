@@ -8,11 +8,11 @@
     <PackageReference Include="AutoMapper" Version="8.1.0" />
     <PackageReference Include="MediatR" Version="7.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BankApp.Common\BankApp.Common.csproj" />
-    <ProjectReference Include="..\BankApp.Data\BankApp.Data.csproj" />
     <ProjectReference Include="..\BankApp.Domain\BankApp.Domain.csproj" />
   </ItemGroup>
 

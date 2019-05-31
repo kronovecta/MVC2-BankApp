@@ -14,9 +14,9 @@ namespace BankApp.Application.Commands
 {
     public class UpdateCustomerHandler : IRequestHandler<UpdateCustomerCommand>
     {
-        private readonly BankContext _context;
+        private readonly IBankContext _context;
 
-        public UpdateCustomerHandler(BankContext context)
+        public UpdateCustomerHandler(IBankContext context)
         {
             _context = context;
         }

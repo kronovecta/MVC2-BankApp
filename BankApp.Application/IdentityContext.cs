@@ -7,9 +7,9 @@ using System.Text;
 
 namespace BankApp.Data
 {
-    public class IdentityContext2 : IdentityDbContext<IdentityUser>
+    public class IdentityContext : IdentityDbContext<IdentityUser>
     {
-        public IdentityContext2(DbContextOptions<IdentityContext> options) : base(options)
+        public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
         {
 
         }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BankApp.Data
@@ -17,6 +18,7 @@ namespace BankApp.Data
         DbSet<PermanentOrder> PermenentOrder { get; set; }
         DbSet<Transaction> Transactions { get; set; }
 
-        //Task<int> SaveChangesAsync();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        Task<int> SaveChangesAsync();
     }
 }

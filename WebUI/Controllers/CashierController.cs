@@ -38,12 +38,12 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(model.Amount.Contains('.'))
+                decimal value = 0;
+                var valid = Decimal.TryParse(model.Amount, NumberStyles.Any, CultureInfo.GetCultureInfo("en-SE"), out value);
+                if(!valid)
                 {
-                    model.Amount = model.Amount.Replace('.', ',');
+                    valid = Decimal.TryParse(model.Amount, NumberStyles.Any, CultureInfo.InvariantCulture, out value);
                 }
-
-                var value = Decimal.Parse(model.Amount, CultureInfo.CurrentCulture);
 
                 var command = new DepositCommand()
                 {
@@ -51,11 +51,15 @@ namespace WebUI.Controllers
                     Amount = value
                 };
 
-                //var query = new DepositHandler().Handler(command);
-                var query = await _mediator.Send(command);
+                var query = _mediator.Send(command);
 
-                TempData["Success"] = $"{value.ToString("C")} deposited to account";
-                return RedirectToAction("ShowAccount", "Customer", new { accountid = model.AccountId });
+                if(query.Exception == null)
+                {
+                    return RedirectToAction("ShowAccount", "Customer", new { accountid = model.AccountId });
+                } else
+                {
+                    return View();
+                }
             }
 
             return View();
@@ -69,16 +73,16 @@ namespace WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Withdraw(WithdrawViewModel model)
+        public async Task<IActionResult> Withdraw(WithdrawViewModel model)
         {
             if (ModelState.IsValid)
             {
-                if (model.Amount.Contains('.'))
+                decimal value = 0;
+                var valid = Decimal.TryParse(model.Amount, NumberStyles.Any, CultureInfo.GetCultureInfo("en-SE"), out value);
+                if (!valid)
                 {
-                    model.Amount = model.Amount.Replace('.', ',');
+                    valid = Decimal.TryParse(model.Amount, NumberStyles.Any, CultureInfo.InvariantCulture, out value);
                 }
-
-                var value = Decimal.Parse(model.Amount, CultureInfo.CurrentCulture);
 
                 var command = new WithdrawCommand
                 {
@@ -88,7 +92,7 @@ namespace WebUI.Controllers
 
                 var query = _mediator.Send(command);
 
-                if (query.IsCompletedSuccessfully)
+                if (query.Exception == null)
                 {
                     return RedirectToAction("ShowAccount", "Customer", new { accountid = model.AccountId });
                 }
@@ -112,16 +116,16 @@ namespace WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Transfer(TransferViewModel model)
+        public async Task<IActionResult> Transfer(TransferViewModel model)
         {
             if (ModelState.IsValid)
             {
-                if (model.Amount.Contains('.'))
+                decimal value = 0;
+                var valid = Decimal.TryParse(model.Amount, NumberStyles.Any, CultureInfo.GetCultureInfo("en-SE"), out value);
+                if (!valid)
                 {
-                    model.Amount = model.Amount.Replace('.', ',');
+                    valid = Decimal.TryParse(model.Amount, NumberStyles.Any, CultureInfo.InvariantCulture, out value);
                 }
-
-                var value = Decimal.Parse(model.Amount, CultureInfo.CurrentCulture);
 
                 var command = new TransferCommand
                 {
@@ -130,10 +134,9 @@ namespace WebUI.Controllers
                     Amount = value
                 };
 
-                //var query = new TransferHandler(new BankContext()).Handler(command);
                 var query = _mediator.Send(command);
 
-                if(query.IsCompletedSuccessfully)
+                if(query.Exception == null)
                 {
                     return RedirectToAction("ShowAccount", "Customer", new { accountid = model.AccountIdReciever });
                 } else
@@ -141,7 +144,6 @@ namespace WebUI.Controllers
                     TempData["failure"] = query.Exception.InnerException.Message;
                     return View();
                 }
-                
             }
 
             return View();

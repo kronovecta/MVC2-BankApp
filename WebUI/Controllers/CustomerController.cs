@@ -22,9 +22,15 @@ namespace WebUI.Controllers
         public async Task<IActionResult> ShowCustomer(int id)
         {
             var model = await _mediator.Send(new GetCustomerByIdRequest { Id = id });
-            model.Customer.TotalBalance = model.Accounts.Sum(x => x.Balance);
 
-            return View(model);
+            if(model.Customer != null)
+            {
+                model.Customer.TotalBalance = model.Accounts.Sum(x => x.Balance);
+                return View(model);
+            } else
+            {
+                return RedirectToAction("SearchCustomer", "Customer");
+            }
         }
 
         public IActionResult SearchCustomer()
@@ -38,9 +44,23 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
+                var givenname = "";
+                var surname = "";
+
+                if(name.Split(" ").Length > 1)
+                {
+                    var names = name.Split(" ");
+                    givenname = names[0];
+                    surname = names[1];
+                } else
+                {
+                    givenname = name;
+                }
+
                 var model = new SearchCustomerViewModel()
                 {
-                    Name = name,
+                    Name = givenname,
+                    Surname = surname,
                     Amount = amount,
                     PageNr = pagenr
                 };
@@ -48,7 +68,8 @@ namespace WebUI.Controllers
                 var request = new GetCustomerByNamesCityRequest()
                 {
                     City = city,
-                    Search = name,
+                    Search = givenname,
+                    Surname = surname,
                     Limit = amount,
                     Offset = (amount * pagenr)
                 };

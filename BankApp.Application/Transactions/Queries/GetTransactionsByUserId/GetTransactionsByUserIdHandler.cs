@@ -8,8 +8,8 @@ namespace BankApp.Application.Queries.GetTransactionsByUserId
 {
     class GetTransactionsByUserIdHandler
     {
-        private readonly BankContext _context;
-        public GetTransactionsByUserIdHandler(BankContext context)
+        private readonly IBankContext _context;
+        public GetTransactionsByUserIdHandler(IBankContext context)
         {
             _context = context;
         }

@@ -12,9 +12,9 @@ namespace BankApp.Application.Queries
 {
     public class GetLatestCustomerHandler : IRequestHandler<GetLatestCustomerRequest, GetLatestCustomerResponse>
     {
-        private readonly BankContext _context;
+        private readonly IBankContext _context;
 
-        public GetLatestCustomerHandler(BankContext context)
+        public GetLatestCustomerHandler(IBankContext context)
         {
             _context = context;
         }

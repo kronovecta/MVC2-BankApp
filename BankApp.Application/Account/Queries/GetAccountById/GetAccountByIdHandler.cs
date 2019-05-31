@@ -15,9 +15,9 @@ namespace BankApp.Application.Queries
 {
     public class GetAccountByIdHandler : IRequestHandler<GetAccountByIdRequest, GetAccountByIdResponse>
     {
-        private readonly BankContext _context;
+        private readonly IBankContext _context;
 
-        public GetAccountByIdHandler(BankContext context)
+        public GetAccountByIdHandler(IBankContext context)
         {
             _context = context;
         }

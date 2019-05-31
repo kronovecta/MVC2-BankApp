@@ -15,9 +15,9 @@ namespace BankApp.Application.Queries
 {
     public class GetAccountTransactionsHandler : IRequestHandler<GetAccountTransactionsRequest, GetAccountTransactionsResponse>
     {
-        private readonly BankContext _context;
+        private readonly IBankContext _context;
 
-        public GetAccountTransactionsHandler(BankContext context)
+        public GetAccountTransactionsHandler(IBankContext context)
         {
             _context = context;
         }
@@ -32,7 +32,7 @@ namespace BankApp.Application.Queries
             var response = new GetAccountTransactionsResponse()
             {
                 Account = Mapper.Map<Account, AccountDto>(account),
-                Transactions = Mapper.Map<List<Transaction>, List<TransactionDto>>(transactions.Skip(offset).Take(request.Amount).OrderByDescending(x => x.TransactionId).ToList()),
+                Transactions = Mapper.Map<List<Transaction>, List<TransactionDto>>(transactions.Skip(offset).Take(request.Amount).ToList()),
                 TotalTransactions = transactions.Count(),
                 TotalPages = transactions.Count() / request.Amount
             };

@@ -11,8 +11,8 @@ namespace BankApp.Application.Queries.GetDBStatistics
 {
     public class GetDBStatisticsHandler : IRequestHandler<GetDBStatisticsRequest, GetDBStatisticsResponse>
     {
-        private readonly BankContext _context;
-        public GetDBStatisticsHandler(BankContext context)
+        private readonly IBankContext _context;
+        public GetDBStatisticsHandler(IBankContext context)
         {
             _context = context;
         }

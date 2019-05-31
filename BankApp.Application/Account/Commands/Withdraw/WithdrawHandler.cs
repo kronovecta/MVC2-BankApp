@@ -13,9 +13,9 @@ namespace BankApp.Application.Commands
 {
     public class WithdrawHandler : IRequestHandler<WithdrawCommand, WithdrawResponse>
     {
-        private readonly BankContext _context;
+        private readonly IBankContext _context;
 
-        public WithdrawHandler(BankContext context)
+        public WithdrawHandler(IBankContext context)
         {
             _context = context;
         }

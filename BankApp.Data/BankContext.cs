@@ -21,15 +21,13 @@ namespace BankApp.Data
         public virtual DbSet<PermanentOrder> PermenentOrder { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
 
+        public Task<int> SaveChangesAsync()
+        {
+            return base.SaveChangesAsync();
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //    if (!optionsBuilder.IsConfigured)
-            //    {
-            //        //optionsBuilder.UseSqlServer("Data Source=<IP>,1433; Database=BankApp;User Id=sa; Password=<PASSWORD>;");
-
-            //        optionsBuilder.UseSqlServer("Server=localhost;Database=BankApp;Trusted_Connection=True;");
-            //    }
         }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

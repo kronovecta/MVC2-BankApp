@@ -10,9 +10,9 @@ namespace BankApp.Application.Commands
 {
     public class CreateTransferTransactionHandler
     {
-        private readonly BankContext _context;
+        private readonly IBankContext _context;
 
-        public CreateTransferTransactionHandler(BankContext context)
+        public CreateTransferTransactionHandler(IBankContext context)
         {
             _context = context;
         }

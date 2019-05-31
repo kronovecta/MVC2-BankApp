@@ -23,6 +23,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebUI.Models;
+using BankApp.Data;
 
 namespace WebUI
 {
@@ -62,7 +63,7 @@ namespace WebUI
                 typeof(CreateAccountHandler).Assembly);
 
             //services.AddDbContext<IBankContext, BankContext>(opt => opt.UseSqlServer(conn));
-            services.AddDbContext<BankContext>(opt => opt.UseSqlServer(conn));
+            services.AddDbContext<IBankContext, BankContext>(opt => opt.UseSqlServer(conn));
             services.AddDbContext<IdentityContext>(opt => opt.UseSqlServer(conn));
 
             services.AddIdentity<IdentityUser, IdentityRole>()

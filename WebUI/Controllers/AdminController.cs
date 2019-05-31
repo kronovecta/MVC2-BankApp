@@ -105,7 +105,6 @@ namespace WebUI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        [Route("Admin/EditCustomer/{customerid}")]
         public async Task<IActionResult> EditCustomer(CustomerDto customer)
         {
             var command = new UpdateCustomerCommand
@@ -128,9 +127,9 @@ namespace WebUI.Controllers
 
             var query = _mediator.Send(command);
 
-            if(query.IsCompletedSuccessfully)
+            if(query.Exception == null)
             {
-                return View();
+                return RedirectToAction("ShowCustomer", "Customer", new { id = command.CustomerId });
             } else
             {
                 return View(customer);

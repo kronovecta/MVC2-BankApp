@@ -14,9 +14,9 @@ namespace BankApp.Application.Queries
 {
     public class GetCustomerByIdHandler : IRequestHandler<GetCustomerByIdRequest, GetCustomerByIdResponse>
     {
-        private readonly BankContext _context;
+        private readonly IBankContext _context;
 
-        public GetCustomerByIdHandler(BankContext context)
+        public GetCustomerByIdHandler(IBankContext context)
         {
             _context = context;
         }
@@ -34,7 +34,7 @@ namespace BankApp.Application.Queries
             return new GetCustomerByIdResponse()
             {
                 Customer = Mapper.Map<Customer, CustomerDto>(query),
-                Accounts = Mapper.Map<List<Account>, List<AccountDto>>(accounts.ToListAsync().Result)
+                Accounts = Mapper.Map<List<Account>, List<AccountDto>>(accounts.ToList())
             };
         }
     }

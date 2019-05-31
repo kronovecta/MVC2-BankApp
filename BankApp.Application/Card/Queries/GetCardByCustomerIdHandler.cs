@@ -13,8 +13,8 @@ namespace BankApp.Application.Queries
 {
     class GetCardByCustomerIdHandler
     {
-        private readonly BankContext _context;
-        public GetCardByCustomerIdHandler(BankContext context)
+        private readonly IBankContext _context;
+        public GetCardByCustomerIdHandler(IBankContext context)
         {
             _context = context;
         }

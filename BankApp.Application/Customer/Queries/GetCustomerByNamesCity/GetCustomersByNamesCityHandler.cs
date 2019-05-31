@@ -16,9 +16,9 @@ namespace BankApp.Application.Queries
 {
     public class GetCustomersByNamesCityHandler : IRequestHandler<GetCustomerByNamesCityRequest, GetCustomerByNamesCityResponse>
     {
-        private readonly BankContext _context;
+        private readonly IBankContext _context;
 
-        public GetCustomersByNamesCityHandler(BankContext context)
+        public GetCustomersByNamesCityHandler(IBankContext context)
         {
             _context = context;
         }
@@ -31,9 +31,18 @@ namespace BankApp.Application.Queries
 
             if (request.City != null && request.Search != null)
             {
-                query = _context.Customers.OrderBy(x => x.CustomerId)
+                if(request.Surname == null)
+                {
+                    query = _context.Customers.OrderBy(x => x.CustomerId)
                     .Where(c => c.City.ToLower() == request.City.ToLower())
                     .Where(x => x.Givenname.ToLower() == request.Search.ToLower() || x.Surname.ToLower() == request.Search.ToLower());
+                } else
+                {
+                    query = _context.Customers.OrderBy(x => x.CustomerId)
+                    .Where(c => c.City.ToLower() == request.City.ToLower())
+                    .Where(x => x.Givenname.ToLower() == request.Search.ToLower());
+                }
+                
 
             }
             else if (request.Search == null && request.City != null)
@@ -43,13 +52,20 @@ namespace BankApp.Application.Queries
             }
             else
             {
-                query = _context.Customers.OrderBy(x => x.CustomerId).Where(x => x.Givenname.StartsWith(request.Search.ToLower()) || x.Surname.StartsWith(request.Search.ToLower()));
+                if(request.Surname == null)
+                {
+                    query = _context.Customers.OrderBy(x => x.CustomerId).Where(x => x.Givenname.StartsWith(request.Search.ToLower()) || x.Surname.StartsWith(request.Search.ToLower()));
+                } else
+                {
+                    query = _context.Customers.OrderBy(x => x.CustomerId).Where(x => x.Givenname.StartsWith(request.Search.ToLower()) && x.Surname.StartsWith(request.Surname.ToLower()));
+                }
+                
             }
 
             if (query != null)
             {
                 response.TotalCustomerAmount = query.Count();
-                response.TotalNumberOfPages = (response.TotalCustomerAmount / (request.Limit + 1));
+                response.TotalNumberOfPages = (response.TotalCustomerAmount / (request.Limit));
                 if (request.Limit <= 0)
                 {
                     response.Customers = query.ProjectTo<CustomerDto>().ToList();

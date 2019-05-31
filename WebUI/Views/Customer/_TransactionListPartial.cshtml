@@ -12,8 +12,8 @@
         <td>@transaction.Date.ToShortDateString()</td>
         <td>@transaction.Type</td>
         <td>@transaction.Operation</td>
-        <td>@transaction.Amount.ToString("C", CultureInfo.CurrentCulture)</td>
-        <td>@transaction.Balance.ToString("C", CultureInfo.CurrentCulture)</td>
+        <td>@transaction.Amount.ToString("C", CultureInfo.GetCultureInfo("en-SE"))</td>
+        <td>@transaction.Balance.ToString("C", CultureInfo.GetCultureInfo("en-SE"))</td>
         <td>@transaction.Symbol</td>
         <td>@transaction.Bank</td>
     </tr>

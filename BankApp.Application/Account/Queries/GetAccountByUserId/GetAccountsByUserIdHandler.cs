@@ -12,9 +12,9 @@ namespace BankApp.Application.Queries
 {
     public class GetAccountsByUserIdHandler
     {
-        private readonly BankContext _context;
+        private readonly IBankContext _context;
 
-        public GetAccountsByUserIdHandler(BankContext context)
+        public GetAccountsByUserIdHandler(IBankContext context)
         {
             _context = context;
         }

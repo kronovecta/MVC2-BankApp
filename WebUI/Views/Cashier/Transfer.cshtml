@@ -1,7 +1,8 @@
 ﻿@model WebUI.ViewModels.Account.TransferViewModel
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.ajax.unobtrusive/3.2.4/jquery.unobtrusive-ajax.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
 
 @if (TempData["failure"] != null)
 {
@@ -9,13 +10,12 @@
 }
 
 <div class="transfer-container">
-
-
     <form method="post" asp-action="Transfer" asp-controller="Cashier">
         <div class="transfer-section">
             <div class="form-group">
                 <label asp-for="AccountIdSender">AccountId</label>
                 <input type="number" asp-for="AccountIdSender">
+                <span asp-validation-for="AccountIdSender" class="text-danger"></span>
             </div>
         </div>
 
@@ -23,13 +23,14 @@
             <div class="form-group">
                 <label asp-for="AccountIdReciever">AccountId</label>
                 <input type="number" asp-for="AccountIdReciever">
+                <span asp-validation-for="AccountIdReciever" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Amount">Amount</label>
                 <input asp-for="Amount">
+                <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
-
         </div>
         <input type="submit" value="Transfer" />
     </form>

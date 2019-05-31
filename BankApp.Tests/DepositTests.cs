@@ -17,7 +17,7 @@ namespace BankApp.Tests
     [Collection("QueryCollection")]
     public class DepositTests
     {
-        private readonly BankContext _context;
+        private readonly IBankContext _context;
 
         public DepositTests(QueryTestFixture fixture)
         {

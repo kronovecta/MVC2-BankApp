@@ -12,9 +12,9 @@ namespace BankApp.Application.Commands
 {
     public class DepositHandler : IRequestHandler<DepositCommand>
     {
-        private readonly BankContext _context;
+        private readonly IBankContext _context;
 
-        public DepositHandler(BankContext context)
+        public DepositHandler(IBankContext context)
         {
             _context = context;
         }

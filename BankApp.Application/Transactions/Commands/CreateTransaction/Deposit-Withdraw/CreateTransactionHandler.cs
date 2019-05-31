@@ -9,9 +9,9 @@ namespace BankApp.Application.Commands
 {
     public class CreateTransactionHandler
     {
-        private readonly BankContext _context;
+        private readonly IBankContext _context;
 
-        public CreateTransactionHandler(CreateTransactionCommand command, BankContext context)
+        public CreateTransactionHandler(CreateTransactionCommand command, IBankContext context)
         {
             _context = context;
             Handler(command);

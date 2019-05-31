@@ -48,7 +48,7 @@ namespace WebUI.Controllers
                 }
             }
             
-            return NotFound();
+            return View();
         }
         #endregion
 

@@ -11,8 +11,8 @@ namespace BankApp.Application.Commands
 {
     public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand>
     {
-        private readonly BankContext _context;
-        public CreateCustomerHandler(BankContext context)
+        private readonly IBankContext _context;
+        public CreateCustomerHandler(IBankContext context)
         {
             _context = context;
         }
